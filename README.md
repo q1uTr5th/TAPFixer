@@ -11,8 +11,10 @@ Open TAPFixer as a Python IDE (e.g., Pycharm) project and then run it.
 
 Python interpreter used in TAPFixer is 3.8.
 
+# Define TAP rules
 
-# Verify your HA system with predefined or customized corretness properties
+
+# Verify HA system with predefined or customized corretness properties
 TAPFixer uses correctness properties for vulnerability detection. A property is a criterion to describe what automation behavior is safe or not. Generally, it can be expressed in linear temporal logic (LTL) which describes the relative or absolute order of behaviors in the system (e.g., the next state denoted by X, the subsequent path denoted by F, and the entire path denoted by G). 
 
 ## Predefined properties

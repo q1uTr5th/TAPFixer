@@ -24,41 +24,41 @@ According to safety-sensitive and commonly used devices, we develop 53 propertie
 |-|-|
 |Property|Description|
 |P.1|IF the user arrives home, the light should be turned on.|
-|P.2|IF the user is \revise{not at home / not nearby-home}, the light should be turned off.|
-|P.3|WHEN the user is \revise{not at home / not nearby-home}, the light should be off.|
+|P.2|IF the user is not at home / not nearby-home, the light should be turned off.|
+|P.3|WHEN the user is not at home / not nearby-home, the light should be off.|
 |P.4|IF the user arrives home, the garage door should be opened.|
 |P.5|IF the user leaves home, the garage door should be closed.|
 |P.6|WHEN the user leaves home, the garage door should be closed.|
-|P.7|IF the user is \revise{not at home / not nearby-home}, the door should be locked.|
-|P.8|WHEN the user is \revise{not at home / not nearby-home}, the door should be locked.|
-|P.9|IF the user is \revise{not at home / not nearby-home}, the security camera should be turned on.|
-|P.10|WHEN the user is \revise{not at home / not nearby-home}, the security camera should be on.|
-|P.11|IF the door opens while the user is \revise{not at home / not nearby-home}, the security camera should take pictures.|
-|P.12|IF the user is \revise{not at home / not nearby-home}, the switch should be turned off.|
-|P.13|WHEN the user is \revise{not at home / not nearby-home}, the switch should be off.|
+|P.7|IF the user is not at home / not nearby-home, the door should be locked.|
+|P.8|WHEN the user is not at home / not nearby-home, the door should be locked.|
+|P.9|IF the user is not at home / not nearby-home, the security camera should be turned on.|
+|P.10|WHEN the user is not at home / not nearby-home, the security camera should be on.|
+|P.11|IF the door opens while the user is not at home / not nearby-home, the security camera should take pictures.|
+|P.12|IF the user is not at home / not nearby-home, the switch should be turned off.|
+|P.13|WHEN the user is not at home / not nearby-home, the switch should be off.|
 |P.14|IF the temperature is below 15℃ and someone is at home, the AC should be in heating mode.|
 |P.15|IF the temperature rises above 25℃, the AC should be in cooling mode.|
 |P.16|WHEN the heater is on, the AC should be off.|
-|P.17|IF the user is \revise{not at home / not nearby-home}, the AC should be turned off.|
-|P.18|WHEN the user is \revise{not at home / not nearby-home}, the AC should be off.|
+|P.17|IF the user is not at home / not nearby-home, the AC should be turned off.|
+|P.18|WHEN the user is not at home / not nearby-home, the AC should be off.|
 |P.19|IF the temperature is below 15℃ while someone is at home, the heater should be turned on.|
 |P.20|IF the temperature rises above 19℃, the heater should be turned off.|
 |P.21|WHEN the AC is on, the heater should be off.|
-|P.22|IF the user is \revise{not at home / not nearby-home}, the heater should be turned off.|
-|P.23|WHEN the user is \revise{not at home / not nearby-home}, the heater should be off.|
-|P.24|IF the user is \revise{not at home / not nearby-home}, the coffee machine should be turned off.|
-|P.25|WHEN the user is \revise{not at home / not nearby-home}, the coffee machine should be off.|
-|P.26|IF the user is \revise{not at home / not nearby-home}, the electric blanket should be turned off.|
-|P.27|WHEN the user is \revise{not at home / not nearby-home}, the electric blanket should be off.|
+|P.22|IF the user is not at home / not nearby-home, the heater should be turned off.|
+|P.23|WHEN the user is not at home / not nearby-home, the heater should be off.|
+|P.24|IF the user is not at home / not nearby-home, the coffee machine should be turned off.|
+|P.25|WHEN the user is not at home / not nearby-home, the coffee machine should be off.|
+|P.26|IF the user is not at home / not nearby-home, the electric blanket should be turned off.|
+|P.27|WHEN the user is not at home / not nearby-home, the electric blanket should be off.|
 |P.28|IF the smoke is detected, the alarm should be activated.|
 |P.29|WHEN there is smoke, the alarm should be activated.|
 |P.30|IF CO is detected, the alarm should be activated.|
 |P.31|WHEN CO is detected, the alarm should be activated.|
 |P.32|IF humidity is greater than a predefined value, the ventilating fan should be turned on.|
-|P.33|IF \ce{CO2} is greater than a predefined value, the ventilating fan should be turned on.|
-|P.34|\revise{WHEN \ce{CO2} remains greater than a predefined value, the ventilating fan should be on for at least the permitted time}.|
-|P.35|IF the user is \revise{not at home / not nearby-home}, the oven should be turned off.|
-|P.36|WHEN the user is \revise{not at home / not nearby-home}, the oven should be off.|
+|P.33|IF CO2 is greater than a predefined value, the ventilating fan should be turned on.|
+|P.34|\revise{WHEN CO2 remains greater than a predefined value, the ventilating fan should be on for at least the permitted time}.|
+|P.35|IF the user is not at home / not nearby-home, the oven should be turned off.|
+|P.36|WHEN the user is not at home / not nearby-home, the oven should be off.|
 |P.37|IF CO is detected, the natural gas hot water heater should be turned off.|
 |P.38|WHEN CO is detected, the natural gas hot water heater should be off.|
 |P.39|IF CO is detected, the gas valve should shut off.|
@@ -69,13 +69,14 @@ According to safety-sensitive and commonly used devices, we develop 53 propertie
 |P.44|\revise{When the soil moisture sensor is below a predefined value, the sprinkler system should be on for at least the permitted time}.|
 |P.45|IF the weather is raining, the sprinkler should be turned off.|
 |P.46|WHEN the weather is raining, the sprinkler should be off.|
-|P.47|IF \ce{CO2} is greater than a predefined value, the window should be opened.|
+|P.47|IF CO2 is greater than a predefined value, the window should be opened.|
 |P.48|IF the weather is raining, the window should be closed.|
 |P.49|WHEN the weather is raining, the window should be closed.|
 |P.50|IF the smoke is detected, the window should be opened.|
 |P.51|WHEN there is smoke, the window should be opened.|
 |P.52|IF CO is detected, the window should be opened.|
 |P.53|WHEN CO is detected, the window should be opened.|
+
 
 
 ## Customized properties

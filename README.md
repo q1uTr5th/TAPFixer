@@ -16,7 +16,7 @@ Python interpreter used in TAPFixer is 3.8.
 TAPFixer uses correctness properties for vulnerability detection. A property is a criterion to describe what automation behavior is safe or not. Generally, it can be expressed in linear temporal logic (LTL) which describes the relative or absolute order of behaviors in the system (e.g., the next state denoted by X, the subsequent path denoted by F, and the entire path denoted by G). 
 
 ## Predefined properties
-
+According to safety-sensitive and commonly used devices, we develop 53 properties for vulnerability detection and repair as shown below:
 
 ## Customized properties
 

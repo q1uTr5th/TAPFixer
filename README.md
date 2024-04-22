@@ -13,22 +13,35 @@ Python interpreter used in TAPFixer is 3.8.
 # Define TAP rules to be verified
 Users can define thier TAP rules in *RULE_SET_USER* of **UserDefined.py**. TAPFixer defines a TAP rule as an element in dictionary:
 
-    {Device capability in Rule Action:[[[Rule Trigger], [Rule Condition], [Rule Action], [Rule Latency, Wait_trigger Option]]]}
+    {Device capability in Rule Action:[[[Rule Trigger], [Rule Condition], [Rule Action], [Rule Latency(including Wait_Trigger Option)]]]}
 
 For instance, there are 3 TAP rules as follows:
-    TAP Rule 1: "IF the user presents, THEN turn on fan for 5min."
-    TAP Rule 1: "IF CO2 > 1000ppm, THEN turn on fan and turn it off until CO2 is less than 1000ppm."
+    TAP Rule 1: "IF the user presents, THEN turn on ventilation fan for 15min."
+    TAP Rule 2: "IF air humidity > 80%, THEN turn on ventilation fan for 10min."
     TAP Rule 3: "IF the user presents, THEN open window."
 
 TAPFixer defines the rule set as a dictionary as follows:
 
-    {'fan.switch':[[['presenceSensor.presence=present'], ["none"], ["on", "off"], [300, 0, "none"], ]} 
+    {'fan.switch':[[['presenceSensor.presence=present'], ["none"], ["on", "off"], [900, 0, "none"]], [['relativeHumidityMeasurement.humidity>80'], ["none"], ["on", "off"], [600, 0, "none"]]],
+    'window.switch':[[['presenceSensor.presence=present'], ["none"], ["open"], [0, "none"]]]} 
 
     
 ## Latency Definition
-    "smartPlug.switch":[[["location.mode=home_night"], ["none"], ["on", "off"], [5, 0, "none"]]]
-    "smartPlug.switch": [[["location.mode=home_night"], ["none"], ["off", "on"], [5, 0, "none"]]]
-    "smartPlug.switch": [[["location.mode=home_night"], ["none"], ["none", "on"], [5, 0, "none"]]]
+There are 4 latency configurations. For the first configuration such as the TAP rule "IF it enters home night mode, THEN turn on smartplug for 5min", TAPFixer defines it as follows:
+
+    {"smartPlug.switch":[[["location.mode=home_night"], ["none"], ["on", "off"], [300, 0, "none"]]]}
+
+For the second configuration such as the TAP rule "IF it enters home night mode, THEN turn off smartplug for 5min and turn it on", TAPFixer defines it as follows:
+
+    {"smartPlug.switch": [[["location.mode=home_night"], ["none"], ["off", "on"], [300, 0, "none"]]]}
+
+For the third configuration such as the TAP rule "IF home night mode lasts 5min, THEN turn on smartplug", TAPFixer defines it as follows:
+
+    {"smartPlug.switch": [[["location.mode=home_night"], ["none"], ["none", "on"], [300, 0, "none"]]]}
+
+For the fourth configuration such as the TAP rule "IF smoke is detected, THEN turn on ventilation fan and turn it off until smoke is clear.", TAPFixer defines it as follows:
+    
+    {"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [1, 0, 'wait_trigger smokeDetector.smoke=detected']]]}
 
 
 # Verify HA with predefined or customized corretness properties

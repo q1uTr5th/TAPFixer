@@ -12,11 +12,11 @@ Open TAPFixer as a Python IDE (e.g., Pycharm) project and then run it.
 Python interpreter used in TAPFixer is 3.8.
 
 
-# Use predefined or customized corretness properties
-## predefined
+# Verify your HA system with predefined or customized corretness properties
+## Predefined properties
 
 
-## customized
+## Customized properties
 
 --------------
 

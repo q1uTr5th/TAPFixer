@@ -86,9 +86,9 @@ According to safety-sensitive and commonly used devices, we develop 53 propertie
 
 
 # Parameter customization
-To early terminate the oversized predicate exploration, the ROUND_LIMIT and ITER_LIMIT in TAPFixer is set to 15 and 50 respectively. TAPFixer allows users to re-customize them in file CONST.py.
+To early terminate the oversized predicate exploration, the ROUND_LIMIT and ITER_LIMIT in TAPFixer is set to 15 and 50 respectively. TAPFixer allows users to re-customize them in file CONST.py as follows:
 
-ITERATION_UPPER = 50; ROUND_UPPER = 15
+ITERATION_UPPER = NEW VALUE (The default is 50); ROUND_UPPER = NEW VALUE (The default is 15)
 
 
 # The user-study data

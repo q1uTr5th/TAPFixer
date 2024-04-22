@@ -21,7 +21,6 @@ TAPFixer uses correctness properties for vulnerability detection. A property is 
 According to safety-sensitive and commonly used devices, we develop 53 properties for vulnerability detection and repair as shown below:
 
 | | |
-|-|-|
 |Property|Description|
 |P.1|IF the user arrives home, the light should be turned on.|
 |P.2|IF the user is not at home / not nearby-home, the light should be turned off.|

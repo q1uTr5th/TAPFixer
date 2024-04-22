@@ -5,20 +5,38 @@
 TAPFixer is an automatic vulnerability detection and repair framework for TAP-based home automation systems. It can model TAP rules with practical latency and physical features to capture the accurate rule execution behaviors both in the logical and physical space and identify interaction vulnerabilities.
 
 
-
 # Setting up TAPFixer
 Open TAPFixer as a Python IDE (e.g., Pycharm) project and then run it.
 
 Python interpreter used in TAPFixer is 3.8.
 
-# Define TAP rules
+# Define TAP rules to be verified
+Users can define thier TAP rules in *RULE_SET_USER* of **UserDefined.py**. TAPFixer defines a TAP rule as an element in dictionary:
+
+    {Device capability in Rule Action:[[[Rule Trigger], [Rule Condition], [Rule Action], [Rule Latency, Wait_trigger Option]]]}
+
+For instance, there are 3 TAP rules as follows:
+    TAP Rule 1: "IF the user presents, THEN turn on fan for 5min."
+    TAP Rule 1: "IF CO2 > 1000ppm, THEN turn on fan and turn it off until CO2 is less than 1000ppm."
+    TAP Rule 3: "IF the user presents, THEN open window."
+
+TAPFixer defines the rule set as a dictionary as follows:
+
+    {'fan.switch':[[['presenceSensor.presence=present'], ["none"], ["on", "off"], [300, 0, "none"], ]} 
+
+    
+## Latency Definition
+    "smartPlug.switch":[[["location.mode=home_night"], ["none"], ["on", "off"], [5, 0, "none"]]]
+    "smartPlug.switch": [[["location.mode=home_night"], ["none"], ["off", "on"], [5, 0, "none"]]]
+    "smartPlug.switch": [[["location.mode=home_night"], ["none"], ["none", "on"], [5, 0, "none"]]]
 
 
-# Verify HA system with predefined or customized corretness properties
+# Verify HA with predefined or customized corretness properties
 TAPFixer uses correctness properties for vulnerability detection. A property is a criterion to describe what automation behavior is safe or not. Generally, it can be expressed in linear temporal logic (LTL) which describes the relative or absolute order of behaviors in the system (e.g., the next state denoted by X, the subsequent path denoted by F, and the entire path denoted by G). 
 
 ## Predefined properties
-According to safety-sensitive and commonly used devices, we develop 53 properties for vulnerability detection and repair as shown below:
+According to safety-sensitive and commonly used devices, we develop 53 properties in **CONST.py** for vulnerability detection and repair as shown below. *SPEC_LIST_SITUATION* is defined for the scenario-based
+vulnerability detection and repair, while *SPEC_LIST_PRIORITY* is defined for the priority-based vulnerability detection and repair. Modify *spec_list* in **main.py** to the corresponding property variable according to your needs.
 
 | | |
 |-|-|
@@ -80,17 +98,21 @@ According to safety-sensitive and commonly used devices, we develop 53 propertie
 
 
 ## Customized properties
-
+Modify *spec_list* in **main.py** to the corresponding rule variable according to your needs.
 
 
 
 
 # Parameter customization
-To early terminate the oversized predicate exploration, the ROUND_LIMIT and ITER_LIMIT in TAPFixer is set to 15 and 50 respectively. TAPFixer allows users to re-customize them in file **CONST.py** as follows:
+To early terminate the oversized predicate exploration, the ROUND_LIMIT and ITER_LIMIT in TAPFixer is set to 15 and 50 respectively. TAPFixer supports users to re-customize them in **CONST.py** as follows:
 *ITERATION_UPPER* = NEW VALUE (The default is 50); *ROUND_UPPER* = NEW VALUE (The default is 15)
 
 
-# The user-study data
+# The market app study data
+*SPEC_LIST_COMPARE* in **CONST.py** is defined for the comparison evaluation between AutoTap and TAPFixer.
+
+
+# The user study data
 
 
 

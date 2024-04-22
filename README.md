@@ -7,3 +7,16 @@ TAPFixer is an automatic vulnerability detection and repair framework for TAP-ba
 ---------------------------------------
 
 # Setting up TAPFixer
+Open TAPFixer as a Python IDE (e.g., Pycharm) project and you can run it.
+Python interpreter used in TAPFixer is 3.8.
+
+---------------------------------------
+# Use predefined or customized corretness properties
+## predefined
+
+
+## customized
+
+--------------
+
+# The user-study data

@@ -11,7 +11,7 @@ Open TAPFixer as a Python IDE (e.g., Pycharm) project and then run it.
 Python interpreter used in TAPFixer is 3.8.
 
 # Define TAP rules to be verified
-Users can define thier TAP rules in *RULE_SET_USER* of **UserDefined.py**. TAPFixer defines a TAP rule as an element in dictionary:
+Users can define thier TAP rules in *RULE_SET_USER* of **UserInput.py**. TAPFixer defines a TAP rule as an element in the dictionary:
 
     {Device capability in Rule Action:[[[Rule Trigger], [Rule Condition], [Rule Action], [Rule Latency(including Wait_Trigger Option)]]]}
 
@@ -49,7 +49,7 @@ TAPFixer uses correctness properties for vulnerability detection. A property is 
 
 ## Predefined properties
 According to safety-sensitive and commonly used devices, we develop 53 properties in **CONST.py** for vulnerability detection and repair as shown below. *SPEC_LIST_SITUATION* is defined for the scenario-based
-vulnerability detection and repair, while *SPEC_LIST_PRIORITY* is defined for the priority-based vulnerability detection and repair. Modify *spec_list* in **main.py** to the corresponding property variable according to your needs.
+vulnerability detection and repair. *SPEC_LIST_PRIORITY* is defined for the priority-based vulnerability detection and repair. *SPEC_LIST_NEARBY* is defined for HA systems that support the definition of nearby-home.Modify *SPEC_LIST_USER* in **UserInput.py** to the corresponding property variable according to your needs.
 
 | | |
 |-|-|
@@ -111,9 +111,7 @@ vulnerability detection and repair, while *SPEC_LIST_PRIORITY* is defined for th
 
 
 ## Customized properties
-Modify *spec_list* in **main.py** to the corresponding rule variable according to your needs.
-
-
+TAPFixer also supports customization of properties by customizing *SPEC_LIST_USER* in **UserInput.py** through users.
 
 
 # Parameter customization
@@ -122,10 +120,11 @@ To early terminate the oversized predicate exploration, the ROUND_LIMIT and ITER
 
 
 # The market app study data
-*SPEC_LIST_COMPARE* in **CONST.py** is defined for the comparison evaluation between AutoTap and TAPFixer.
+*test_case* is the TAP rule set selected from IFTTT and SmartThings market app. *SPEC_LIST_COMPARE* in **CONST.py** is defined for the market app comparison evaluation between AutoTap and TAPFixer.
 
 
 # The user study data
+The user study data is included in the *Survery* file.
 
 
 

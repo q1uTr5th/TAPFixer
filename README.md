@@ -120,11 +120,19 @@ To early terminate the oversized predicate exploration, the ROUND_LIMIT and ITER
 
 
 # The market app study data
-*test_case* is the TAP rule set selected from IFTTT and SmartThings market app. *SPEC_LIST_COMPARE* in **CONST.py** is defined for the market app comparison evaluation between AutoTap and TAPFixer.
+*test_rule_set* is the TAP rule set selected from IFTTT and SmartThings market app. *SPEC_LIST_COMPARE* in **CONST.py** is defined for the market app comparison evaluation between AutoTap and TAPFixer.
 
 
 # The user study data
-The user study data is included in the *Survery* file.
+The access URL of detection study is:
+
+scenario-based: https://wj.qq.com/s2/14226103/1cpc/
+
+single-room-based: https://wj.qq.com/s2/12572840/84ff/
+
+The access URL of detection study is: https://wj.qq.com/s2/14226103/1cpc/
+
+The user study data is included in the *questionnaire data* file.
 
 
 

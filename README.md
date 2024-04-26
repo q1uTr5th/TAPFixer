@@ -130,7 +130,7 @@ scenario-based: https://wj.qq.com/s2/14226103/1cpc/
 
 single-room-based: https://wj.qq.com/s2/12572840/84ff/
 
-The access URL of detection study is: https://wj.qq.com/s2/14226103/1cpc/
+The access URL of fix study is: https://wj.qq.com/s2/14226103/1cpc/
 
 The user study data is included in the *questionnaire data* file.
 

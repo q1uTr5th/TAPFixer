@@ -1,0 +1,12 @@
+{
+"id":"odorSensor",
+"name":"Odor Sensor",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "odorLevel",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

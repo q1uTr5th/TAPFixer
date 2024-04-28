@@ -1,0 +1,12 @@
+{
+"id":"smokeDetector",
+"name":"Smoke Detector",
+"status":"live",
+"attributes":[
+  {
+    "name": "smoke",
+    "type": "ENUM",
+    "value": ["clear","detected","tested"]
+  }
+]
+}

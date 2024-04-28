@@ -1,0 +1,125 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     motionSensor.motion:{active,inactive};
+     motionSensor.motion_last:{active,inactive};
+     state.newEvent:boolean;
+     state.newEvent_last:boolean;
+     step:0..3;
+     new_rule0_motionSensor.motion_triggerflag:boolean;
+     new_rule0_motionSensor.motion_valueflag0:boolean;
+     new_rule0_motionSensor.motion_valueflag1:boolean;
+     new_rule0_state.newEvent_triggerflag:boolean;
+     new_rule0_state.newEvent_valueflag0:boolean;
+     new_rule0_state.newEvent_valueflag1:boolean;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+   INVAR
+      toint(new_rule0_motionSensor.motion_valueflag0) + toint(new_rule0_motionSensor.motion_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_state.newEvent_valueflag0) + toint(new_rule0_state.newEvent_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_motionSensor.motion_triggerflag) + toint(new_rule0_state.newEvent_triggerflag) + toint(new_rule0_presenceSensor.presence_triggerflag) = 1
+   INVAR
+     !( new_rule0_motionSensor.motion_triggerflag=TRUE  &  new_rule0_motionSensor.motion_valueflag0=TRUE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=TRUE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=TRUE  &  new_rule0_state.newEvent_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=TRUE  &  new_rule0_presenceSensor.presence_valueflag0=TRUE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_motionSensor.motion_triggerflag=TRUE  &  new_rule0_motionSensor.motion_valueflag0=TRUE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=TRUE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_state.newEvent_triggerflag=TRUE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=TRUE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 3 & step > 0: step + 1;
+            step = 3: 0;
+            TRUE: step;
+    esac;
+
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(motionSensor.motion) := active;
+         init(state.newEvent) := FALSE;
+      init(light.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(motionSensor.motion_last):=motionSensor.motion;
+      next(state.newEvent_last):=state.newEvent;
+
+     next(motionSensor.motion):=
+       case
+         next(step) = 2: active;
+         next(step) = 3: active;
+         TRUE: motionSensor.motion;
+       esac;
+
+
+     next(state.newEvent):=
+       case
+         next(step) = 2: TRUE;
+         next(step) = 3: FALSE;
+         TRUE: state.newEvent;
+       esac;
+
+
+      next(new_rule0_motionSensor.motion_triggerflag) :=
+          case
+            (next(new_rule0_motionSensor.motion_valueflag0) | next(new_rule0_motionSensor.motion_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_motionSensor.motion_triggerflag;
+         esac;
+      next(new_rule0_motionSensor.motion_valueflag0) := new_rule0_motionSensor.motion_valueflag0;
+      next(new_rule0_motionSensor.motion_valueflag1) := new_rule0_motionSensor.motion_valueflag1;
+      next(new_rule0_state.newEvent_triggerflag) :=
+          case
+            (next(new_rule0_state.newEvent_valueflag0) | next(new_rule0_state.newEvent_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_state.newEvent_triggerflag;
+         esac;
+      next(new_rule0_state.newEvent_valueflag0) := new_rule0_state.newEvent_valueflag0;
+      next(new_rule0_state.newEvent_valueflag1) := new_rule0_state.newEvent_valueflag1;
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+
+    init(light.switch):=off;
+    next(light.switch):=
+          case
+             motionSensor.motion=active&motionSensor.motion!=motionSensor.motion_last&presenceSensor.presence = present&state.newEvent = TRUE:off;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&state.newEvent = FALSE:off;
+             motionSensor.motion=active&motionSensor.motion!=motionSensor.motion_last&presenceSensor.presence = present&state.newEvent = TRUE:off;
+             state.newEvent=TRUE&state.newEvent!=state.newEvent_last:on;
+             (((new_rule0_motionSensor.motion_valueflag0|new_rule0_motionSensor.motion_valueflag1) & (new_rule0_motionSensor.motion_triggerflag))->(motionSensor.motion != motionSensor.motion_last)) & ((new_rule0_motionSensor.motion_valueflag0)->(motionSensor.motion = active))&((new_rule0_motionSensor.motion_valueflag1)->(motionSensor.motion = inactive)) & (((new_rule0_state.newEvent_valueflag0|new_rule0_state.newEvent_valueflag1) & (new_rule0_state.newEvent_triggerflag))->(state.newEvent != state.newEvent_last)) & ((new_rule0_state.newEvent_valueflag0)->(state.newEvent = FALSE))&((new_rule0_state.newEvent_valueflag1)->(state.newEvent = TRUE)) & (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)):off;
+             TRUE:light.switch;
+          esac;

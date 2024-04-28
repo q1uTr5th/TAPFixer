@@ -1,0 +1,24 @@
+{
+"id":"valve",
+"name":"Valve",
+"status":"live",
+"attributes":[
+  {
+    "name": "valve",
+    "type": "ENUM",
+    "value": ["closed","open"]
+  }
+],
+"commands":[
+  {
+    "name": "close",
+    "attribute": "valve",
+    "value": "closed"
+  },
+  {
+    "name": "open",
+    "attribute": "valve",
+    "value": "open"
+  }
+]
+}

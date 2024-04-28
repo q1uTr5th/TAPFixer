@@ -1,0 +1,12 @@
+{
+  "id":"rainSensor",
+  "name":"Rain Sensor",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "rain",
+      "type": "ENUM",
+      "value": ["detected","clear"]
+    }
+  ]
+}

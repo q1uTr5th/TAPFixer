@@ -1,0 +1,19 @@
+{
+"id":"washerMode",
+"name":"Washer Mode",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "washerMode",
+    "type": "ENUM",
+    "value": ["regular","heavy","rinse","spinDry"]
+  }
+],
+"commands":[
+  {
+    "name": "setWasherMode",
+    "type": "ENUM",
+    "attribute": "washerMode"
+  }
+]
+}

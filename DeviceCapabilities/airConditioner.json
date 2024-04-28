@@ -1,0 +1,34 @@
+{
+  "id":"airConditioner",
+  "name":"Air Conditioner",
+  "status":"proposed",
+  "attributes":[
+    {
+      "name": "switch",
+      "type": "ENUM",
+      "value": ["on","off"]
+    },
+    {
+      "name": "airConditionerMode",
+      "type": "ENUM",
+      "value": ["auto","cool","dry","coolClean", "dryClean","fanOnly", "heat", "heatClean", "notSupported"]
+    }
+  ],
+
+  "commands":[
+    {
+      "name": "setAirConditionerMode",
+      "attribute": "airConditionerMode",
+      "type": "ENUM"
+    },{
+      "name": "off",
+      "attribute": "switch",
+      "value": "off"
+    },
+    {
+      "name": "on",
+      "attribute": "switch",
+      "value": "on"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+"id":"thermostatFanMode",
+"name":"Thermostat Fan Mode",
+"status":"live",
+  "attributes":[
+    {
+      "name": "thermostatFanMode",
+      "type": "ENUM",
+      "value": ["auto","circulate","followschedule","on"]
+    }
+  ],
+  "commands": [
+    {
+      "name": "fanAuto",
+      "attribute": "thermostatFanMode",
+      "value": "auto"
+    },
+    {
+      "name": "fanCirculate",
+      "attribute": "thermostatFanMode",
+      "value": "circulate"
+    },
+    {
+      "name": "fanOn",
+      "attribute": "thermostatFanMode",
+      "value": "on"
+    },
+    {
+      "name": "thermostatFanMode",
+      "attribute": "thermostatFanMode",
+      "type": "ENUM"
+    }
+  ]
+}

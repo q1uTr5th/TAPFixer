@@ -1,0 +1,129 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     smokeDetector.smoke:{clear,detected};
+     smokeDetector.smoke_last:{clear,detected};
+     smokeDetector.smoke_count:0..1;
+     smokeDetector.smoke_CONFIG:-1..8;
+     smokeDetector.smoke_threshold:4..8;
+     smokeDetector.smoke_not_handle_config:0..0;
+     waterSensor.water:{dry,wet};
+     waterSensor.water_last:{dry,wet};
+     step:0..4;
+     new_rule0_smokeDetector.smoke_triggerflag:boolean;
+     new_rule0_smokeDetector.smoke_valueflag0:boolean;
+     new_rule0_smokeDetector.smoke_valueflag1:boolean;
+     new_rule0_waterSensor.water_triggerflag:boolean;
+     new_rule0_waterSensor.water_valueflag0:boolean;
+     new_rule0_waterSensor.water_valueflag1:boolean;
+   INVAR
+     smokeDetector.smoke_not_handle_config = 0
+    INVAR
+        smokeDetector.smoke_threshold = 4 
+
+   INVAR
+      toint(new_rule0_smokeDetector.smoke_valueflag0) + toint(new_rule0_smokeDetector.smoke_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_waterSensor.water_valueflag0) + toint(new_rule0_waterSensor.water_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_smokeDetector.smoke_triggerflag) + toint(new_rule0_waterSensor.water_triggerflag) = 1
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=FALSE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE  &  new_rule0_waterSensor.water_triggerflag=TRUE  &  new_rule0_waterSensor.water_valueflag0=FALSE  &  new_rule0_waterSensor.water_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=TRUE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE  &  new_rule0_waterSensor.water_triggerflag=TRUE  &  new_rule0_waterSensor.water_valueflag0=TRUE  &  new_rule0_waterSensor.water_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=FALSE  &  new_rule0_smokeDetector.smoke_valueflag1=TRUE  &  new_rule0_waterSensor.water_triggerflag=TRUE  &  new_rule0_waterSensor.water_valueflag0=TRUE  &  new_rule0_waterSensor.water_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 4 & step > 0: step + 1;
+            step = 4: 0;
+            TRUE: step;
+    esac;
+
+         init(waterSensor.water) := wet;
+     init(smokeDetector.smoke_count):=1;
+        next(smokeDetector.smoke_count):=
+             case
+               next(smokeDetector.smoke)!=smokeDetector.smoke & smokeDetector.smoke_count =0: 1;
+               smokeDetector.smoke_count = 1: 0;
+               TRUE: smokeDetector.smoke_count;
+             esac;
+
+        init(smokeDetector.smoke):=clear;
+        next(smokeDetector.smoke):=
+            case
+
+               smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold: detected;
+               smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: clear;
+               --因为顺序执行，所以下面肯定是smoke_clear=-1
+               smokeDetector.smoke_count = 1: smokeDetector.smoke;
+               smokeDetector.smoke_count = 0: {clear,detected};
+               TRUE: smokeDetector.smoke;
+             esac;
+
+ init(smokeDetector.smoke_CONFIG):=-1;
+     next(smokeDetector.smoke_CONFIG):=
+       case
+         smokeDetector.smoke=detected & smokeDetector.smoke!=smokeDetector.smoke_last: 0;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)>=0: smokeDetector.smoke_CONFIG + smokeDetector.smoke_not_handle_config;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)<0: 0;
+         smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: -1;
+         TRUE: smokeDetector.smoke_CONFIG;
+       esac;
+
+      init(alarm.alarm_last):=off;
+      init(smokeDetector.smoke_last):=clear;
+
+      next(alarm.alarm_last):=alarm.alarm;
+      next(smokeDetector.smoke_last):=smokeDetector.smoke;
+      next(waterSensor.water_last):=waterSensor.water;
+
+     next(waterSensor.water):=
+       case
+         next(step) = 2: wet;
+         next(step) = 3: wet;
+         next(step) = 4: dry;
+         TRUE: waterSensor.water;
+       esac;
+
+
+      next(new_rule0_smokeDetector.smoke_triggerflag) :=
+          case
+            (next(new_rule0_smokeDetector.smoke_valueflag0) | next(new_rule0_smokeDetector.smoke_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_smokeDetector.smoke_triggerflag;
+         esac;
+      next(new_rule0_smokeDetector.smoke_valueflag0) := new_rule0_smokeDetector.smoke_valueflag0;
+      next(new_rule0_smokeDetector.smoke_valueflag1) := new_rule0_smokeDetector.smoke_valueflag1;
+      next(new_rule0_waterSensor.water_triggerflag) :=
+          case
+            (next(new_rule0_waterSensor.water_valueflag0) | next(new_rule0_waterSensor.water_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_waterSensor.water_triggerflag;
+         esac;
+      next(new_rule0_waterSensor.water_valueflag0) := new_rule0_waterSensor.water_valueflag0;
+      next(new_rule0_waterSensor.water_valueflag1) := new_rule0_waterSensor.water_valueflag1;
+
+    init(alarm.alarm):=off;
+    next(alarm.alarm):=
+          case
+             waterSensor.water=wet&waterSensor.water!=waterSensor.water_last:siren;
+             waterSensor.water=dry&waterSensor.water!=waterSensor.water_last&smokeDetector.smoke=clear:siren;
+             waterSensor.water=dry&waterSensor.water!=waterSensor.water_last&smokeDetector.smoke=detected:siren;
+             (((new_rule0_smokeDetector.smoke_valueflag0|new_rule0_smokeDetector.smoke_valueflag1) & (new_rule0_smokeDetector.smoke_triggerflag))->(smokeDetector.smoke != smokeDetector.smoke_last)) & ((new_rule0_smokeDetector.smoke_valueflag0)->(smokeDetector.smoke = clear))&((new_rule0_smokeDetector.smoke_valueflag1)->(smokeDetector.smoke = detected)) & (((new_rule0_waterSensor.water_valueflag0|new_rule0_waterSensor.water_valueflag1) & (new_rule0_waterSensor.water_triggerflag))->(waterSensor.water != waterSensor.water_last)) & ((new_rule0_waterSensor.water_valueflag0)->(waterSensor.water = dry))&((new_rule0_waterSensor.water_valueflag1)->(waterSensor.water = wet)):siren;
+             TRUE:alarm.alarm;
+          esac;

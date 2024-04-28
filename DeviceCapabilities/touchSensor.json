@@ -1,0 +1,12 @@
+{
+"id":"touchSensor",
+"name":"Touch Sensor",
+"status":"deprecated",
+"attributes":[
+  {
+    "name": "touch",
+    "type": "ENUM",
+    "value": ["touched"]
+  }
+]
+}

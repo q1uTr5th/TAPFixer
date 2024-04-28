@@ -1,0 +1,195 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     ringBell.ring:{clear,detected};
+     ringBell.ring_last:{clear,detected};
+     lightSensor.illuminance:0..400;
+     lightSensor.illuminance_last:0..400;
+     motionSensor.motion:{active,inactive};
+     motionSensor.motion_last:{active,inactive};
+     relativeHumidityMeasurement.humidity:0..20;
+     relativeHumidityMeasurement.humidity_last:0..20;
+     relativeHumidityMeasurement.humidity_count:0..1;
+     relativeHumidityMeasurement.humidity_CONFIG:-8..8;
+     relativeHumidityMeasurement.humidity_rise_threshold:4..8;
+     relativeHumidityMeasurement.humidity_drop_threshold:-8..-4;
+     relativeHumidityMeasurement.humidity_not_handle_config:0..0;
+     state.newEvent:boolean;
+     state.newEvent_last:boolean;
+     step:0..3;
+     new_rule0_state.newEvent_triggerflag:boolean;
+     new_rule0_state.newEvent_valueflag0:boolean;
+     new_rule0_state.newEvent_valueflag1:boolean;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+     new_rule0_motionSensor.motion_triggerflag:boolean;
+     new_rule0_motionSensor.motion_valueflag0:boolean;
+     new_rule0_motionSensor.motion_valueflag1:boolean;
+     new_rule0_ringBell.ring_triggerflag:boolean;
+     new_rule0_ringBell.ring_valueflag0:boolean;
+     new_rule0_ringBell.ring_valueflag1:boolean;
+   INVAR
+     relativeHumidityMeasurement.humidity_not_handle_config = 0
+    INVAR
+        relativeHumidityMeasurement.humidity_rise_threshold = 4 &     relativeHumidityMeasurement.humidity_drop_threshold = -8 
+
+   INVAR
+      toint(new_rule0_state.newEvent_valueflag0) + toint(new_rule0_state.newEvent_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_motionSensor.motion_valueflag0) + toint(new_rule0_motionSensor.motion_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_ringBell.ring_valueflag0) + toint(new_rule0_ringBell.ring_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_state.newEvent_triggerflag) + toint(new_rule0_presenceSensor.presence_triggerflag) + toint(new_rule0_motionSensor.motion_triggerflag) + toint(new_rule0_ringBell.ring_triggerflag) = 1
+   INVAR
+     !( new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_ringBell.ring_triggerflag=TRUE  &  new_rule0_ringBell.ring_valueflag0=FALSE  &  new_rule0_ringBell.ring_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=TRUE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_ringBell.ring_triggerflag=FALSE  &  new_rule0_ringBell.ring_valueflag0=FALSE  &  new_rule0_ringBell.ring_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=TRUE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=TRUE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_ringBell.ring_triggerflag=FALSE  &  new_rule0_ringBell.ring_valueflag0=FALSE  &  new_rule0_ringBell.ring_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=TRUE  &  new_rule0_motionSensor.motion_valueflag0=TRUE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_ringBell.ring_triggerflag=FALSE  &  new_rule0_ringBell.ring_valueflag0=FALSE  &  new_rule0_ringBell.ring_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_state.newEvent_triggerflag=FALSE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_ringBell.ring_triggerflag=FALSE  &  new_rule0_ringBell.ring_valueflag0=FALSE  &  new_rule0_ringBell.ring_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_state.newEvent_triggerflag=TRUE  &  new_rule0_state.newEvent_valueflag0=FALSE  &  new_rule0_state.newEvent_valueflag1=TRUE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_ringBell.ring_triggerflag=FALSE  &  new_rule0_ringBell.ring_valueflag0=FALSE  &  new_rule0_ringBell.ring_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 3 & step > 0: step + 1;
+            step = 3: 0;
+            TRUE: step;
+    esac;
+
+         init(lightSensor.illuminance_last) := 0;
+         init(relativeHumidityMeasurement.humidity_last) := 0;
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(state.newEvent) := FALSE;
+         init(lightSensor.illuminance) := 0;
+         init(motionSensor.motion) := active;
+         init(ringBell.ring) := clear;
+     
+    init(relativeHumidityMeasurement.humidity):=0;     
+    next(relativeHumidityMeasurement.humidity):=
+        case
+
+          -- 如果在threshold范围内，则温度不变
+          relativeHumidityMeasurement.humidity_CONFIG<relativeHumidityMeasurement.humidity_rise_threshold & relativeHumidityMeasurement.humidity_CONFIG>relativeHumidityMeasurement.humidity_drop_threshold: relativeHumidityMeasurement.humidity;
+          relativeHumidityMeasurement.humidity_CONFIG>=relativeHumidityMeasurement.humidity_rise_threshold & relativeHumidityMeasurement.humidity + 1<=20: relativeHumidityMeasurement.humidity + 1;
+          relativeHumidityMeasurement.humidity_CONFIG<=relativeHumidityMeasurement.humidity_drop_threshold & relativeHumidityMeasurement.humidity - 1>=0: relativeHumidityMeasurement.humidity - 1;
+          TRUE: relativeHumidityMeasurement.humidity;
+        esac;
+
+ init(relativeHumidityMeasurement.humidity_CONFIG):=0;
+        next(relativeHumidityMeasurement.humidity_CONFIG):=
+          case
+            -- 超过threshold后重新计数
+            relativeHumidityMeasurement.humidity_CONFIG>=relativeHumidityMeasurement.humidity_rise_threshold : 0;
+            relativeHumidityMeasurement.humidity_CONFIG<=relativeHumidityMeasurement.humidity_drop_threshold : 0;
+            TRUE: relativeHumidityMeasurement.humidity_CONFIG;
+          esac;
+
+      init(light.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(ringBell.ring_last):=ringBell.ring;
+      next(lightSensor.illuminance_last):=lightSensor.illuminance;
+      next(motionSensor.motion_last):=motionSensor.motion;
+      next(relativeHumidityMeasurement.humidity_last):=relativeHumidityMeasurement.humidity;
+      next(state.newEvent_last):=state.newEvent;
+
+     next(state.newEvent):=
+       case
+         next(step) = 2: FALSE;
+         next(step) = 3: FALSE;
+         TRUE: state.newEvent;
+       esac;
+
+
+     next(motionSensor.motion):=
+       case
+         next(step) = 2: active;
+         next(step) = 3: active;
+         TRUE: motionSensor.motion;
+       esac;
+
+
+     next(ringBell.ring):=
+       case
+         next(step) = 2: detected;
+         next(step) = 3: clear;
+         TRUE: ringBell.ring;
+       esac;
+
+
+      next(new_rule0_state.newEvent_triggerflag) :=
+          case
+            (next(new_rule0_state.newEvent_valueflag0) | next(new_rule0_state.newEvent_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_state.newEvent_triggerflag;
+         esac;
+      next(new_rule0_state.newEvent_valueflag0) := new_rule0_state.newEvent_valueflag0;
+      next(new_rule0_state.newEvent_valueflag1) := new_rule0_state.newEvent_valueflag1;
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+      next(new_rule0_motionSensor.motion_triggerflag) :=
+          case
+            (next(new_rule0_motionSensor.motion_valueflag0) | next(new_rule0_motionSensor.motion_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_motionSensor.motion_triggerflag;
+         esac;
+      next(new_rule0_motionSensor.motion_valueflag0) := new_rule0_motionSensor.motion_valueflag0;
+      next(new_rule0_motionSensor.motion_valueflag1) := new_rule0_motionSensor.motion_valueflag1;
+      next(new_rule0_ringBell.ring_triggerflag) :=
+          case
+            (next(new_rule0_ringBell.ring_valueflag0) | next(new_rule0_ringBell.ring_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_ringBell.ring_triggerflag;
+         esac;
+      next(new_rule0_ringBell.ring_valueflag0) := new_rule0_ringBell.ring_valueflag0;
+      next(new_rule0_ringBell.ring_valueflag1) := new_rule0_ringBell.ring_valueflag1;
+
+    init(light.switch):=off;
+    next(light.switch):=
+          case
+             ringBell.ring=detected&ringBell.ring!=ringBell.ring_last:on;
+             lightSensor.illuminance=31&lightSensor.illuminance!=lightSensor.illuminance_last&lightSensor.illuminance_last=30&ringBell.ring = clear&presenceSensor.presence = present&motionSensor.motion = inactive&state.newEvent = TRUE:off;
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last:on;
+             motionSensor.motion=active&motionSensor.motion!=motionSensor.motion_last:on;
+             relativeHumidityMeasurement.humidity=21&relativeHumidityMeasurement.humidity!=relativeHumidityMeasurement.humidity_last&relativeHumidityMeasurement.humidity_last=20:on;
+             state.newEvent=TRUE&state.newEvent!=state.newEvent_last:on;
+             (((new_rule0_state.newEvent_valueflag0|new_rule0_state.newEvent_valueflag1) & (new_rule0_state.newEvent_triggerflag))->(state.newEvent != state.newEvent_last)) & ((new_rule0_state.newEvent_valueflag0)->(state.newEvent = FALSE))&((new_rule0_state.newEvent_valueflag1)->(state.newEvent = TRUE)) & (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)) & (((new_rule0_motionSensor.motion_valueflag0|new_rule0_motionSensor.motion_valueflag1) & (new_rule0_motionSensor.motion_triggerflag))->(motionSensor.motion != motionSensor.motion_last)) & ((new_rule0_motionSensor.motion_valueflag0)->(motionSensor.motion = active))&((new_rule0_motionSensor.motion_valueflag1)->(motionSensor.motion = inactive)) & (((new_rule0_ringBell.ring_valueflag0|new_rule0_ringBell.ring_valueflag1) & (new_rule0_ringBell.ring_triggerflag))->(ringBell.ring != ringBell.ring_last)) & ((new_rule0_ringBell.ring_valueflag0)->(ringBell.ring = clear))&((new_rule0_ringBell.ring_valueflag1)->(ringBell.ring = detected)):off;
+             TRUE:light.switch;
+          esac;

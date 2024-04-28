@@ -1,0 +1,103 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     smokeDetector.smoke:{clear,detected};
+     smokeDetector.smoke_last:{clear,detected};
+     smokeDetector.smoke_count:0..1;
+     smokeDetector.smoke_CONFIG:-1..8;
+     smokeDetector.smoke_threshold:4..8;
+     smokeDetector.smoke_window.switch_config:3..3;
+     smokeDetector.smoke_not_handle_config:0..0;
+     window.switch:{on,off};
+     window.switch_last:{on,off};
+     step:0..4;
+     new_rule0_smokeDetector.smoke_triggerflag:boolean;
+     new_rule0_smokeDetector.smoke_valueflag0:boolean;
+     new_rule0_smokeDetector.smoke_valueflag1:boolean;
+   INVAR
+     smokeDetector.smoke_window.switch_config = 3
+   INVAR
+     smokeDetector.smoke_not_handle_config = 0
+    INVAR
+        smokeDetector.smoke_threshold = 4 
+
+   INVAR
+      toint(new_rule0_smokeDetector.smoke_valueflag0) + toint(new_rule0_smokeDetector.smoke_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_smokeDetector.smoke_triggerflag) = 1
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=TRUE  &  new_rule0_smokeDetector.smoke_valueflag0=TRUE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 4 & step > 0: step + 1;
+            step = 4: 0;
+            TRUE: step;
+    esac;
+
+     init(smokeDetector.smoke_count):=1;
+        next(smokeDetector.smoke_count):=
+             case
+               next(smokeDetector.smoke)!=smokeDetector.smoke & smokeDetector.smoke_count =0: 1;
+               smokeDetector.smoke_count = 1: 0;
+               TRUE: smokeDetector.smoke_count;
+             esac;
+
+        init(smokeDetector.smoke):=clear;
+        next(smokeDetector.smoke):=
+            case
+
+               smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold: detected;
+               smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: clear;
+               --因为顺序执行，所以下面肯定是smoke_clear=-1
+               smokeDetector.smoke_count = 1: smokeDetector.smoke;
+               smokeDetector.smoke_count = 0: {clear,detected};
+               TRUE: smokeDetector.smoke;
+             esac;
+
+ init(smokeDetector.smoke_CONFIG):=-1;
+     next(smokeDetector.smoke_CONFIG):=
+       case
+         smokeDetector.smoke=detected & smokeDetector.smoke!=smokeDetector.smoke_last: 0;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & window.switch = on & smokeDetector.smoke_CONFIG+smokeDetector.smoke_window.switch_config<=smokeDetector.smoke_threshold: smokeDetector.smoke_CONFIG+smokeDetector.smoke_window.switch_config;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & window.switch = on & smokeDetector.smoke_CONFIG+smokeDetector.smoke_window.switch_config>smokeDetector.smoke_threshold: smokeDetector.smoke_threshold;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)>=0: smokeDetector.smoke_CONFIG + smokeDetector.smoke_not_handle_config;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)<0: 0;
+         smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: -1;
+         TRUE: smokeDetector.smoke_CONFIG;
+       esac;
+
+      init(smokeDetector.smoke_last):=clear;
+      init(window.switch_last):=off;
+
+      next(smokeDetector.smoke_last):=smokeDetector.smoke;
+      next(window.switch_last):=window.switch;
+
+      next(new_rule0_smokeDetector.smoke_triggerflag) :=
+          case
+            (next(new_rule0_smokeDetector.smoke_valueflag0) | next(new_rule0_smokeDetector.smoke_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_smokeDetector.smoke_triggerflag;
+         esac;
+      next(new_rule0_smokeDetector.smoke_valueflag0) := new_rule0_smokeDetector.smoke_valueflag0;
+      next(new_rule0_smokeDetector.smoke_valueflag1) := new_rule0_smokeDetector.smoke_valueflag1;
+
+    init(window.switch):=off;
+    next(window.switch):=
+          case
+             smokeDetector.smoke=clear&smokeDetector.smoke!=smokeDetector.smoke_last:on;
+             (((new_rule0_smokeDetector.smoke_valueflag0|new_rule0_smokeDetector.smoke_valueflag1) & (new_rule0_smokeDetector.smoke_triggerflag))->(smokeDetector.smoke != smokeDetector.smoke_last)) & ((new_rule0_smokeDetector.smoke_valueflag0)->(smokeDetector.smoke = clear))&((new_rule0_smokeDetector.smoke_valueflag1)->(smokeDetector.smoke = detected)):on;
+             TRUE:window.switch;
+          esac;

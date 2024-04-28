@@ -1,0 +1,43 @@
+{
+"id":"geolocation",
+"name":"Geolocation",
+"status":"proposed",
+"public":"true",
+"attributes":[
+  {
+    "name": "latitude",
+    "type": "NUMBER",
+    "value": ["-90","90"]
+  },
+  {
+    "name": "longitude",
+    "type": "NUMBER",
+    "value": ["-180","180"]
+  },
+  {
+    "name": "accuracy",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "altitudeAccuracy",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "heading",
+    "type": "NUMBER",
+    "value": ["0","360"]
+  },
+  {
+    "name": "speed",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "lastUpdateTime",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

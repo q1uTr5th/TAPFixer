@@ -1,0 +1,12 @@
+{
+"id":"contactSensor",
+"name":"Contact Sensor",
+"status":"live",
+"attributes":[
+  {
+    "name": "contact",
+    "type": "ENUM",
+    "value": ["closed","open"]
+  }
+]
+}

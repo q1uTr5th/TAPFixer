@@ -1,0 +1,19 @@
+{
+"id":"robotCleanerCleaningMode",
+"name":"Robot Cleaner Cleaning Mode",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "robotCleanerCleaningMode",
+    "type": "ENUM",
+    "value": ["auto","part","repeat","manual","stop","map"]
+  }
+],
+"commands":[
+  {
+    "name": "setRobotCleanerCleaningMode",
+    "type": "ENUM",
+    "attribute": "robotCleanerCleaningMode"
+  }
+]
+}

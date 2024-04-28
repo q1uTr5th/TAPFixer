@@ -1,0 +1,30 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     camera.switch:{on,off};
+     camera.switch_last:{on,off};
+   ASSIGN
+      init(presenceSensor.presence_last):=present;
+      init(camera.switch_last):=off;
+
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(camera.switch_last):=camera.switch;
+    next(camera.switch):=
+          case
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last:on;
+             TRUE:camera.switch;
+          esac;

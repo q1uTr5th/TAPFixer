@@ -1,0 +1,12 @@
+{
+  "id":"energyPrice",
+  "name":"energy price",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "price",
+      "type": "NUMBER",
+      "value": ["0","5"]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+"id":"airConditionerMode",
+"name":"Air Conditioner Mode",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "airConditionerMode",
+    "type": "ENUM",
+    "value": ["auto","cool","dry","coolClean", "dryClean","fanOnly", "heat", "heatClean", "notSupported"]
+  }
+],
+
+"commands":[
+  {
+    "name": "setAirConditionerMode",
+    "attribute": "airConditionerMode",
+    "type": "ENUM"
+  }
+]
+}

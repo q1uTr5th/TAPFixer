@@ -1,0 +1,12 @@
+{
+"id":"airQualitySensor",
+"name":"Air Quality Sensor",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "airQuality",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

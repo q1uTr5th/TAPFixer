@@ -1,0 +1,12 @@
+{
+"id":"filterStatus",
+"name":"Filter Status",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "filterStatus",
+    "type": "ENUM",
+    "value": ["normal","replace"]
+  }
+]
+}

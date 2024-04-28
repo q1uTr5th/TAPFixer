@@ -1,0 +1,29 @@
+{
+"id":"audioMute",
+"name":"Audio Mute",
+"status":"live",
+"attributes":[
+  {
+    "name": "mute",
+    "type": "ENUM",
+    "value": ["muted","unmuted"]
+  }
+],
+
+"commands":[
+  {
+    "name": "setMute",
+    "attribute": "mute",
+    "type": "ENUM"
+  },
+  {
+    "name": "mute",
+    "attribute": "mute",
+    "value": "mute"
+  },{
+    "name": "unmute",
+    "attribute": "mute",
+    "value": "unmuted"
+  }
+]
+}

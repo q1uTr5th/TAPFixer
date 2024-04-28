@@ -1,0 +1,12 @@
+{
+  "id":"ringBell",
+  "name":"ring bell",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "ring",
+      "type": "ENUM",
+      "value": ["clear","detected"]
+    }
+  ]
+}

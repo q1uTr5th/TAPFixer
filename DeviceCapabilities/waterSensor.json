@@ -1,0 +1,12 @@
+{
+"id":"waterSensor",
+"name":"Water Sensor",
+"status":"live",
+"attributes":[
+  {
+    "name": "water",
+    "type": "ENUM",
+    "value": ["dry","wet"]
+  }
+]
+}

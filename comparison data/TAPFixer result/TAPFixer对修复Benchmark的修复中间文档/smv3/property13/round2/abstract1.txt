@@ -1,0 +1,125 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     ovenMode.ovenMode:{heating,on,grill,warming,off,defrosting};
+     ovenMode.ovenMode_last:{heating,on,grill,warming,off,defrosting};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     boost.tap:boolean;
+     boost.tap_last:boolean;
+     lock.lock:{locked,unlocked};
+     lock.lock_last:{locked,unlocked};
+     step:0..5;
+     new_rule0_boost.tap_triggerflag:boolean;
+     new_rule0_boost.tap_valueflag0:boolean;
+     new_rule0_boost.tap_valueflag1:boolean;
+     new_rule0_lock.lock_triggerflag:boolean;
+     new_rule0_lock.lock_valueflag0:boolean;
+     new_rule0_lock.lock_valueflag1:boolean;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+   INVAR
+      toint(new_rule0_boost.tap_valueflag0) + toint(new_rule0_boost.tap_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_lock.lock_valueflag0) + toint(new_rule0_lock.lock_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_boost.tap_triggerflag) + toint(new_rule0_lock.lock_triggerflag) + toint(new_rule0_presenceSensor.presence_triggerflag) = 1
+   INVAR
+     !( new_rule0_boost.tap_triggerflag=TRUE  &  new_rule0_boost.tap_valueflag0=FALSE  &  new_rule0_boost.tap_valueflag1=TRUE  &  new_rule0_lock.lock_triggerflag=FALSE  &  new_rule0_lock.lock_valueflag0=FALSE  &  new_rule0_lock.lock_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_boost.tap_triggerflag=FALSE  &  new_rule0_boost.tap_valueflag0=FALSE  &  new_rule0_boost.tap_valueflag1=TRUE  &  new_rule0_lock.lock_triggerflag=TRUE  &  new_rule0_lock.lock_valueflag0=TRUE  &  new_rule0_lock.lock_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 5 & step > 0: step + 1;
+            step = 5: 0;
+            TRUE: step;
+    esac;
+
+
+     init(presenceSensor.presence):=present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: present;
+         next(step) = 4: not_present;
+         next(step) = 5: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(boost.tap) := TRUE;
+         init(lock.lock) := locked;
+      init(ovenMode.ovenMode_last):=heating;
+      init(presenceSensor.presence_last):=present;
+
+      next(ovenMode.ovenMode_last):=ovenMode.ovenMode;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(boost.tap_last):=boost.tap;
+      next(lock.lock_last):=lock.lock;
+
+     next(boost.tap):=
+       case
+         next(step) = 2: FALSE;
+         next(step) = 3: TRUE;
+         next(step) = 4: TRUE;
+         next(step) = 5: TRUE;
+         TRUE: boost.tap;
+       esac;
+
+
+     next(lock.lock):=
+       case
+         next(step) = 2: locked;
+         next(step) = 3: unlocked;
+         next(step) = 4: unlocked;
+         next(step) = 5: locked;
+         TRUE: lock.lock;
+       esac;
+
+
+      next(new_rule0_boost.tap_triggerflag) :=
+          case
+            (next(new_rule0_boost.tap_valueflag0) | next(new_rule0_boost.tap_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_boost.tap_triggerflag;
+         esac;
+      next(new_rule0_boost.tap_valueflag0) := new_rule0_boost.tap_valueflag0;
+      next(new_rule0_boost.tap_valueflag1) := new_rule0_boost.tap_valueflag1;
+      next(new_rule0_lock.lock_triggerflag) :=
+          case
+            (next(new_rule0_lock.lock_valueflag0) | next(new_rule0_lock.lock_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_lock.lock_triggerflag;
+         esac;
+      next(new_rule0_lock.lock_valueflag0) := new_rule0_lock.lock_valueflag0;
+      next(new_rule0_lock.lock_valueflag1) := new_rule0_lock.lock_valueflag1;
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+
+    init(ovenMode.ovenMode):=on;
+    next(ovenMode.ovenMode):=
+          case
+             boost.tap=TRUE&boost.tap!=boost.tap_last&lock.lock = unlocked&presenceSensor.presence = present:heating;
+             lock.lock=locked&lock.lock!=lock.lock_last&boost.tap = TRUE:off;
+             (((new_rule0_boost.tap_valueflag0|new_rule0_boost.tap_valueflag1) & (new_rule0_boost.tap_triggerflag))->(boost.tap != boost.tap_last)) & ((new_rule0_boost.tap_valueflag0)->(boost.tap = FALSE))&((new_rule0_boost.tap_valueflag1)->(boost.tap = TRUE)) & (((new_rule0_lock.lock_valueflag0|new_rule0_lock.lock_valueflag1) & (new_rule0_lock.lock_triggerflag))->(lock.lock != lock.lock_last)) & ((new_rule0_lock.lock_valueflag0)->(lock.lock = locked))&((new_rule0_lock.lock_valueflag1)->(lock.lock = unlocked)) & (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)):off;
+             TRUE:ovenMode.ovenMode;
+          esac;

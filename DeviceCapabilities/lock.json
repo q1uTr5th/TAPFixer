@@ -1,0 +1,24 @@
+{
+  "id":"lock",
+  "name":"Lock",
+  "status":"proposed",
+  "attributes":[
+    {
+      "name": "lock",
+      "type": "ENUM",
+      "value": ["locked","unknown","unlocked","unlocked with timeout"]
+    }
+  ],
+  "commands":[
+    {
+      "name": "lock",
+      "attribute": "lock",
+      "value": "locked"
+    },
+    {
+      "name": "unlock",
+      "attribute": "lock",
+      "value": "unlocked"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id":"bodyscaleMeasurement",
+  "name":"Body scale Measurement",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "bodyscale",
+      "type": "NUMBER",
+      "value": ["0","10"]
+    }
+  ]
+}

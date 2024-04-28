@@ -1,0 +1,12 @@
+{
+"id":"stepSensor",
+"name":"Step Sensor",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "goal",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

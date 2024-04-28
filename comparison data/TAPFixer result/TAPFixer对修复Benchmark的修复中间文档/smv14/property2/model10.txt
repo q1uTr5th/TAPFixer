@@ -1,0 +1,54 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     lightSensor.illuminance:0..400;
+     lightSensor.illuminance_last:0..400;
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     ignition.switch:{on,off};
+     ignition.switch_last:{on,off};
+   ASSIGN
+      init(light.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(lightSensor.illuminance_last):=lightSensor.illuminance;
+      next(alarm.alarm_last):=alarm.alarm;
+      next(doorControl.door_last):=doorControl.door;
+      next(ignition.switch_last):=ignition.switch;
+    next(light.switch):=
+          case
+             lightSensor.illuminance=31&lightSensor.illuminance!=lightSensor.illuminance_last&lightSensor.illuminance_last=30&presenceSensor.presence = present&ignition.switch = off&doorControl.door = open:off;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&presenceSensor.presence = present&ignition.switch = off&doorControl.door = closed:on;
+             doorControl.door=open&doorControl.door!=doorControl.door_last&ignition.switch = off&presenceSensor.presence = present&alarm.alarm = off:off;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&doorControl.door=closed:off;
+             ignition.switch=off&ignition.switch!=ignition.switch_last&doorControl.door=closed:off;
+             ignition.switch=off&ignition.switch!=ignition.switch_last:off;
+             ignition.switch=off&ignition.switch!=ignition.switch_last&doorControl.door=open:off;
+             doorControl.door=open&doorControl.door!=doorControl.door_last:off;
+             TRUE:light.switch;
+          esac;
+    next(doorControl.door):=
+          case
+             ignition.switch=on&ignition.switch!=ignition.switch_last:open;
+             TRUE:doorControl.door;
+          esac;

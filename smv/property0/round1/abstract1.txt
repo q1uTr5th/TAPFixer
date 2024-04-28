@@ -1,0 +1,63 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     home.mode:{away,home};
+     home.mode_last:{away,home};
+     step:0..3;
+     new_rule0_home.mode_triggerflag:boolean;
+     new_rule0_home.mode_valueflag0:boolean;
+     new_rule0_home.mode_valueflag1:boolean;
+   INVAR
+      toint(new_rule0_home.mode_valueflag0) + toint(new_rule0_home.mode_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_home.mode_triggerflag) = 1
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 3 & step > 0: step + 1;
+            step = 3: 0;
+            TRUE: step;
+    esac;
+
+      init(light.switch_last):=off;
+      init(home.mode_last):=away;
+
+      next(light.switch_last):=light.switch;
+      next(home.mode_last):=home.mode;
+
+     next(home.mode):=
+       case
+         next(step) = 2: home;
+         next(step) = 3: away;
+         TRUE: home.mode;
+       esac;
+
+
+      next(new_rule0_home.mode_triggerflag) :=
+          case
+            (next(new_rule0_home.mode_valueflag0) | next(new_rule0_home.mode_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_home.mode_triggerflag;
+         esac;
+      next(new_rule0_home.mode_valueflag0) := new_rule0_home.mode_valueflag0;
+      next(new_rule0_home.mode_valueflag1) := new_rule0_home.mode_valueflag1;
+
+    next(light.switch):=
+          case
+             (((new_rule0_home.mode_valueflag0|new_rule0_home.mode_valueflag1) & (new_rule0_home.mode_triggerflag))->(home.mode != home.mode_last)) & ((new_rule0_home.mode_valueflag0)->(home.mode = away))&((new_rule0_home.mode_valueflag1)->(home.mode = home)):on;
+             TRUE:light.switch;
+          esac;

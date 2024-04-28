@@ -1,0 +1,80 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     carbonMonoxideDetector.carbonMonoxide:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_last:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_count:0..1;
+     carbonMonoxideDetector.carbonMonoxide_CONFIG:-1..8;
+     carbonMonoxideDetector.carbonMonoxide_threshold:4..8;
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config:0..0;
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     state.newEvent:boolean;
+     state.newEvent_last:boolean;
+   INVAR
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config = 0
+   ASSIGN
+     init(carbonMonoxideDetector.carbonMonoxide_count):=1;
+         next(carbonMonoxideDetector.carbonMonoxide_count):=
+              case
+                next(carbonMonoxideDetector.carbonMonoxide)!=carbonMonoxideDetector.carbonMonoxide & carbonMonoxideDetector.carbonMonoxide_count =0: 1;
+                carbonMonoxideDetector.carbonMonoxide_count = 1: 0;
+                TRUE: carbonMonoxideDetector.carbonMonoxide_count;
+              esac;
+    
+         next(carbonMonoxideDetector.carbonMonoxide):=
+              case
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold: detected;
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: clear;
+                --因为顺序执行，所以下面肯定是smoke_clear=-1
+                carbonMonoxideDetector.carbonMonoxide_count = 1: carbonMonoxideDetector.carbonMonoxide;
+                carbonMonoxideDetector.carbonMonoxide_count = 0: {clear,detected};
+                TRUE: carbonMonoxideDetector.carbonMonoxide;
+              esac;
+
+ init(carbonMonoxideDetector.carbonMonoxide_CONFIG):=-1;
+     next(carbonMonoxideDetector.carbonMonoxide_CONFIG):=
+       case
+         carbonMonoxideDetector.carbonMonoxide=detected & carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)>=0: carbonMonoxideDetector.carbonMonoxide_CONFIG + carbonMonoxideDetector.carbonMonoxide_not_handle_config;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)<0: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: -1;
+         TRUE: carbonMonoxideDetector.carbonMonoxide_CONFIG;
+       esac;
+
+      next(carbonMonoxideDetector.carbonMonoxide_threshold):=carbonMonoxideDetector.carbonMonoxide_threshold;
+
+      init(light.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+      init(carbonMonoxideDetector.carbonMonoxide_last):=clear;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(carbonMonoxideDetector.carbonMonoxide_last):=carbonMonoxideDetector.carbonMonoxide;
+      next(doorControl.door_last):=doorControl.door;
+      next(state.newEvent_last):=state.newEvent;
+    next(light.switch):=
+          case
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last:on;
+             doorControl.door=open&doorControl.door!=doorControl.door_last&carbonMonoxideDetector.carbonMonoxide = clear&presenceSensor.presence = present&state.newEvent = TRUE:off;
+             state.newEvent=TRUE&state.newEvent!=state.newEvent_last:on;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&doorControl.door=closed:off;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&doorControl.door=open:off;
+             TRUE:light.switch;
+          esac;

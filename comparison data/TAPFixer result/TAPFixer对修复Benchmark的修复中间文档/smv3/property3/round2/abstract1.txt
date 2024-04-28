@@ -1,0 +1,101 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     rainSensor.rain:{detected,not_detected};
+     rainSensor.rain_last:{detected,not_detected};
+     rainSensor.rain_count:0..1;
+     step:0..2;
+     new_rule0_rainSensor.rain_triggerflag:boolean;
+     new_rule0_rainSensor.rain_valueflag0:boolean;
+     new_rule0_rainSensor.rain_valueflag1:boolean;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+   INVAR
+      toint(new_rule0_rainSensor.rain_valueflag0) + toint(new_rule0_rainSensor.rain_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_rainSensor.rain_triggerflag) + toint(new_rule0_presenceSensor.presence_triggerflag) = 1
+   INVAR
+     !( new_rule0_rainSensor.rain_triggerflag=TRUE  &  new_rule0_rainSensor.rain_valueflag0=TRUE  &  new_rule0_rainSensor.rain_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 2 & step > 0: step + 1;
+            step = 2: 0;
+            TRUE: step;
+    esac;
+
+     init(rainSensor.rain_count):=1;
+     next(rainSensor.rain_count):=
+       case
+         next(rainSensor.rain)!=rainSensor.rain & rainSensor.rain_count =0: 1;
+         rainSensor.rain_count = 1: 0;
+         TRUE: rainSensor.rain_count;
+       esac;
+
+     init(rainSensor.rain):=detected;
+     next(rainSensor.rain):=
+       case
+         next(step) = 2: detected;
+         rainSensor.rain_count = 1: rainSensor.rain;
+         rainSensor.rain_count = 0: {detected,not_detected};
+         TRUE: rainSensor.rain;
+       esac;
+
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+      init(doorControl.door_last):=open;
+      init(presenceSensor.presence_last):=present;
+      init(rainSensor.rain_last):=detected;
+
+      next(doorControl.door_last):=doorControl.door;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(rainSensor.rain_last):=rainSensor.rain;
+
+      next(new_rule0_rainSensor.rain_triggerflag) :=
+          case
+            (next(new_rule0_rainSensor.rain_valueflag0) | next(new_rule0_rainSensor.rain_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_rainSensor.rain_triggerflag;
+         esac;
+      next(new_rule0_rainSensor.rain_valueflag0) := new_rule0_rainSensor.rain_valueflag0;
+      next(new_rule0_rainSensor.rain_valueflag1) := new_rule0_rainSensor.rain_valueflag1;
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+
+    init(doorControl.door):=open;
+    next(doorControl.door):=
+          case
+             rainSensor.rain=detected&rainSensor.rain!=rainSensor.rain_last:closed;
+             (((new_rule0_rainSensor.rain_valueflag0|new_rule0_rainSensor.rain_valueflag1) & (new_rule0_rainSensor.rain_triggerflag))->(rainSensor.rain != rainSensor.rain_last)) & ((new_rule0_rainSensor.rain_valueflag0)->(rainSensor.rain = detected))&((new_rule0_rainSensor.rain_valueflag1)->(rainSensor.rain = not_detected)) & (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)):closed;
+             TRUE:doorControl.door;
+          esac;

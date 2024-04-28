@@ -1,0 +1,11 @@
+{
+"id":"colorMode",
+"name":"Color Mode",
+"attributes":[
+  {
+    "name": "colorMode",
+    "type": "ENUM",
+    "value": ["color","colorTemperature","other"]
+  }
+]
+}

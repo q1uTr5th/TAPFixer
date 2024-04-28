@@ -1,0 +1,19 @@
+{
+"id":"rapidCooling",
+"name":"Rapid Cooling",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "rapidCooling",
+    "type": "ENUM",
+    "value": ["off","on"]
+  }
+],
+"commands":[
+  {
+    "name": "setRapidCooling",
+    "attribute": "rapidCooling",
+    "value": "on"
+  }
+]
+}

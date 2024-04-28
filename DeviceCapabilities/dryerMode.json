@@ -1,0 +1,19 @@
+{
+"id":"dryerMode",
+"name":"Dryer Mode",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "dryerMode",
+    "type": "ENUM",
+    "value": ["regular","lowHeat","highHeat"]
+  }
+],
+"commands":[
+  {
+    "name": "setDryerMode",
+    "attribute": "dryerMode",
+    "type": "ENUM"
+  }
+]
+}

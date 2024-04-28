@@ -1,0 +1,49 @@
+{
+  "id":"musicPlayer",
+  "name":"Music Player",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "level",
+      "type": "NUMBER",
+      "value": ["0","10"]
+    },
+    {
+      "name": "mute",
+      "type": "ENUM",
+      "value": ["muted","unmuted"]
+    },
+    {
+      "name": "status",
+      "type": "ENUM",
+      "value": ["pause","stop","play"]
+    }
+  ],
+  "commands": [
+    {
+      "name": "mute",
+      "attribute": "mute",
+      "value": "muted"
+    },{
+      "name": "unmute",
+      "attribute": "mute",
+      "value": "unmuted"
+    },{
+      "name": "setLevel",
+      "attribute": "level",
+      "type": "NUMBER"
+    },{
+      "name": "stop",
+      "attribute": "status",
+      "value": "stop"
+    },{
+      "name": "play",
+      "attribute": "status",
+      "value": "play"
+    },{
+      "name": "pause",
+      "attribute": "status",
+      "value": "pause"
+    }
+  ]
+}

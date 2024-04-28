@@ -1,0 +1,218 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     smokeDetector.smoke:{clear,detected};
+     smokeDetector.smoke_last:{clear,detected};
+     smokeDetector.smoke_count:0..1;
+     smokeDetector.smoke_CONFIG:-1..8;
+     smokeDetector.smoke_threshold:4..8;
+     smokeDetector.smoke_not_handle_config:0..0;
+     carbonMonoxideDetector.carbonMonoxide:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_last:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_count:0..1;
+     carbonMonoxideDetector.carbonMonoxide_CONFIG:-1..8;
+     carbonMonoxideDetector.carbonMonoxide_threshold:4..8;
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config:0..0;
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     motionSensor.motion:{active,inactive};
+     motionSensor.motion_last:{active,inactive};
+     step:0..4;
+     new_rule0_smokeDetector.smoke_triggerflag:boolean;
+     new_rule0_smokeDetector.smoke_valueflag0:boolean;
+     new_rule0_smokeDetector.smoke_valueflag1:boolean;
+     new_rule0_motionSensor.motion_triggerflag:boolean;
+     new_rule0_motionSensor.motion_valueflag0:boolean;
+     new_rule0_motionSensor.motion_valueflag1:boolean;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+     new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag:boolean;
+     new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0:boolean;
+     new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1:boolean;
+   INVAR
+     smokeDetector.smoke_not_handle_config = 0
+   INVAR
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config = 0
+    INVAR
+        smokeDetector.smoke_threshold = 4 &     carbonMonoxideDetector.carbonMonoxide_threshold = 4 
+
+   INVAR
+      toint(new_rule0_smokeDetector.smoke_valueflag0) + toint(new_rule0_smokeDetector.smoke_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_motionSensor.motion_valueflag0) + toint(new_rule0_motionSensor.motion_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0) + toint(new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_smokeDetector.smoke_triggerflag) + toint(new_rule0_motionSensor.motion_triggerflag) + toint(new_rule0_presenceSensor.presence_triggerflag) + toint(new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag) = 1
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=FALSE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=FALSE  &  new_rule0_smokeDetector.smoke_valueflag1=TRUE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=TRUE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=FALSE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=TRUE  &  new_rule0_motionSensor.motion_valueflag0=TRUE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=FALSE  &  new_rule0_smokeDetector.smoke_valueflag1=TRUE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=TRUE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=TRUE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_smokeDetector.smoke_triggerflag=FALSE  &  new_rule0_smokeDetector.smoke_valueflag0=FALSE  &  new_rule0_smokeDetector.smoke_valueflag1=FALSE  &  new_rule0_motionSensor.motion_triggerflag=FALSE  &  new_rule0_motionSensor.motion_valueflag0=FALSE  &  new_rule0_motionSensor.motion_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag=TRUE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0=FALSE  &  new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1=TRUE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 4 & step > 0: step + 1;
+            step = 4: 0;
+            TRUE: step;
+    esac;
+
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: present;
+         next(step) = 4: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(motionSensor.motion) := active;
+     init(carbonMonoxideDetector.carbonMonoxide_count):=1;
+        next(carbonMonoxideDetector.carbonMonoxide_count):=
+             case
+               next(carbonMonoxideDetector.carbonMonoxide)!=carbonMonoxideDetector.carbonMonoxide & carbonMonoxideDetector.carbonMonoxide_count =0: 1;
+               carbonMonoxideDetector.carbonMonoxide_count = 1: 0;
+               TRUE: carbonMonoxideDetector.carbonMonoxide_count;
+             esac;
+
+        init(carbonMonoxideDetector.carbonMonoxide):=clear;
+        next(carbonMonoxideDetector.carbonMonoxide):=
+            case
+
+               carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold: detected;
+               carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: clear;
+               --因为顺序执行，所以下面肯定是smoke_clear=-1
+               carbonMonoxideDetector.carbonMonoxide_count = 1: carbonMonoxideDetector.carbonMonoxide;
+               carbonMonoxideDetector.carbonMonoxide_count = 0: {clear,detected};
+               TRUE: carbonMonoxideDetector.carbonMonoxide;
+             esac;
+
+ init(carbonMonoxideDetector.carbonMonoxide_CONFIG):=-1;
+     next(carbonMonoxideDetector.carbonMonoxide_CONFIG):=
+       case
+         carbonMonoxideDetector.carbonMonoxide=detected & carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)>=0: carbonMonoxideDetector.carbonMonoxide_CONFIG + carbonMonoxideDetector.carbonMonoxide_not_handle_config;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)<0: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: -1;
+         TRUE: carbonMonoxideDetector.carbonMonoxide_CONFIG;
+       esac;
+
+     init(smokeDetector.smoke_count):=1;
+        next(smokeDetector.smoke_count):=
+             case
+               next(smokeDetector.smoke)!=smokeDetector.smoke & smokeDetector.smoke_count =0: 1;
+               smokeDetector.smoke_count = 1: 0;
+               TRUE: smokeDetector.smoke_count;
+             esac;
+
+        init(smokeDetector.smoke):=clear;
+        next(smokeDetector.smoke):=
+            case
+
+               smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold: detected;
+               smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: clear;
+               --因为顺序执行，所以下面肯定是smoke_clear=-1
+               smokeDetector.smoke_count = 1: smokeDetector.smoke;
+               smokeDetector.smoke_count = 0: {clear,detected};
+               TRUE: smokeDetector.smoke;
+             esac;
+
+ init(smokeDetector.smoke_CONFIG):=-1;
+     next(smokeDetector.smoke_CONFIG):=
+       case
+         smokeDetector.smoke=detected & smokeDetector.smoke!=smokeDetector.smoke_last: 0;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)>=0: smokeDetector.smoke_CONFIG + smokeDetector.smoke_not_handle_config;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)<0: 0;
+         smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: -1;
+         TRUE: smokeDetector.smoke_CONFIG;
+       esac;
+
+      init(alarm.alarm_last):=off;
+      init(smokeDetector.smoke_last):=clear;
+      init(carbonMonoxideDetector.carbonMonoxide_last):=clear;
+
+      next(alarm.alarm_last):=alarm.alarm;
+      next(smokeDetector.smoke_last):=smokeDetector.smoke;
+      next(carbonMonoxideDetector.carbonMonoxide_last):=carbonMonoxideDetector.carbonMonoxide;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(motionSensor.motion_last):=motionSensor.motion;
+
+     next(motionSensor.motion):=
+       case
+         next(step) = 2: active;
+         next(step) = 3: inactive;
+         next(step) = 4: active;
+         TRUE: motionSensor.motion;
+       esac;
+
+
+      next(new_rule0_smokeDetector.smoke_triggerflag) :=
+          case
+            (next(new_rule0_smokeDetector.smoke_valueflag0) | next(new_rule0_smokeDetector.smoke_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_smokeDetector.smoke_triggerflag;
+         esac;
+      next(new_rule0_smokeDetector.smoke_valueflag0) := new_rule0_smokeDetector.smoke_valueflag0;
+      next(new_rule0_smokeDetector.smoke_valueflag1) := new_rule0_smokeDetector.smoke_valueflag1;
+      next(new_rule0_motionSensor.motion_triggerflag) :=
+          case
+            (next(new_rule0_motionSensor.motion_valueflag0) | next(new_rule0_motionSensor.motion_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_motionSensor.motion_triggerflag;
+         esac;
+      next(new_rule0_motionSensor.motion_valueflag0) := new_rule0_motionSensor.motion_valueflag0;
+      next(new_rule0_motionSensor.motion_valueflag1) := new_rule0_motionSensor.motion_valueflag1;
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+      next(new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag) :=
+          case
+            (next(new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0) | next(new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag;
+         esac;
+      next(new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0) := new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0;
+      next(new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1) := new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1;
+
+    init(alarm.alarm):=siren;
+    next(alarm.alarm):=
+          case
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last:siren;
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last&carbonMonoxideDetector.carbonMonoxide = clear&motionSensor.motion = inactive&smokeDetector.smoke = detected:off;
+             motionSensor.motion=active&motionSensor.motion!=motionSensor.motion_last:siren;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&smokeDetector.smoke=detected:siren;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&smokeDetector.smoke=clear:siren;
+             carbonMonoxideDetector.carbonMonoxide=clear&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&smokeDetector.smoke=clear:siren;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&presenceSensor.presence=present&smokeDetector.smoke=clear:siren;
+             (((new_rule0_smokeDetector.smoke_valueflag0|new_rule0_smokeDetector.smoke_valueflag1) & (new_rule0_smokeDetector.smoke_triggerflag))->(smokeDetector.smoke != smokeDetector.smoke_last)) & ((new_rule0_smokeDetector.smoke_valueflag0)->(smokeDetector.smoke = clear))&((new_rule0_smokeDetector.smoke_valueflag1)->(smokeDetector.smoke = detected)) & (((new_rule0_motionSensor.motion_valueflag0|new_rule0_motionSensor.motion_valueflag1) & (new_rule0_motionSensor.motion_triggerflag))->(motionSensor.motion != motionSensor.motion_last)) & ((new_rule0_motionSensor.motion_valueflag0)->(motionSensor.motion = active))&((new_rule0_motionSensor.motion_valueflag1)->(motionSensor.motion = inactive)) & (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)) & (((new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0|new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1) & (new_rule0_carbonMonoxideDetector.carbonMonoxide_triggerflag))->(carbonMonoxideDetector.carbonMonoxide != carbonMonoxideDetector.carbonMonoxide_last)) & ((new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag0)->(carbonMonoxideDetector.carbonMonoxide = clear))&((new_rule0_carbonMonoxideDetector.carbonMonoxide_valueflag1)->(carbonMonoxideDetector.carbonMonoxide = detected)):siren;
+             TRUE:alarm.alarm;
+          esac;

@@ -1,0 +1,12 @@
+{
+"id":"speechRecognition",
+"name":"Speech Recognition",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "phraseSpoken",
+    "type": "NUMBER",
+    "value": ["0","1000"]
+  }
+]
+}

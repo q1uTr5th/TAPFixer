@@ -1,0 +1,12 @@
+{
+"id":"phMeasurement",
+"name":"pH Measurement",
+"status":"live",
+"attributes":[
+  {
+    "name": "pH",
+    "type": "NUMBER",
+    "value": ["0","14"]
+  }
+]
+}

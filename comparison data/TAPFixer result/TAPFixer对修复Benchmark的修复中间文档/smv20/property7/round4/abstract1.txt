@@ -1,0 +1,300 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     smartPlug.switch:{off,on};
+     smartPlug.switch_last:{off,on};
+     thermostatMode.thermostatMode:{auto,eco,rush_hour,cool,emergency_heat,heat,off};
+     thermostatMode.thermostatMode_last:{auto,eco,rush_hour,cool,emergency_heat,heat,off};
+     temperatureMeasurement.temperature:0..40;
+     temperatureMeasurement.temperature_last:0..40;
+     temperatureMeasurement.temperature_count:0..1;
+     temperatureMeasurement.temperature_CONFIG:-8..8;
+     temperatureMeasurement.temperature_rise_threshold:4..8;
+     temperatureMeasurement.temperature_drop_threshold:-8..-4;
+     temperatureMeasurement.temperature_heater.switch_config:4..4;
+     temperatureMeasurement.temperature_window.switch_config:-4..-4;
+     temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config:4..4;
+     temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config:-4..-4;
+     temperatureMeasurement.temperature_not_handle_config:0..0;
+     motionSensor.motion:{active,inactive};
+     motionSensor.motion_last:{active,inactive};
+     heater.switch:{off,on};
+     heater.switch_last:{off,on};
+     window.switch:{on,off};
+     window.switch_last:{on,off};
+     airConditionerMode.airConditionerHeatMode:{on,off};
+     airConditionerMode.airConditionerHeatMode_last:{on,off};
+     airConditionerMode.airConditionerCoolMode:{on,off};
+     airConditionerMode.airConditionerCoolMode_last:{on,off};
+     step:0..3;
+     original_flag_rule0_motionSensor.motion_0:boolean;
+     original_flag_rule0_motionSensor.motion_1:boolean;
+     original_flag_rule1_motionSensor.motion_0:boolean;
+     original_flag_rule1_motionSensor.motion_1:boolean;
+     original_flag_rule2_motionSensor.motion_0:boolean;
+     original_flag_rule2_motionSensor.motion_1:boolean;
+     original_flag_rule2_presenceSensor.presence_0:boolean;
+     original_flag_rule2_presenceSensor.presence_1:boolean;
+     original_flag_rule3_motionSensor.motion_0:boolean;
+     original_flag_rule3_motionSensor.motion_1:boolean;
+     original_flag_rule4_presenceSensor.presence_0:boolean;
+     original_flag_rule4_presenceSensor.presence_1:boolean;
+     original_flag_rule4_thermostatMode.thermostatMode_0:boolean;
+     original_flag_rule4_thermostatMode.thermostatMode_1:boolean;
+     original_flag_rule4_thermostatMode.thermostatMode_2:boolean;
+     original_flag_rule4_thermostatMode.thermostatMode_3:boolean;
+     original_flag_rule4_thermostatMode.thermostatMode_4:boolean;
+     original_flag_rule4_thermostatMode.thermostatMode_5:boolean;
+     original_flag_rule4_thermostatMode.thermostatMode_6:boolean;
+   INVAR
+     temperatureMeasurement.temperature_heater.switch_config = 4
+   INVAR
+     temperatureMeasurement.temperature_window.switch_config = -4
+   INVAR
+     temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config = 4
+   INVAR
+     temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config = -4
+   INVAR
+     temperatureMeasurement.temperature_not_handle_config = 0
+    INVAR
+        temperatureMeasurement.temperature_rise_threshold = 4 &     temperatureMeasurement.temperature_drop_threshold = -8 
+
+   INVAR
+     toint(original_flag_rule0_motionSensor.motion_0) + toint(original_flag_rule0_motionSensor.motion_1) < 2
+   INVAR
+     toint(original_flag_rule1_motionSensor.motion_0) + toint(original_flag_rule1_motionSensor.motion_1) < 2
+   INVAR
+     toint(original_flag_rule2_motionSensor.motion_0) + toint(original_flag_rule2_motionSensor.motion_1) < 2
+   INVAR
+     toint(original_flag_rule2_presenceSensor.presence_0) + toint(original_flag_rule2_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule3_motionSensor.motion_0) + toint(original_flag_rule3_motionSensor.motion_1) < 2
+   INVAR
+     toint(original_flag_rule4_presenceSensor.presence_0) + toint(original_flag_rule4_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule4_thermostatMode.thermostatMode_0) + toint(original_flag_rule4_thermostatMode.thermostatMode_1) + toint(original_flag_rule4_thermostatMode.thermostatMode_2) + toint(original_flag_rule4_thermostatMode.thermostatMode_3) + toint(original_flag_rule4_thermostatMode.thermostatMode_4) + toint(original_flag_rule4_thermostatMode.thermostatMode_5) + toint(original_flag_rule4_thermostatMode.thermostatMode_6) < 2
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 3 & step > 0: step + 1;
+            step = 3: 0;
+            TRUE: step;
+    esac;
+
+         init(temperatureMeasurement.temperature_last) := 0;
+
+     init(presenceSensor.presence):=present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(airConditionerMode.airConditionerCoolMode) := on;
+         init(motionSensor.motion) := active;
+         init(window.switch) := on;
+         init(airConditionerMode.airConditionerHeatMode) := on;
+         init(thermostatMode.thermostatMode) := eco;
+     
+    init(temperatureMeasurement.temperature):=0;     
+    next(temperatureMeasurement.temperature):=
+        case
+
+          -- 如果在threshold范围内，则温度不变
+          temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature;
+          temperatureMeasurement.temperature_CONFIG>=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature + 1<=40: temperatureMeasurement.temperature + 1;
+          temperatureMeasurement.temperature_CONFIG<=temperatureMeasurement.temperature_drop_threshold & temperatureMeasurement.temperature - 1>=0: temperatureMeasurement.temperature - 1;
+          TRUE: temperatureMeasurement.temperature;
+        esac;
+
+ init(temperatureMeasurement.temperature_CONFIG):=0;
+        next(temperatureMeasurement.temperature_CONFIG):=
+          case
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerCoolMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerHeatMode = on & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & heater.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_heater.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerCoolMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerCoolMode_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & airConditionerMode.airConditionerHeatMode = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_airConditionerMode.airConditionerHeatMode_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_window.switch_config<=temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_window.switch_config>=temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_window.switch_config;
+            -- 一种设备状态组合
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_window.switch_config>temperatureMeasurement.temperature_rise_threshold: temperatureMeasurement.temperature_rise_threshold;
+            temperatureMeasurement.temperature_CONFIG<temperatureMeasurement.temperature_rise_threshold & temperatureMeasurement.temperature_CONFIG>temperatureMeasurement.temperature_drop_threshold & window.switch = on & temperatureMeasurement.temperature_CONFIG+temperatureMeasurement.temperature_window.switch_config<temperatureMeasurement.temperature_drop_threshold: temperatureMeasurement.temperature_drop_threshold;
+            -- 超过threshold后重新计数
+            temperatureMeasurement.temperature_CONFIG>=temperatureMeasurement.temperature_rise_threshold : 0;
+            temperatureMeasurement.temperature_CONFIG<=temperatureMeasurement.temperature_drop_threshold : 0;
+            TRUE: temperatureMeasurement.temperature_CONFIG;
+          esac;
+
+      init(presenceSensor.presence_last):=present;
+      init(smartPlug.switch_last):=on;
+
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(smartPlug.switch_last):=smartPlug.switch;
+      next(thermostatMode.thermostatMode_last):=thermostatMode.thermostatMode;
+      next(temperatureMeasurement.temperature_last):=temperatureMeasurement.temperature;
+      next(motionSensor.motion_last):=motionSensor.motion;
+      next(heater.switch_last):=heater.switch;
+      next(window.switch_last):=window.switch;
+      next(airConditionerMode.airConditionerHeatMode_last):=airConditionerMode.airConditionerHeatMode;
+      next(airConditionerMode.airConditionerCoolMode_last):=airConditionerMode.airConditionerCoolMode;
+
+     next(airConditionerMode.airConditionerCoolMode):=
+       case
+         next(step) = 2: on;
+         next(step) = 3: on;
+         TRUE: airConditionerMode.airConditionerCoolMode;
+       esac;
+
+
+     next(motionSensor.motion):=
+       case
+         next(step) = 2: active;
+         next(step) = 3: active;
+         TRUE: motionSensor.motion;
+       esac;
+
+
+     next(thermostatMode.thermostatMode):=
+       case
+         next(step) = 2: off;
+         next(step) = 3: auto;
+         TRUE: thermostatMode.thermostatMode;
+       esac;
+
+
+     next(airConditionerMode.airConditionerHeatMode):=
+       case
+         next(step) = 2: on;
+         next(step) = 3: on;
+         TRUE: airConditionerMode.airConditionerHeatMode;
+       esac;
+
+
+     next(window.switch):=
+       case
+         next(step) = 2: on;
+         next(step) = 3: on;
+         TRUE: window.switch;
+       esac;
+
+      next(original_flag_rule0_motionSensor.motion_0) := original_flag_rule0_motionSensor.motion_0; 
+
+      next(original_flag_rule0_motionSensor.motion_1) := original_flag_rule0_motionSensor.motion_1; 
+
+      next(original_flag_rule1_motionSensor.motion_0) := original_flag_rule1_motionSensor.motion_0; 
+
+      next(original_flag_rule1_motionSensor.motion_1) := original_flag_rule1_motionSensor.motion_1; 
+
+      next(original_flag_rule2_motionSensor.motion_0) := original_flag_rule2_motionSensor.motion_0; 
+
+      next(original_flag_rule2_motionSensor.motion_1) := original_flag_rule2_motionSensor.motion_1; 
+
+      next(original_flag_rule2_presenceSensor.presence_0) := original_flag_rule2_presenceSensor.presence_0; 
+
+      next(original_flag_rule2_presenceSensor.presence_1) := original_flag_rule2_presenceSensor.presence_1; 
+
+      next(original_flag_rule3_motionSensor.motion_0) := original_flag_rule3_motionSensor.motion_0; 
+
+      next(original_flag_rule3_motionSensor.motion_1) := original_flag_rule3_motionSensor.motion_1; 
+
+      next(original_flag_rule4_presenceSensor.presence_0) := original_flag_rule4_presenceSensor.presence_0; 
+
+      next(original_flag_rule4_presenceSensor.presence_1) := original_flag_rule4_presenceSensor.presence_1; 
+
+      next(original_flag_rule4_thermostatMode.thermostatMode_0) := original_flag_rule4_thermostatMode.thermostatMode_0; 
+
+      next(original_flag_rule4_thermostatMode.thermostatMode_1) := original_flag_rule4_thermostatMode.thermostatMode_1; 
+
+      next(original_flag_rule4_thermostatMode.thermostatMode_2) := original_flag_rule4_thermostatMode.thermostatMode_2; 
+
+      next(original_flag_rule4_thermostatMode.thermostatMode_3) := original_flag_rule4_thermostatMode.thermostatMode_3; 
+
+      next(original_flag_rule4_thermostatMode.thermostatMode_4) := original_flag_rule4_thermostatMode.thermostatMode_4; 
+
+      next(original_flag_rule4_thermostatMode.thermostatMode_5) := original_flag_rule4_thermostatMode.thermostatMode_5; 
+
+      next(original_flag_rule4_thermostatMode.thermostatMode_6) := original_flag_rule4_thermostatMode.thermostatMode_6; 
+
+    init(smartPlug.switch):=on;
+    next(smartPlug.switch):=
+          case
+             thermostatMode.thermostatMode=off&thermostatMode.thermostatMode!=thermostatMode.thermostatMode_last&presenceSensor.presence = present & ((original_flag_rule0_motionSensor.motion_0)->(motionSensor.motion = active)) & ((original_flag_rule0_motionSensor.motion_1)->(motionSensor.motion = inactive)):on;
+             thermostatMode.thermostatMode=off&thermostatMode.thermostatMode!=thermostatMode.thermostatMode_last&presenceSensor.presence = present & ((original_flag_rule1_motionSensor.motion_0)->(motionSensor.motion = active)) & ((original_flag_rule1_motionSensor.motion_1)->(motionSensor.motion = inactive)):on;
+             temperatureMeasurement.temperature=9&temperatureMeasurement.temperature!=temperatureMeasurement.temperature_last&temperatureMeasurement.temperature_last=10&thermostatMode.thermostatMode = off & ((original_flag_rule2_motionSensor.motion_0)->(motionSensor.motion = active)) & ((original_flag_rule2_motionSensor.motion_1)->(motionSensor.motion = inactive)) & ((original_flag_rule2_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule2_presenceSensor.presence_1)->(presenceSensor.presence = present)):on;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&thermostatMode.thermostatMode = off & ((original_flag_rule3_motionSensor.motion_0)->(motionSensor.motion = active)) & ((original_flag_rule3_motionSensor.motion_1)->(motionSensor.motion = inactive)):on;
+             motionSensor.motion=active&motionSensor.motion!=motionSensor.motion_last & ((original_flag_rule4_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule4_presenceSensor.presence_1)->(presenceSensor.presence = present)) & ((original_flag_rule4_thermostatMode.thermostatMode_0)->(thermostatMode.thermostatMode = auto)) & ((original_flag_rule4_thermostatMode.thermostatMode_1)->(thermostatMode.thermostatMode = eco)) & ((original_flag_rule4_thermostatMode.thermostatMode_2)->(thermostatMode.thermostatMode = rush_hour)) & ((original_flag_rule4_thermostatMode.thermostatMode_3)->(thermostatMode.thermostatMode = cool)) & ((original_flag_rule4_thermostatMode.thermostatMode_4)->(thermostatMode.thermostatMode = emergency_heat)) & ((original_flag_rule4_thermostatMode.thermostatMode_5)->(thermostatMode.thermostatMode = heat)) & ((original_flag_rule4_thermostatMode.thermostatMode_6)->(thermostatMode.thermostatMode = off)):off;
+             TRUE:smartPlug.switch;
+          esac;
+    next(heater.switch):=
+          case
+             temperatureMeasurement.temperature=10&temperatureMeasurement.temperature!=temperatureMeasurement.temperature_last&temperatureMeasurement.temperature_last=11:on;
+             temperatureMeasurement.temperature=17&temperatureMeasurement.temperature!=temperatureMeasurement.temperature_last&temperatureMeasurement.temperature_last=18:on;
+             TRUE:heater.switch;
+          esac;

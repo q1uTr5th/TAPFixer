@@ -1,0 +1,11 @@
+{
+"id":"color",
+"name":"Color",
+"attributes":[
+  {
+    "name": "colorValue",
+    "type": "NUMBER",
+    "value": ["0","360"]
+  }
+]
+}

@@ -1,0 +1,102 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     relativeHumidityMeasurement.humidity:0..20;
+     relativeHumidityMeasurement.humidity_last:0..20;
+     relativeHumidityMeasurement.humidity_count:0..1;
+     relativeHumidityMeasurement.humidity_CONFIG:-8..8;
+     relativeHumidityMeasurement.humidity_rise_threshold:4..8;
+     relativeHumidityMeasurement.humidity_drop_threshold:-8..-4;
+     relativeHumidityMeasurement.humidity_not_handle_config:0..0;
+     step:0..2;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+   INVAR
+     relativeHumidityMeasurement.humidity_not_handle_config = 0
+    INVAR
+        relativeHumidityMeasurement.humidity_rise_threshold = 4 &     relativeHumidityMeasurement.humidity_drop_threshold = -8 
+
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_triggerflag) = 1
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 2 & step > 0: step + 1;
+            step = 2: 0;
+            TRUE: step;
+    esac;
+
+         init(relativeHumidityMeasurement.humidity_last) := 0;
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: present;
+         TRUE: {not_present,present};
+       esac;
+
+     
+    init(relativeHumidityMeasurement.humidity):=0;     
+    next(relativeHumidityMeasurement.humidity):=
+        case
+
+          -- 如果在threshold范围内，则温度不变
+          relativeHumidityMeasurement.humidity_CONFIG<relativeHumidityMeasurement.humidity_rise_threshold & relativeHumidityMeasurement.humidity_CONFIG>relativeHumidityMeasurement.humidity_drop_threshold: relativeHumidityMeasurement.humidity;
+          relativeHumidityMeasurement.humidity_CONFIG>=relativeHumidityMeasurement.humidity_rise_threshold & relativeHumidityMeasurement.humidity + 1<=20: relativeHumidityMeasurement.humidity + 1;
+          relativeHumidityMeasurement.humidity_CONFIG<=relativeHumidityMeasurement.humidity_drop_threshold & relativeHumidityMeasurement.humidity - 1>=0: relativeHumidityMeasurement.humidity - 1;
+          TRUE: relativeHumidityMeasurement.humidity;
+        esac;
+
+ init(relativeHumidityMeasurement.humidity_CONFIG):=0;
+        next(relativeHumidityMeasurement.humidity_CONFIG):=
+          case
+            -- 超过threshold后重新计数
+            relativeHumidityMeasurement.humidity_CONFIG>=relativeHumidityMeasurement.humidity_rise_threshold : 0;
+            relativeHumidityMeasurement.humidity_CONFIG<=relativeHumidityMeasurement.humidity_drop_threshold : 0;
+            TRUE: relativeHumidityMeasurement.humidity_CONFIG;
+          esac;
+
+      init(light.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(relativeHumidityMeasurement.humidity_last):=relativeHumidityMeasurement.humidity;
+
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+
+    init(light.switch):=on;
+    next(light.switch):=
+          case
+             relativeHumidityMeasurement.humidity=21&relativeHumidityMeasurement.humidity!=relativeHumidityMeasurement.humidity_last&relativeHumidityMeasurement.humidity_last=20:on;
+             (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)):off;
+             TRUE:light.switch;
+          esac;

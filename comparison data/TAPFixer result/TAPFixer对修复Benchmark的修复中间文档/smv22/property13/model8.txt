@@ -1,0 +1,43 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     ovenMode.ovenMode:{heating,on,grill,warming,off,defrosting};
+     ovenMode.ovenMode_last:{heating,on,grill,warming,off,defrosting};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     lock.lock:{locked,unlocked};
+     lock.lock_last:{locked,unlocked};
+   ASSIGN
+      init(ovenMode.ovenMode_last):=heating;
+      init(presenceSensor.presence_last):=present;
+
+      next(ovenMode.ovenMode_last):=ovenMode.ovenMode;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(lock.lock_last):=lock.lock;
+    next(ovenMode.ovenMode):=
+          case
+             lock.lock=locked&lock.lock!=lock.lock_last:off;
+             lock.lock=locked&lock.lock!=lock.lock_last:off;
+             lock.lock=unlocked&lock.lock!=lock.lock_last:off;
+             lock.lock=unlocked&lock.lock!=lock.lock_last&presenceSensor.presence=present:off;
+             lock.lock=unlocked&lock.lock!=lock.lock_last&presenceSensor.presence=not_present:off;
+             lock.lock=locked&lock.lock!=lock.lock_last&presenceSensor.presence=not_present:off;
+             TRUE:ovenMode.ovenMode;
+          esac;
+    next(lock.lock):=
+          case
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last:unlocked;
+             TRUE:lock.lock;
+          esac;

@@ -1,0 +1,34 @@
+{
+"id":"indicator",
+"name":"Indicator",
+"status":"deprecated",
+"attributes":[
+  {
+    "name": "indicatorStatus",
+    "type": "ENUM",
+    "value": ["never","when_off","when_on"]
+  },
+  {
+    "name": "numberOfButtons",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+],
+  "commands":[
+    {
+      "name": "indicatorNever",
+      "attribute": "indicatorStatus",
+      "value": "never"
+    },
+    {
+      "name": "indicatorWhenOff",
+      "attribute": "indicatorStatus",
+      "value": "when_off"
+    },
+    {
+      "name": "indicatorWhenOn",
+      "attribute": "indicatorStatus",
+      "value": "when_on"
+    }
+  ]
+}

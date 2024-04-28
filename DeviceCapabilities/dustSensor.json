@@ -1,0 +1,17 @@
+{
+"id":"dustSensor",
+"name":"Dust Sensor",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "fineDustLevel",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "dustLevel",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

@@ -1,0 +1,33 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     motionSensor.motion:{active,inactive};
+     motionSensor.motion_last:{active,inactive};
+   ASSIGN
+      init(doorControl.door_last):=open;
+      init(presenceSensor.presence_last):=present;
+
+      next(doorControl.door_last):=doorControl.door;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(motionSensor.motion_last):=motionSensor.motion;
+    next(doorControl.door):=
+          case
+             motionSensor.motion=active&motionSensor.motion!=motionSensor.motion_last:closed;
+             TRUE:doorControl.door;
+          esac;

@@ -1,0 +1,24 @@
+{
+"id":"garageDoorControl",
+"name":"Garage Door Control",
+"status":"deprecated",
+  "attributes":[
+    {
+      "name": "door",
+      "type": "ENUM",
+      "value": ["closed","closing","open","opening","unknown"]
+    }
+  ],
+"commands":[
+  {
+    "name": "close",
+    "attribute": "door",
+    "value": "closed"
+  },
+  {
+    "name": "open",
+    "attribute": "door",
+    "value": "open"
+  }
+]
+}

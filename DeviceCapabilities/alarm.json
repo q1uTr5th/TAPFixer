@@ -1,0 +1,31 @@
+{
+"id":"alarm",
+"name":"Alarm",
+"status":"live",
+"attributes":[
+  {
+    "name": "alarm",
+    "type": "ENUM",
+    "value": ["both","off","siren","strobe"]
+  }
+],
+"commands":[
+  {
+    "name": "both",
+    "attribute": "alarm",
+    "value": "both"
+  },{
+    "name": "off",
+    "attribute": "alarm",
+    "value": "off"
+  },{
+    "name": "siren",
+    "attribute": "alarm",
+    "value": "siren"
+  },{
+    "name": "strobe",
+    "attribute": "alarm",
+    "value": "strobe"
+  }
+]
+}

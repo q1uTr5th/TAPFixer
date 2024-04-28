@@ -1,0 +1,12 @@
+{
+"id":"sleepSensor",
+"name":"Sleep Sensor",
+"status":"live",
+"attributes":[
+  {
+    "name": "state",
+    "type": "ENUM",
+    "value": ["not sleeping","sleeping"]
+  }
+]
+}

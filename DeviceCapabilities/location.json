@@ -1,0 +1,25 @@
+{
+  "id":"location",
+  "name":"Location",
+  "status":"deprecated",
+  "attributes":[
+    {
+      "name": "mode",
+      "type": "ENUM",
+      "value": ["Home","Away", "Night","newMode", "Sleep"]
+    },{
+      "name": "sunrise",
+      "type": "boolean"
+    },{
+      "name": "sunset",
+      "type": "boolean"
+    }
+  ],
+  "commands":[
+    {
+      "name": "setLocationMode",
+      "attribute": "mode",
+      "type": "ENUM"
+    }
+  ]
+}

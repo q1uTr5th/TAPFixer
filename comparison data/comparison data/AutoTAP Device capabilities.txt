@@ -1,0 +1,109 @@
+Channels & Capabilities:
+
+Power [power_settings_new]
+  - Switch
+Lights [wb_incandescent]
+  - Brightness
+  - Color (Preset)
+  - Color (RGB)
+Music [library_music]
+  - Volume
+  - Genre
+  - Play Song
+  - FM Tuner
+Security [lock]
+  - Siren
+  - Lock/Unlock
+Windows [crop_original]
+  - Open/Close Window
+Sensors [visibility]
+  - Detect Motion
+  - Weather Sensor
+  - Detect Presence
+  - Thermometer
+Location [room]
+  - Detect Presence
+Weather [filter_drama]
+  - Is it Raining?
+  - Weather Sensor
+Temperature [ac_unit]
+  - Thermometer
+  - Thermostat
+Time [access_time]
+  - Clock
+  - Set Alarm
+  - Alarm Ringing
+Camera [videocam]
+  - Record
+  - Take Photo
+Shopping [shopping_cart]
+  - Order (Amazon)
+  - Order Pizza
+  - Track Package
+  - What's On My Shopping List?
+TV [tv]
+  - Volume
+  - Channel
+  - What Show Is On?
+Food & Drink [fastfood]
+  - How Much Coffee Is There?
+  - Brew Coffee
+  - Order Pizza
+History [hourglass_empty]
+  - Recorded State ("DEVICE was STATE X minutes ago")
+  - Event Frequency ("EVENT happened Y times in the last X minutes")
+  - Time Since Event ("EVENT last happened X minutes ago")
+  - Time Since State ("DEVICE was last in STATE X minutes ago")
+
+DEVICES
+Echo
+  - Switch
+  - Volume
+  - Genre
+  - Radio Station
+  - What Song Is This?
+  - Weather Sensor
+  - Outside Temperature
+  - Order
+  - Track Package
+Clock
+  - Clock
+  - Set Alarm
+  - Alarm Goes Off
+Thermostat
+  - Outside Temperature
+  - Thermometer
+  - Thermostat
+Roomba
+  - Switch
+Lights
+  - Switch
+  - Light Color (Preset or RGB)
+  - Brightness
+Smart TV
+  - Switch
+  - Volume
+  - Channel
+  - What Show Is This?
+Outlet
+  - Switch
+Speakers
+  - Switch
+  - Volume
+  - Genre
+  - Radio Station
+  - What Song Is This?
+Fridge
+  - Thermometer
+  - Thermostat
+  - Shopping List
+Coffee Pot
+  - Switch
+  - How Much Coffee Is There?
+  - Brew
+Location Sensor
+  - Presence
+Door Lock
+  - Lock/Unlock
+Windows
+  - Open/Close Window

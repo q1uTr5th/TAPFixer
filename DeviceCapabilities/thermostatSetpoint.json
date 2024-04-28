@@ -1,0 +1,12 @@
+{
+"id":"thermostatSetpoint",
+"name":"Thermostat Setpoint",
+"status":"deprecated",
+"attributes":[
+  {
+    "name": "thermostatSetpoint",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

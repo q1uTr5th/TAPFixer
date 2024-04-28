@@ -1,0 +1,17 @@
+{
+"id":"button",
+"name":"Button",
+"status":"deprecated",
+"attributes":[
+  {
+    "name": "button",
+    "type": "ENUM",
+    "value": ["held","pushed"]
+  },
+  {
+    "name": "numberOfButtons",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

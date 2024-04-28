@@ -1,0 +1,12 @@
+{
+"id":"temperatureMeasurement",
+"name":"Temperature Measurement",
+"status":"live",
+"attributes":[
+  {
+    "name": "temperature",
+    "type": "NUMBER",
+    "value": ["0","40"]
+  }
+]
+}

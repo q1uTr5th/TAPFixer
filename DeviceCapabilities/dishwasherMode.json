@@ -1,0 +1,20 @@
+{
+"id":"dishwasherMode",
+"name":"Dishwasher Mode",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "dishwasherMode",
+    "type": "ENUM",
+    "value": ["auto","quick","rinse","dry"]
+  }
+],
+
+"commands":[
+  {
+    "name": "setDishwasherMode",
+    "type": "ENUM",
+    "attribute": "dishwasherMode"
+  }
+]
+}

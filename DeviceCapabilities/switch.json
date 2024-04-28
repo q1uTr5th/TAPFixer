@@ -1,0 +1,24 @@
+{
+"id":"switch",
+"name":"Switch",
+"status":"live",
+"attributes":[
+  {
+    "name": "switch",
+    "type": "ENUM",
+    "value": ["off","on"]
+  }
+],
+  "commands":[
+    {
+      "name": "off",
+      "attribute": "switch",
+      "value": "off"
+    },
+    {
+      "name": "on",
+      "attribute": "switch",
+      "value": "on"
+    }
+  ]
+}

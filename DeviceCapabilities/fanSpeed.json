@@ -1,0 +1,19 @@
+{
+"id":"fanSpeed",
+"name":"Fan Speed",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "fanSpeed",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+],
+  "commands": [
+    {
+      "name": "setFanSpeed",
+      "attribute": "fanSpeed",
+      "type": "NUMBER"
+    }
+  ]
+}

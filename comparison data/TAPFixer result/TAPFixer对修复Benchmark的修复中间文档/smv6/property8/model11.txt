@@ -1,0 +1,44 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     smartPlug.switch:{off,on};
+     smartPlug.switch_last:{off,on};
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     hubConnection.connection:boolean;
+     hubConnection.connection_last:boolean;
+   ASSIGN
+      init(presenceSensor.presence_last):=present;
+      init(smartPlug.switch_last):=on;
+
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(smartPlug.switch_last):=smartPlug.switch;
+      next(alarm.alarm_last):=alarm.alarm;
+      next(hubConnection.connection_last):=hubConnection.connection;
+    next(smartPlug.switch):=
+          case
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&presenceSensor.presence = not_present&hubConnection.connection = TRUE:on;
+             hubConnection.connection=TRUE&hubConnection.connection!=hubConnection.connection_last:off;
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last&hubConnection.connection = TRUE:on;
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last:off;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last:off;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&hubConnection.connection=FALSE:off;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&presenceSensor.presence=present:off;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&presenceSensor.presence=not_present:off;
+             alarm.alarm=off&alarm.alarm!=alarm.alarm_last:off;
+             TRUE:smartPlug.switch;
+          esac;

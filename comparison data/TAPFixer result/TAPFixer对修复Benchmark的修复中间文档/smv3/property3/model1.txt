@@ -1,0 +1,50 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     rainSensor.rain:{detected,not_detected};
+     rainSensor.rain_last:{detected,not_detected};
+     rainSensor.rain_count:0..1;
+   ASSIGN
+     init(rainSensor.rain_count):=1;
+     next(rainSensor.rain_count):=
+       case
+         next(rainSensor.rain)!=rainSensor.rain & rainSensor.rain_count =0: 1;
+         rainSensor.rain_count = 1: 0;
+         TRUE: rainSensor.rain_count;
+       esac;
+
+     next(rainSensor.rain):=
+       case
+         rainSensor.rain_count = 1: rainSensor.rain;
+         rainSensor.rain_count = 0: {detected,not_detected};
+         TRUE: rainSensor.rain;
+       esac;
+
+      init(doorControl.door_last):=open;
+      init(presenceSensor.presence_last):=present;
+      init(rainSensor.rain_last):=detected;
+
+      next(doorControl.door_last):=doorControl.door;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(rainSensor.rain_last):=rainSensor.rain;
+    next(doorControl.door):=
+          case
+             rainSensor.rain=detected&rainSensor.rain!=rainSensor.rain_last:closed;
+             TRUE:doorControl.door;
+          esac;

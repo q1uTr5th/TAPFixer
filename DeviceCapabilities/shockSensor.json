@@ -1,0 +1,12 @@
+{
+"id":"shockSensor",
+"name":"Shock Sensor",
+"status":"deprecated",
+"attributes":[
+  {
+    "name": "shock",
+    "type": "ENUM",
+    "value": ["clear","detected"]
+  }
+]
+}

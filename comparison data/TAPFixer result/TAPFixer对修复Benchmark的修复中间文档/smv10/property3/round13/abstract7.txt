@@ -1,0 +1,349 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     hubConnection.connection:boolean;
+     hubConnection.connection_last:boolean;
+     carbonMonoxideDetector.carbonMonoxide:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_last:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_count:0..1;
+     carbonMonoxideDetector.carbonMonoxide_CONFIG:-1..8;
+     carbonMonoxideDetector.carbonMonoxide_threshold:4..8;
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config:0..0;
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     rainSensor.rain:{detected,not_detected};
+     rainSensor.rain_last:{detected,not_detected};
+     rainSensor.rain_count:0..1;
+     step:0..5;
+     original_flag_rule0_alarm.alarm_0:boolean;
+     original_flag_rule0_alarm.alarm_1:boolean;
+     original_flag_rule0_rainSensor.rain_0:boolean;
+     original_flag_rule0_rainSensor.rain_1:boolean;
+     original_flag_rule0_presenceSensor.presence_0:boolean;
+     original_flag_rule0_presenceSensor.presence_1:boolean;
+     original_flag_rule1_alarm.alarm_0:boolean;
+     original_flag_rule1_alarm.alarm_1:boolean;
+     original_flag_rule1_hubConnection.connection_0:boolean;
+     original_flag_rule1_hubConnection.connection_1:boolean;
+     original_flag_rule1_rainSensor.rain_0:boolean;
+     original_flag_rule1_rainSensor.rain_1:boolean;
+     original_flag_rule2_hubConnection.connection_0:boolean;
+     original_flag_rule2_hubConnection.connection_1:boolean;
+     original_flag_rule2_rainSensor.rain_0:boolean;
+     original_flag_rule2_rainSensor.rain_1:boolean;
+     original_flag_rule2_presenceSensor.presence_0:boolean;
+     original_flag_rule2_presenceSensor.presence_1:boolean;
+     original_flag_rule3_alarm.alarm_0:boolean;
+     original_flag_rule3_alarm.alarm_1:boolean;
+     original_flag_rule3_hubConnection.connection_0:boolean;
+     original_flag_rule3_hubConnection.connection_1:boolean;
+     original_flag_rule3_presenceSensor.presence_0:boolean;
+     original_flag_rule3_presenceSensor.presence_1:boolean;
+     original_flag_rule4_hubConnection.connection_0:boolean;
+     original_flag_rule4_hubConnection.connection_1:boolean;
+     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0:boolean;
+     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1:boolean;
+     original_flag_rule5_hubConnection.connection_0:boolean;
+     original_flag_rule5_hubConnection.connection_1:boolean;
+     original_flag_rule5_rainSensor.rain_0:boolean;
+     original_flag_rule5_rainSensor.rain_1:boolean;
+     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0:boolean;
+     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1:boolean;
+     original_flag_rule6_hubConnection.connection_0:boolean;
+     original_flag_rule6_hubConnection.connection_1:boolean;
+     original_flag_rule6_rainSensor.rain_0:boolean;
+     original_flag_rule6_rainSensor.rain_1:boolean;
+     original_flag_rule6_presenceSensor.presence_0:boolean;
+     original_flag_rule6_presenceSensor.presence_1:boolean;
+     original_flag_rule7_hubConnection.connection_0:boolean;
+     original_flag_rule7_hubConnection.connection_1:boolean;
+     original_flag_rule7_presenceSensor.presence_0:boolean;
+     original_flag_rule7_presenceSensor.presence_1:boolean;
+   INVAR
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config = 0
+    INVAR
+        carbonMonoxideDetector.carbonMonoxide_threshold = 4 
+
+   INVAR
+     toint(original_flag_rule0_alarm.alarm_0) + toint(original_flag_rule0_alarm.alarm_1) < 2
+   INVAR
+     toint(original_flag_rule0_rainSensor.rain_0) + toint(original_flag_rule0_rainSensor.rain_1) < 2
+   INVAR
+     toint(original_flag_rule0_presenceSensor.presence_0) + toint(original_flag_rule0_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule1_alarm.alarm_0) + toint(original_flag_rule1_alarm.alarm_1) < 2
+   INVAR
+     toint(original_flag_rule1_hubConnection.connection_0) + toint(original_flag_rule1_hubConnection.connection_1) < 2
+   INVAR
+     toint(original_flag_rule1_rainSensor.rain_0) + toint(original_flag_rule1_rainSensor.rain_1) < 2
+   INVAR
+     toint(original_flag_rule2_hubConnection.connection_0) + toint(original_flag_rule2_hubConnection.connection_1) < 2
+   INVAR
+     toint(original_flag_rule2_rainSensor.rain_0) + toint(original_flag_rule2_rainSensor.rain_1) < 2
+   INVAR
+     toint(original_flag_rule2_presenceSensor.presence_0) + toint(original_flag_rule2_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule3_alarm.alarm_0) + toint(original_flag_rule3_alarm.alarm_1) < 2
+   INVAR
+     toint(original_flag_rule3_hubConnection.connection_0) + toint(original_flag_rule3_hubConnection.connection_1) < 2
+   INVAR
+     toint(original_flag_rule3_presenceSensor.presence_0) + toint(original_flag_rule3_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule4_hubConnection.connection_0) + toint(original_flag_rule4_hubConnection.connection_1) < 2
+   INVAR
+     toint(original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0) + toint(original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1) < 2
+   INVAR
+     toint(original_flag_rule5_hubConnection.connection_0) + toint(original_flag_rule5_hubConnection.connection_1) < 2
+   INVAR
+     toint(original_flag_rule5_rainSensor.rain_0) + toint(original_flag_rule5_rainSensor.rain_1) < 2
+   INVAR
+     toint(original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0) + toint(original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1) < 2
+   INVAR
+     toint(original_flag_rule6_hubConnection.connection_0) + toint(original_flag_rule6_hubConnection.connection_1) < 2
+   INVAR
+     toint(original_flag_rule6_rainSensor.rain_0) + toint(original_flag_rule6_rainSensor.rain_1) < 2
+   INVAR
+     toint(original_flag_rule6_presenceSensor.presence_0) + toint(original_flag_rule6_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule7_hubConnection.connection_0) + toint(original_flag_rule7_hubConnection.connection_1) < 2
+   INVAR
+     toint(original_flag_rule7_presenceSensor.presence_0) + toint(original_flag_rule7_presenceSensor.presence_1) < 2
+
+   INVAR
+     !(original_flag_rule5_hubConnection.connection_0 = FALSE & original_flag_rule5_hubConnection.connection_1 = FALSE & original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0 = FALSE & original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1 = FALSE & original_flag_rule5_rainSensor.rain_0 = FALSE & original_flag_rule5_rainSensor.rain_1 = TRUE )
+
+   INVAR
+     !(original_flag_rule6_hubConnection.connection_0 = FALSE & original_flag_rule6_hubConnection.connection_1 = FALSE & original_flag_rule6_presenceSensor.presence_0 = FALSE & original_flag_rule6_presenceSensor.presence_1 = FALSE & original_flag_rule6_rainSensor.rain_0 = FALSE & original_flag_rule6_rainSensor.rain_1 = TRUE )
+   INVAR
+    !(    original_flag_rule0_alarm.alarm_0 = FALSE &     original_flag_rule0_alarm.alarm_1 = FALSE &     original_flag_rule0_rainSensor.rain_0 = FALSE &     original_flag_rule0_rainSensor.rain_1 = TRUE &     original_flag_rule0_presenceSensor.presence_0 = TRUE &     original_flag_rule0_presenceSensor.presence_1 = FALSE &     original_flag_rule1_alarm.alarm_0 = FALSE &     original_flag_rule1_alarm.alarm_1 = FALSE &     original_flag_rule1_hubConnection.connection_0 = FALSE &     original_flag_rule1_hubConnection.connection_1 = FALSE &     original_flag_rule1_rainSensor.rain_0 = TRUE &     original_flag_rule1_rainSensor.rain_1 = FALSE &     original_flag_rule2_hubConnection.connection_0 = FALSE &     original_flag_rule2_hubConnection.connection_1 = FALSE &     original_flag_rule2_rainSensor.rain_0 = FALSE &     original_flag_rule2_rainSensor.rain_1 = FALSE &     original_flag_rule2_presenceSensor.presence_0 = FALSE &     original_flag_rule2_presenceSensor.presence_1 = TRUE &     original_flag_rule3_alarm.alarm_0 = FALSE &     original_flag_rule3_alarm.alarm_1 = FALSE &     original_flag_rule3_hubConnection.connection_0 = FALSE &     original_flag_rule3_hubConnection.connection_1 = TRUE &     original_flag_rule3_presenceSensor.presence_0 = FALSE &     original_flag_rule3_presenceSensor.presence_1 = TRUE &     original_flag_rule4_hubConnection.connection_0 = FALSE &     original_flag_rule4_hubConnection.connection_1 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1 = FALSE &     original_flag_rule5_hubConnection.connection_0 = FALSE &     original_flag_rule5_hubConnection.connection_1 = FALSE &     original_flag_rule5_rainSensor.rain_0 = FALSE &     original_flag_rule5_rainSensor.rain_1 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1 = TRUE &     original_flag_rule6_hubConnection.connection_0 = FALSE &     original_flag_rule6_hubConnection.connection_1 = FALSE &     original_flag_rule6_rainSensor.rain_0 = TRUE &     original_flag_rule6_rainSensor.rain_1 = FALSE &     original_flag_rule6_presenceSensor.presence_0 = FALSE &     original_flag_rule6_presenceSensor.presence_1 = TRUE &     original_flag_rule7_hubConnection.connection_0 = TRUE &     original_flag_rule7_hubConnection.connection_1 = FALSE &     original_flag_rule7_presenceSensor.presence_0 = FALSE &     original_flag_rule7_presenceSensor.presence_1 = TRUE )
+
+   INVAR
+    !(    original_flag_rule0_alarm.alarm_0 = FALSE &     original_flag_rule0_alarm.alarm_1 = FALSE &     original_flag_rule0_rainSensor.rain_0 = FALSE &     original_flag_rule0_rainSensor.rain_1 = FALSE &     original_flag_rule0_presenceSensor.presence_0 = TRUE &     original_flag_rule0_presenceSensor.presence_1 = FALSE &     original_flag_rule1_alarm.alarm_0 = FALSE &     original_flag_rule1_alarm.alarm_1 = FALSE &     original_flag_rule1_hubConnection.connection_0 = FALSE &     original_flag_rule1_hubConnection.connection_1 = FALSE &     original_flag_rule1_rainSensor.rain_0 = TRUE &     original_flag_rule1_rainSensor.rain_1 = FALSE &     original_flag_rule2_hubConnection.connection_0 = FALSE &     original_flag_rule2_hubConnection.connection_1 = FALSE &     original_flag_rule2_rainSensor.rain_0 = FALSE &     original_flag_rule2_rainSensor.rain_1 = FALSE &     original_flag_rule2_presenceSensor.presence_0 = FALSE &     original_flag_rule2_presenceSensor.presence_1 = TRUE &     original_flag_rule3_alarm.alarm_0 = FALSE &     original_flag_rule3_alarm.alarm_1 = FALSE &     original_flag_rule3_hubConnection.connection_0 = FALSE &     original_flag_rule3_hubConnection.connection_1 = TRUE &     original_flag_rule3_presenceSensor.presence_0 = FALSE &     original_flag_rule3_presenceSensor.presence_1 = TRUE &     original_flag_rule4_hubConnection.connection_0 = FALSE &     original_flag_rule4_hubConnection.connection_1 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1 = FALSE &     original_flag_rule5_hubConnection.connection_0 = FALSE &     original_flag_rule5_hubConnection.connection_1 = FALSE &     original_flag_rule5_rainSensor.rain_0 = FALSE &     original_flag_rule5_rainSensor.rain_1 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1 = TRUE &     original_flag_rule6_hubConnection.connection_0 = FALSE &     original_flag_rule6_hubConnection.connection_1 = FALSE &     original_flag_rule6_rainSensor.rain_0 = TRUE &     original_flag_rule6_rainSensor.rain_1 = FALSE &     original_flag_rule6_presenceSensor.presence_0 = FALSE &     original_flag_rule6_presenceSensor.presence_1 = TRUE &     original_flag_rule7_hubConnection.connection_0 = FALSE &     original_flag_rule7_hubConnection.connection_1 = FALSE &     original_flag_rule7_presenceSensor.presence_0 = FALSE &     original_flag_rule7_presenceSensor.presence_1 = TRUE )
+
+   INVAR
+    !(    original_flag_rule0_alarm.alarm_0 = FALSE &     original_flag_rule0_alarm.alarm_1 = FALSE &     original_flag_rule0_rainSensor.rain_0 = FALSE &     original_flag_rule0_rainSensor.rain_1 = FALSE &     original_flag_rule0_presenceSensor.presence_0 = TRUE &     original_flag_rule0_presenceSensor.presence_1 = FALSE &     original_flag_rule1_alarm.alarm_0 = FALSE &     original_flag_rule1_alarm.alarm_1 = FALSE &     original_flag_rule1_hubConnection.connection_0 = FALSE &     original_flag_rule1_hubConnection.connection_1 = FALSE &     original_flag_rule1_rainSensor.rain_0 = TRUE &     original_flag_rule1_rainSensor.rain_1 = FALSE &     original_flag_rule2_hubConnection.connection_0 = FALSE &     original_flag_rule2_hubConnection.connection_1 = FALSE &     original_flag_rule2_rainSensor.rain_0 = FALSE &     original_flag_rule2_rainSensor.rain_1 = FALSE &     original_flag_rule2_presenceSensor.presence_0 = FALSE &     original_flag_rule2_presenceSensor.presence_1 = TRUE &     original_flag_rule3_alarm.alarm_0 = FALSE &     original_flag_rule3_alarm.alarm_1 = FALSE &     original_flag_rule3_hubConnection.connection_0 = FALSE &     original_flag_rule3_hubConnection.connection_1 = TRUE &     original_flag_rule3_presenceSensor.presence_0 = FALSE &     original_flag_rule3_presenceSensor.presence_1 = TRUE &     original_flag_rule4_hubConnection.connection_0 = FALSE &     original_flag_rule4_hubConnection.connection_1 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1 = FALSE &     original_flag_rule5_hubConnection.connection_0 = FALSE &     original_flag_rule5_hubConnection.connection_1 = FALSE &     original_flag_rule5_rainSensor.rain_0 = FALSE &     original_flag_rule5_rainSensor.rain_1 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1 = TRUE &     original_flag_rule6_hubConnection.connection_0 = FALSE &     original_flag_rule6_hubConnection.connection_1 = FALSE &     original_flag_rule6_rainSensor.rain_0 = TRUE &     original_flag_rule6_rainSensor.rain_1 = FALSE &     original_flag_rule6_presenceSensor.presence_0 = FALSE &     original_flag_rule6_presenceSensor.presence_1 = TRUE &     original_flag_rule7_hubConnection.connection_0 = FALSE &     original_flag_rule7_hubConnection.connection_1 = TRUE &     original_flag_rule7_presenceSensor.presence_0 = FALSE &     original_flag_rule7_presenceSensor.presence_1 = TRUE )
+
+   INVAR
+    !(    original_flag_rule0_alarm.alarm_0 = FALSE &     original_flag_rule0_alarm.alarm_1 = FALSE &     original_flag_rule0_rainSensor.rain_0 = FALSE &     original_flag_rule0_rainSensor.rain_1 = FALSE &     original_flag_rule0_presenceSensor.presence_0 = TRUE &     original_flag_rule0_presenceSensor.presence_1 = FALSE &     original_flag_rule1_alarm.alarm_0 = FALSE &     original_flag_rule1_alarm.alarm_1 = FALSE &     original_flag_rule1_hubConnection.connection_0 = FALSE &     original_flag_rule1_hubConnection.connection_1 = FALSE &     original_flag_rule1_rainSensor.rain_0 = TRUE &     original_flag_rule1_rainSensor.rain_1 = FALSE &     original_flag_rule2_hubConnection.connection_0 = FALSE &     original_flag_rule2_hubConnection.connection_1 = FALSE &     original_flag_rule2_rainSensor.rain_0 = FALSE &     original_flag_rule2_rainSensor.rain_1 = FALSE &     original_flag_rule2_presenceSensor.presence_0 = FALSE &     original_flag_rule2_presenceSensor.presence_1 = TRUE &     original_flag_rule3_alarm.alarm_0 = FALSE &     original_flag_rule3_alarm.alarm_1 = FALSE &     original_flag_rule3_hubConnection.connection_0 = FALSE &     original_flag_rule3_hubConnection.connection_1 = TRUE &     original_flag_rule3_presenceSensor.presence_0 = FALSE &     original_flag_rule3_presenceSensor.presence_1 = TRUE &     original_flag_rule4_hubConnection.connection_0 = FALSE &     original_flag_rule4_hubConnection.connection_1 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1 = FALSE &     original_flag_rule5_hubConnection.connection_0 = FALSE &     original_flag_rule5_hubConnection.connection_1 = FALSE &     original_flag_rule5_rainSensor.rain_0 = FALSE &     original_flag_rule5_rainSensor.rain_1 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1 = TRUE &     original_flag_rule6_hubConnection.connection_0 = FALSE &     original_flag_rule6_hubConnection.connection_1 = FALSE &     original_flag_rule6_rainSensor.rain_0 = TRUE &     original_flag_rule6_rainSensor.rain_1 = FALSE &     original_flag_rule6_presenceSensor.presence_0 = FALSE &     original_flag_rule6_presenceSensor.presence_1 = TRUE &     original_flag_rule7_hubConnection.connection_0 = TRUE &     original_flag_rule7_hubConnection.connection_1 = FALSE &     original_flag_rule7_presenceSensor.presence_0 = FALSE &     original_flag_rule7_presenceSensor.presence_1 = TRUE )
+
+   INVAR
+    !(    original_flag_rule0_alarm.alarm_0 = FALSE &     original_flag_rule0_alarm.alarm_1 = FALSE &     original_flag_rule0_rainSensor.rain_0 = FALSE &     original_flag_rule0_rainSensor.rain_1 = TRUE &     original_flag_rule0_presenceSensor.presence_0 = TRUE &     original_flag_rule0_presenceSensor.presence_1 = FALSE &     original_flag_rule1_alarm.alarm_0 = FALSE &     original_flag_rule1_alarm.alarm_1 = FALSE &     original_flag_rule1_hubConnection.connection_0 = FALSE &     original_flag_rule1_hubConnection.connection_1 = FALSE &     original_flag_rule1_rainSensor.rain_0 = TRUE &     original_flag_rule1_rainSensor.rain_1 = FALSE &     original_flag_rule2_hubConnection.connection_0 = FALSE &     original_flag_rule2_hubConnection.connection_1 = FALSE &     original_flag_rule2_rainSensor.rain_0 = FALSE &     original_flag_rule2_rainSensor.rain_1 = FALSE &     original_flag_rule2_presenceSensor.presence_0 = FALSE &     original_flag_rule2_presenceSensor.presence_1 = TRUE &     original_flag_rule3_alarm.alarm_0 = FALSE &     original_flag_rule3_alarm.alarm_1 = FALSE &     original_flag_rule3_hubConnection.connection_0 = FALSE &     original_flag_rule3_hubConnection.connection_1 = TRUE &     original_flag_rule3_presenceSensor.presence_0 = FALSE &     original_flag_rule3_presenceSensor.presence_1 = TRUE &     original_flag_rule4_hubConnection.connection_0 = FALSE &     original_flag_rule4_hubConnection.connection_1 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1 = FALSE &     original_flag_rule5_hubConnection.connection_0 = FALSE &     original_flag_rule5_hubConnection.connection_1 = FALSE &     original_flag_rule5_rainSensor.rain_0 = FALSE &     original_flag_rule5_rainSensor.rain_1 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1 = TRUE &     original_flag_rule6_hubConnection.connection_0 = FALSE &     original_flag_rule6_hubConnection.connection_1 = FALSE &     original_flag_rule6_rainSensor.rain_0 = TRUE &     original_flag_rule6_rainSensor.rain_1 = FALSE &     original_flag_rule6_presenceSensor.presence_0 = FALSE &     original_flag_rule6_presenceSensor.presence_1 = TRUE &     original_flag_rule7_hubConnection.connection_0 = FALSE &     original_flag_rule7_hubConnection.connection_1 = FALSE &     original_flag_rule7_presenceSensor.presence_0 = FALSE &     original_flag_rule7_presenceSensor.presence_1 = TRUE )
+
+   INVAR
+    !(    original_flag_rule0_alarm.alarm_0 = FALSE &     original_flag_rule0_alarm.alarm_1 = FALSE &     original_flag_rule0_rainSensor.rain_0 = FALSE &     original_flag_rule0_rainSensor.rain_1 = TRUE &     original_flag_rule0_presenceSensor.presence_0 = TRUE &     original_flag_rule0_presenceSensor.presence_1 = FALSE &     original_flag_rule1_alarm.alarm_0 = FALSE &     original_flag_rule1_alarm.alarm_1 = FALSE &     original_flag_rule1_hubConnection.connection_0 = FALSE &     original_flag_rule1_hubConnection.connection_1 = FALSE &     original_flag_rule1_rainSensor.rain_0 = TRUE &     original_flag_rule1_rainSensor.rain_1 = FALSE &     original_flag_rule2_hubConnection.connection_0 = FALSE &     original_flag_rule2_hubConnection.connection_1 = FALSE &     original_flag_rule2_rainSensor.rain_0 = FALSE &     original_flag_rule2_rainSensor.rain_1 = FALSE &     original_flag_rule2_presenceSensor.presence_0 = FALSE &     original_flag_rule2_presenceSensor.presence_1 = TRUE &     original_flag_rule3_alarm.alarm_0 = FALSE &     original_flag_rule3_alarm.alarm_1 = FALSE &     original_flag_rule3_hubConnection.connection_0 = FALSE &     original_flag_rule3_hubConnection.connection_1 = TRUE &     original_flag_rule3_presenceSensor.presence_0 = FALSE &     original_flag_rule3_presenceSensor.presence_1 = TRUE &     original_flag_rule4_hubConnection.connection_0 = FALSE &     original_flag_rule4_hubConnection.connection_1 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1 = FALSE &     original_flag_rule5_hubConnection.connection_0 = FALSE &     original_flag_rule5_hubConnection.connection_1 = FALSE &     original_flag_rule5_rainSensor.rain_0 = FALSE &     original_flag_rule5_rainSensor.rain_1 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0 = FALSE &     original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1 = TRUE &     original_flag_rule6_hubConnection.connection_0 = FALSE &     original_flag_rule6_hubConnection.connection_1 = FALSE &     original_flag_rule6_rainSensor.rain_0 = TRUE &     original_flag_rule6_rainSensor.rain_1 = FALSE &     original_flag_rule6_presenceSensor.presence_0 = FALSE &     original_flag_rule6_presenceSensor.presence_1 = TRUE &     original_flag_rule7_hubConnection.connection_0 = FALSE &     original_flag_rule7_hubConnection.connection_1 = TRUE &     original_flag_rule7_presenceSensor.presence_0 = FALSE &     original_flag_rule7_presenceSensor.presence_1 = TRUE )
+
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 5 & step > 0: step + 1;
+            step = 5: 0;
+            TRUE: step;
+    esac;
+
+     init(rainSensor.rain_count):=1;
+     next(rainSensor.rain_count):=
+       case
+         next(rainSensor.rain)!=rainSensor.rain & rainSensor.rain_count =0: 1;
+         rainSensor.rain_count = 1: 0;
+         TRUE: rainSensor.rain_count;
+       esac;
+
+     init(rainSensor.rain):=detected;
+     next(rainSensor.rain):=
+       case
+         next(step) = 2: detected;
+         next(step) = 3: not_detected;
+         next(step) = 4: not_detected;
+         next(step) = 5: detected;
+         rainSensor.rain_count = 1: rainSensor.rain;
+         rainSensor.rain_count = 0: {detected,not_detected};
+         TRUE: rainSensor.rain;
+       esac;
+
+
+     init(presenceSensor.presence):=present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: present;
+         next(step) = 4: not_present;
+         next(step) = 5: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(hubConnection.connection) := TRUE;
+     init(carbonMonoxideDetector.carbonMonoxide_count):=1;
+        next(carbonMonoxideDetector.carbonMonoxide_count):=
+             case
+               next(carbonMonoxideDetector.carbonMonoxide)!=carbonMonoxideDetector.carbonMonoxide & carbonMonoxideDetector.carbonMonoxide_count =0: 1;
+               carbonMonoxideDetector.carbonMonoxide_count = 1: 0;
+               TRUE: carbonMonoxideDetector.carbonMonoxide_count;
+             esac;
+
+        init(carbonMonoxideDetector.carbonMonoxide):=clear;
+        next(carbonMonoxideDetector.carbonMonoxide):=
+            case
+
+               carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold: detected;
+               carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: clear;
+               --因为顺序执行，所以下面肯定是smoke_clear=-1
+               carbonMonoxideDetector.carbonMonoxide_count = 1: carbonMonoxideDetector.carbonMonoxide;
+               carbonMonoxideDetector.carbonMonoxide_count = 0: {clear,detected};
+               TRUE: carbonMonoxideDetector.carbonMonoxide;
+             esac;
+
+ init(carbonMonoxideDetector.carbonMonoxide_CONFIG):=-1;
+     next(carbonMonoxideDetector.carbonMonoxide_CONFIG):=
+       case
+         carbonMonoxideDetector.carbonMonoxide=detected & carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)>=0: carbonMonoxideDetector.carbonMonoxide_CONFIG + carbonMonoxideDetector.carbonMonoxide_not_handle_config;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)<0: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: -1;
+         TRUE: carbonMonoxideDetector.carbonMonoxide_CONFIG;
+       esac;
+
+      init(doorControl.door_last):=open;
+      init(presenceSensor.presence_last):=present;
+      init(rainSensor.rain_last):=detected;
+      init(carbonMonoxideDetector.carbonMonoxide_last):=clear;
+
+      next(doorControl.door_last):=doorControl.door;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(hubConnection.connection_last):=hubConnection.connection;
+      next(carbonMonoxideDetector.carbonMonoxide_last):=carbonMonoxideDetector.carbonMonoxide;
+      next(alarm.alarm_last):=alarm.alarm;
+      next(rainSensor.rain_last):=rainSensor.rain;
+
+     next(hubConnection.connection):=
+       case
+         next(step) = 2: FALSE;
+         next(step) = 3: FALSE;
+         next(step) = 4: TRUE;
+         next(step) = 5: TRUE;
+         TRUE: hubConnection.connection;
+       esac;
+
+      next(original_flag_rule0_alarm.alarm_0) := original_flag_rule0_alarm.alarm_0; 
+
+      next(original_flag_rule0_alarm.alarm_1) := original_flag_rule0_alarm.alarm_1; 
+
+      next(original_flag_rule0_rainSensor.rain_0) := original_flag_rule0_rainSensor.rain_0; 
+
+      next(original_flag_rule0_rainSensor.rain_1) := original_flag_rule0_rainSensor.rain_1; 
+
+      next(original_flag_rule0_presenceSensor.presence_0) := original_flag_rule0_presenceSensor.presence_0; 
+
+      next(original_flag_rule0_presenceSensor.presence_1) := original_flag_rule0_presenceSensor.presence_1; 
+
+      next(original_flag_rule1_alarm.alarm_0) := original_flag_rule1_alarm.alarm_0; 
+
+      next(original_flag_rule1_alarm.alarm_1) := original_flag_rule1_alarm.alarm_1; 
+
+      next(original_flag_rule1_hubConnection.connection_0) := original_flag_rule1_hubConnection.connection_0; 
+
+      next(original_flag_rule1_hubConnection.connection_1) := original_flag_rule1_hubConnection.connection_1; 
+
+      next(original_flag_rule1_rainSensor.rain_0) := original_flag_rule1_rainSensor.rain_0; 
+
+      next(original_flag_rule1_rainSensor.rain_1) := original_flag_rule1_rainSensor.rain_1; 
+
+      next(original_flag_rule2_hubConnection.connection_0) := original_flag_rule2_hubConnection.connection_0; 
+
+      next(original_flag_rule2_hubConnection.connection_1) := original_flag_rule2_hubConnection.connection_1; 
+
+      next(original_flag_rule2_rainSensor.rain_0) := original_flag_rule2_rainSensor.rain_0; 
+
+      next(original_flag_rule2_rainSensor.rain_1) := original_flag_rule2_rainSensor.rain_1; 
+
+      next(original_flag_rule2_presenceSensor.presence_0) := original_flag_rule2_presenceSensor.presence_0; 
+
+      next(original_flag_rule2_presenceSensor.presence_1) := original_flag_rule2_presenceSensor.presence_1; 
+
+      next(original_flag_rule3_alarm.alarm_0) := original_flag_rule3_alarm.alarm_0; 
+
+      next(original_flag_rule3_alarm.alarm_1) := original_flag_rule3_alarm.alarm_1; 
+
+      next(original_flag_rule3_hubConnection.connection_0) := original_flag_rule3_hubConnection.connection_0; 
+
+      next(original_flag_rule3_hubConnection.connection_1) := original_flag_rule3_hubConnection.connection_1; 
+
+      next(original_flag_rule3_presenceSensor.presence_0) := original_flag_rule3_presenceSensor.presence_0; 
+
+      next(original_flag_rule3_presenceSensor.presence_1) := original_flag_rule3_presenceSensor.presence_1; 
+
+      next(original_flag_rule4_hubConnection.connection_0) := original_flag_rule4_hubConnection.connection_0; 
+
+      next(original_flag_rule4_hubConnection.connection_1) := original_flag_rule4_hubConnection.connection_1; 
+
+      next(original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0) := original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0; 
+
+      next(original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1) := original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1; 
+
+      next(original_flag_rule5_hubConnection.connection_0) := original_flag_rule5_hubConnection.connection_0; 
+
+      next(original_flag_rule5_hubConnection.connection_1) := original_flag_rule5_hubConnection.connection_1; 
+
+      next(original_flag_rule5_rainSensor.rain_0) := original_flag_rule5_rainSensor.rain_0; 
+
+      next(original_flag_rule5_rainSensor.rain_1) := original_flag_rule5_rainSensor.rain_1; 
+
+      next(original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0) := original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0; 
+
+      next(original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1) := original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1; 
+
+      next(original_flag_rule6_hubConnection.connection_0) := original_flag_rule6_hubConnection.connection_0; 
+
+      next(original_flag_rule6_hubConnection.connection_1) := original_flag_rule6_hubConnection.connection_1; 
+
+      next(original_flag_rule6_rainSensor.rain_0) := original_flag_rule6_rainSensor.rain_0; 
+
+      next(original_flag_rule6_rainSensor.rain_1) := original_flag_rule6_rainSensor.rain_1; 
+
+      next(original_flag_rule6_presenceSensor.presence_0) := original_flag_rule6_presenceSensor.presence_0; 
+
+      next(original_flag_rule6_presenceSensor.presence_1) := original_flag_rule6_presenceSensor.presence_1; 
+
+      next(original_flag_rule7_hubConnection.connection_0) := original_flag_rule7_hubConnection.connection_0; 
+
+      next(original_flag_rule7_hubConnection.connection_1) := original_flag_rule7_hubConnection.connection_1; 
+
+      next(original_flag_rule7_presenceSensor.presence_0) := original_flag_rule7_presenceSensor.presence_0; 
+
+      next(original_flag_rule7_presenceSensor.presence_1) := original_flag_rule7_presenceSensor.presence_1; 
+
+    init(doorControl.door):=open;
+    next(doorControl.door):=
+          case
+             hubConnection.connection=FALSE&hubConnection.connection!=hubConnection.connection_last&carbonMonoxideDetector.carbonMonoxide = detected & ((original_flag_rule0_alarm.alarm_0)->(alarm.alarm = off)) & ((original_flag_rule0_alarm.alarm_1)->(alarm.alarm = siren)) & ((original_flag_rule0_rainSensor.rain_0)->(rainSensor.rain = detected)) & ((original_flag_rule0_rainSensor.rain_1)->(rainSensor.rain = not_detected)) & ((original_flag_rule0_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule0_presenceSensor.presence_1)->(presenceSensor.presence = present)):closed;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&presenceSensor.presence = present & ((original_flag_rule1_alarm.alarm_0)->(alarm.alarm = off)) & ((original_flag_rule1_alarm.alarm_1)->(alarm.alarm = siren)) & ((original_flag_rule1_hubConnection.connection_0)->(hubConnection.connection = FALSE)) & ((original_flag_rule1_hubConnection.connection_1)->(hubConnection.connection = TRUE)) & ((original_flag_rule1_rainSensor.rain_0)->(rainSensor.rain = detected)) & ((original_flag_rule1_rainSensor.rain_1)->(rainSensor.rain = not_detected)):open;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&carbonMonoxideDetector.carbonMonoxide = detected & ((original_flag_rule2_hubConnection.connection_0)->(hubConnection.connection = FALSE)) & ((original_flag_rule2_hubConnection.connection_1)->(hubConnection.connection = TRUE)) & ((original_flag_rule2_rainSensor.rain_0)->(rainSensor.rain = detected)) & ((original_flag_rule2_rainSensor.rain_1)->(rainSensor.rain = not_detected)) & ((original_flag_rule2_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule2_presenceSensor.presence_1)->(presenceSensor.presence = present)):open;
+             rainSensor.rain=detected&rainSensor.rain!=rainSensor.rain_last&carbonMonoxideDetector.carbonMonoxide = detected & ((original_flag_rule3_alarm.alarm_0)->(alarm.alarm = off)) & ((original_flag_rule3_alarm.alarm_1)->(alarm.alarm = siren)) & ((original_flag_rule3_hubConnection.connection_0)->(hubConnection.connection = FALSE)) & ((original_flag_rule3_hubConnection.connection_1)->(hubConnection.connection = TRUE)) & ((original_flag_rule3_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule3_presenceSensor.presence_1)->(presenceSensor.presence = present)):closed;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&rainSensor.rain = not_detected&alarm.alarm=off & ((original_flag_rule4_hubConnection.connection_0)->(hubConnection.connection = FALSE)) & ((original_flag_rule4_hubConnection.connection_1)->(hubConnection.connection = TRUE)) & ((original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_0)->(carbonMonoxideDetector.carbonMonoxide = clear)) & ((original_flag_rule4_carbonMonoxideDetector.carbonMonoxide_1)->(carbonMonoxideDetector.carbonMonoxide = detected)):closed;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&alarm.alarm=off & ((original_flag_rule5_hubConnection.connection_0)->(hubConnection.connection = FALSE)) & ((original_flag_rule5_hubConnection.connection_1)->(hubConnection.connection = TRUE)) & ((original_flag_rule5_rainSensor.rain_0)->(rainSensor.rain = detected)) & ((original_flag_rule5_rainSensor.rain_1)->(rainSensor.rain = not_detected)) & ((original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_0)->(carbonMonoxideDetector.carbonMonoxide = clear)) & ((original_flag_rule5_carbonMonoxideDetector.carbonMonoxide_1)->(carbonMonoxideDetector.carbonMonoxide = detected)):closed;
+             carbonMonoxideDetector.carbonMonoxide=clear&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&alarm.alarm=off & ((original_flag_rule6_hubConnection.connection_0)->(hubConnection.connection = FALSE)) & ((original_flag_rule6_hubConnection.connection_1)->(hubConnection.connection = TRUE)) & ((original_flag_rule6_rainSensor.rain_0)->(rainSensor.rain = detected)) & ((original_flag_rule6_rainSensor.rain_1)->(rainSensor.rain = not_detected)) & ((original_flag_rule6_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule6_presenceSensor.presence_1)->(presenceSensor.presence = present)):closed;
+             carbonMonoxideDetector.carbonMonoxide=clear&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&rainSensor.rain=not_detected&alarm.alarm=off & ((original_flag_rule7_hubConnection.connection_0)->(hubConnection.connection = FALSE)) & ((original_flag_rule7_hubConnection.connection_1)->(hubConnection.connection = TRUE)) & ((original_flag_rule7_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule7_presenceSensor.presence_1)->(presenceSensor.presence = present)):closed;
+             TRUE:doorControl.door;
+          esac;
+    init(alarm.alarm):=off;
+    next(alarm.alarm):=
+          case
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last:siren;
+             TRUE:alarm.alarm;
+          esac;

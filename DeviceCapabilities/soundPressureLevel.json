@@ -1,0 +1,12 @@
+{
+"id":"soundPressureLevel",
+"name":"Sound Pressure Level",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "soundPressureLevel",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

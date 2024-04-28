@@ -1,0 +1,12 @@
+{
+"id":"refrigerationSetpoint",
+"name":"Refrigeration Setpoint",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "refrigerationSetpoint",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

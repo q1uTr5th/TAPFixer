@@ -1,0 +1,11 @@
+{
+  "id":"boost",
+  "name":"boost",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "tap",
+      "type": "boolean"
+    }
+  ]
+}

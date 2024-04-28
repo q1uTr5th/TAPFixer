@@ -1,0 +1,12 @@
+{
+  "id":"band",
+  "name":"band",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "mode",
+      "type": "ENUM",
+      "value": ["sleep","run","walk","sit","null"]
+    }
+  ]
+}

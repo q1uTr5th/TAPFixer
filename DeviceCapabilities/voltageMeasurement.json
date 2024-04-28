@@ -1,0 +1,12 @@
+{
+"id":"voltageMeasurement",
+"name":"Voltage Measurement",
+"status":"live",
+"attributes":[
+  {
+    "name": "voltage",
+    "type": "NUMBER",
+    "value": ["0","10"]
+  }
+]
+}

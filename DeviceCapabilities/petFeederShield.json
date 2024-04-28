@@ -1,0 +1,20 @@
+{
+  "id":"petFeederShield",
+  "name":"pet feeder shield",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "switch",
+      "type": "ENUM",
+      "value": ["off","onExtend"]
+    }
+  ],
+  "commands":[
+    {
+      "name": "feed",
+      "attribute": "switch",
+      "value": "onExtend",
+      "time": "2"
+    }
+  ]
+}

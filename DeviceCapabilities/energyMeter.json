@@ -1,0 +1,12 @@
+{
+"id":"energyMeter",
+"name":"Energy Meter",
+"status":"live",
+"attributes":[
+  {
+    "name": "energy",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

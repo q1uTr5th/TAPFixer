@@ -1,0 +1,19 @@
+{
+"id":"robotCleanerMovement",
+"name":"Robot Cleaner Movement",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "robotCleanerMovement",
+    "type": "ENUM",
+    "value": ["homing","idle","charging","alarm","powerOff","reserve","point","after","cleaning"]
+  }
+],
+  "commands":[
+    {
+      "name": "setRobotCleanerMovement",
+      "type": "ENUM",
+      "attribute": "robotCleanerMovement"
+    }
+  ]
+}

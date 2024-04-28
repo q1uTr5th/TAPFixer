@@ -1,0 +1,32 @@
+{
+  "id":"light",
+  "name":"Light",
+  "status":"deprecated",
+  "attributes":[
+    {
+      "name": "switch",
+      "type": "ENUM",
+      "value": ["off","on"]
+    },{
+      "name": "level",
+      "type": "NUMBER",
+      "value": ["0","100"]
+    }
+  ],
+  "commands":[
+    {
+      "name": "off",
+      "attribute": "switch",
+      "value": "off"
+    },
+    {
+      "name": "on",
+      "attribute": "switch",
+      "value": "on"
+    },{
+      "name": "setLevel",
+      "attribute": "level",
+      "type": "NUMBER"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     hubConnection.connection:boolean;
+     hubConnection.connection_last:boolean;
+     carbonMonoxideDetector.carbonMonoxide:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_last:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_count:0..1;
+     carbonMonoxideDetector.carbonMonoxide_CONFIG:-1..8;
+     carbonMonoxideDetector.carbonMonoxide_threshold:4..8;
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config:0..0;
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     rainSensor.rain:{detected,not_detected};
+     rainSensor.rain_last:{detected,not_detected};
+     rainSensor.rain_count:0..1;
+   INVAR
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config = 0
+   ASSIGN
+     init(rainSensor.rain_count):=1;
+     next(rainSensor.rain_count):=
+       case
+         next(rainSensor.rain)!=rainSensor.rain & rainSensor.rain_count =0: 1;
+         rainSensor.rain_count = 1: 0;
+         TRUE: rainSensor.rain_count;
+       esac;
+
+     next(rainSensor.rain):=
+       case
+         rainSensor.rain_count = 1: rainSensor.rain;
+         rainSensor.rain_count = 0: {detected,not_detected};
+         TRUE: rainSensor.rain;
+       esac;
+
+     init(carbonMonoxideDetector.carbonMonoxide_count):=1;
+         next(carbonMonoxideDetector.carbonMonoxide_count):=
+              case
+                next(carbonMonoxideDetector.carbonMonoxide)!=carbonMonoxideDetector.carbonMonoxide & carbonMonoxideDetector.carbonMonoxide_count =0: 1;
+                carbonMonoxideDetector.carbonMonoxide_count = 1: 0;
+                TRUE: carbonMonoxideDetector.carbonMonoxide_count;
+              esac;
+    
+         next(carbonMonoxideDetector.carbonMonoxide):=
+              case
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold: detected;
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: clear;
+                --因为顺序执行，所以下面肯定是smoke_clear=-1
+                carbonMonoxideDetector.carbonMonoxide_count = 1: carbonMonoxideDetector.carbonMonoxide;
+                carbonMonoxideDetector.carbonMonoxide_count = 0: {clear,detected};
+                TRUE: carbonMonoxideDetector.carbonMonoxide;
+              esac;
+
+ init(carbonMonoxideDetector.carbonMonoxide_CONFIG):=-1;
+     next(carbonMonoxideDetector.carbonMonoxide_CONFIG):=
+       case
+         carbonMonoxideDetector.carbonMonoxide=detected & carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)>=0: carbonMonoxideDetector.carbonMonoxide_CONFIG + carbonMonoxideDetector.carbonMonoxide_not_handle_config;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)<0: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: -1;
+         TRUE: carbonMonoxideDetector.carbonMonoxide_CONFIG;
+       esac;
+
+      next(carbonMonoxideDetector.carbonMonoxide_threshold):=carbonMonoxideDetector.carbonMonoxide_threshold;
+
+      init(doorControl.door_last):=open;
+      init(presenceSensor.presence_last):=present;
+      init(rainSensor.rain_last):=detected;
+      init(carbonMonoxideDetector.carbonMonoxide_last):=clear;
+
+      next(doorControl.door_last):=doorControl.door;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(hubConnection.connection_last):=hubConnection.connection;
+      next(carbonMonoxideDetector.carbonMonoxide_last):=carbonMonoxideDetector.carbonMonoxide;
+      next(alarm.alarm_last):=alarm.alarm;
+      next(rainSensor.rain_last):=rainSensor.rain;
+    next(doorControl.door):=
+          case
+             hubConnection.connection=FALSE&hubConnection.connection!=hubConnection.connection_last&carbonMonoxideDetector.carbonMonoxide = detected:closed;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&presenceSensor.presence = present:open;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&carbonMonoxideDetector.carbonMonoxide = detected:open;
+             rainSensor.rain=detected&rainSensor.rain!=rainSensor.rain_last&carbonMonoxideDetector.carbonMonoxide = detected:closed;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&rainSensor.rain = not_detected&alarm.alarm=off:closed;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&alarm.alarm=off:closed;
+             TRUE:doorControl.door;
+          esac;
+    next(alarm.alarm):=
+          case
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last:siren;
+             TRUE:alarm.alarm;
+          esac;

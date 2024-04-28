@@ -1,0 +1,19 @@
+{
+"id":"ovenSetpoint",
+"name":"Oven Setpoint",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "ovenSetpoint",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+],
+"commands":[
+  {
+    "name": "setOvenSetpoint",
+    "attribute": "ovenSetpoint",
+    "type": "NUMBER"
+  }
+]
+}

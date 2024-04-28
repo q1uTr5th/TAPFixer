@@ -1,0 +1,22 @@
+{
+"id":"signalStrength",
+"name":"Signal Strength",
+"status":"live",
+"attributes":[
+  {
+    "name": "lqi",
+    "type": "NUMBER",
+    "value": ["0","255"]
+  },
+  {
+    "name": "rssi",
+    "type": "NUMBER",
+    "value": ["-200","0"]
+  },
+  {
+    "name": "unit",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

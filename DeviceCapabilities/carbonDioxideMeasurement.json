@@ -1,0 +1,12 @@
+{
+"id":"carbonDioxideMeasurement",
+"name":"Carbon Dioxide Measurement",
+"status":"live",
+"attributes":[
+  {
+    "name": "carbonDioxide",
+    "type": "NUMBER",
+    "value": ["0","10"]
+  }
+]
+}

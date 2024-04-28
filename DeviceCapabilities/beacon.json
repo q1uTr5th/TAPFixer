@@ -1,0 +1,12 @@
+{
+"id":"beacon",
+"name":"Beacon",
+"status":"deprecated",
+"attributes":[
+  {
+    "name": "presence",
+    "type": "ENUM",
+    "value": ["not present","present"]
+  }
+]
+}

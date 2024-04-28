@@ -1,0 +1,98 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     camera.switch:{on,off};
+     camera.switch_last:{on,off};
+     hubConnection.connection:boolean;
+     hubConnection.connection_last:boolean;
+     step:0..3;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+     new_rule0_hubConnection.connection_triggerflag:boolean;
+     new_rule0_hubConnection.connection_valueflag0:boolean;
+     new_rule0_hubConnection.connection_valueflag1:boolean;
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_hubConnection.connection_valueflag0) + toint(new_rule0_hubConnection.connection_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_triggerflag) + toint(new_rule0_hubConnection.connection_triggerflag) = 1
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_hubConnection.connection_triggerflag=TRUE  &  new_rule0_hubConnection.connection_valueflag0=TRUE  &  new_rule0_hubConnection.connection_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=TRUE  &  new_rule0_hubConnection.connection_triggerflag=TRUE  &  new_rule0_hubConnection.connection_valueflag0=FALSE  &  new_rule0_hubConnection.connection_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=TRUE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_hubConnection.connection_triggerflag=TRUE  &  new_rule0_hubConnection.connection_valueflag0=FALSE  &  new_rule0_hubConnection.connection_valueflag1=TRUE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 3 & step > 0: step + 1;
+            step = 3: 0;
+            TRUE: step;
+    esac;
+
+
+     init(presenceSensor.presence):=present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(hubConnection.connection) := TRUE;
+      init(presenceSensor.presence_last):=present;
+      init(camera.switch_last):=off;
+
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(camera.switch_last):=camera.switch;
+      next(hubConnection.connection_last):=hubConnection.connection;
+
+     next(hubConnection.connection):=
+       case
+         next(step) = 2: TRUE;
+         next(step) = 3: TRUE;
+         TRUE: hubConnection.connection;
+       esac;
+
+
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+      next(new_rule0_hubConnection.connection_triggerflag) :=
+          case
+            (next(new_rule0_hubConnection.connection_valueflag0) | next(new_rule0_hubConnection.connection_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_hubConnection.connection_triggerflag;
+         esac;
+      next(new_rule0_hubConnection.connection_valueflag0) := new_rule0_hubConnection.connection_valueflag0;
+      next(new_rule0_hubConnection.connection_valueflag1) := new_rule0_hubConnection.connection_valueflag1;
+
+    init(camera.switch):=off;
+    next(camera.switch):=
+          case
+             hubConnection.connection=FALSE&hubConnection.connection!=hubConnection.connection_last:on;
+             hubConnection.connection=TRUE&hubConnection.connection!=hubConnection.connection_last&presenceSensor.presence=present:on;
+             hubConnection.connection=TRUE&hubConnection.connection!=hubConnection.connection_last&presenceSensor.presence=not_present:on;
+             (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)) & (((new_rule0_hubConnection.connection_valueflag0|new_rule0_hubConnection.connection_valueflag1) & (new_rule0_hubConnection.connection_triggerflag))->(hubConnection.connection != hubConnection.connection_last)) & ((new_rule0_hubConnection.connection_valueflag0)->(hubConnection.connection = FALSE))&((new_rule0_hubConnection.connection_valueflag1)->(hubConnection.connection = TRUE)):on;
+             TRUE:camera.switch;
+          esac;

@@ -1,0 +1,23 @@
+{
+"id":"doorControl",
+"name":"Door Control",
+"status":"live",
+"attributes":[
+  {
+    "name": "door",
+    "type": "ENUM",
+    "value": ["closed","closing","open","opening","unknown"]
+  }
+],
+  "commands": [
+    {
+      "name": "open",
+      "attribute": "door",
+      "value": "open"
+    },{
+      "name": "close",
+      "attribute": "door",
+      "value": "closed"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+"id":"robotCleanerTurboMode",
+"name":"Robot Cleaner Turbo Mode",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "robotCleanerTurboMode",
+    "type": "ENUM",
+    "value": ["on","off","silence"]
+  }
+],
+
+"commands":[
+  {
+    "name": "robotCleanerTurboMode",
+    "type": "ENUM",
+    "attribute": "robotCleanerTurboMode"
+  }
+]
+}

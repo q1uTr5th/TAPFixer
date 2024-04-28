@@ -1,0 +1,12 @@
+{
+"id":"motionSensor",
+"name":"Motion Sensor",
+"status":"live",
+"attributes":[
+  {
+    "name": "motion",
+    "type": "ENUM",
+    "value": ["active","inactive"]
+  }
+]
+}

@@ -1,0 +1,39 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     hubConnection.connection:boolean;
+     hubConnection.connection_last:boolean;
+     state.newEvent:boolean;
+     state.newEvent_last:boolean;
+   ASSIGN
+      init(light.switch_last):=off;
+      init(presenceSensor.presence_last):=not_present;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(hubConnection.connection_last):=hubConnection.connection;
+      next(state.newEvent_last):=state.newEvent;
+    next(light.switch):=
+          case
+             hubConnection.connection=FALSE&hubConnection.connection!=hubConnection.connection_last&presenceSensor.presence = present&state.newEvent = TRUE:off;
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last:on;
+             state.newEvent=TRUE&state.newEvent!=state.newEvent_last&hubConnection.connection = FALSE:off;
+             state.newEvent=TRUE&state.newEvent!=state.newEvent_last&hubConnection.connection = FALSE:off;
+             TRUE:light.switch;
+          esac;

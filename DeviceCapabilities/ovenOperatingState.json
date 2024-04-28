@@ -1,0 +1,35 @@
+{
+"id":"ovenOperatingState",
+"name":"Oven Operating State",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "machineState",
+    "type": "ENUM",
+    "value": ["ready","running","paused"]
+  },
+  {
+    "name": "ovenJobState",
+    "type": "ENUM",
+    "value": ["cleaning","cooking","cooling","draining","preheat","ready","rinsing"]
+  },
+  {
+    "name": "completionTime",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "operationTime",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+],
+
+"commands":[
+  {
+    "name": "setMachineState",
+    "attribute": "machineState",
+    "type": "ENUM"
+  }
+]
+}

@@ -1,0 +1,100 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     ovenMode.ovenMode:{heating,on,grill,warming,off,defrosting};
+     ovenMode.ovenMode_last:{heating,on,grill,warming,off,defrosting};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     lock.lock:{locked,unlocked};
+     lock.lock_last:{locked,unlocked};
+     step:0..2;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+     new_rule0_lock.lock_triggerflag:boolean;
+     new_rule0_lock.lock_valueflag0:boolean;
+     new_rule0_lock.lock_valueflag1:boolean;
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_lock.lock_valueflag0) + toint(new_rule0_lock.lock_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_triggerflag) + toint(new_rule0_lock.lock_triggerflag) = 1
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_lock.lock_triggerflag=TRUE  &  new_rule0_lock.lock_valueflag0=TRUE  &  new_rule0_lock.lock_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_lock.lock_triggerflag=TRUE  &  new_rule0_lock.lock_valueflag0=TRUE  &  new_rule0_lock.lock_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_lock.lock_triggerflag=TRUE  &  new_rule0_lock.lock_valueflag0=FALSE  &  new_rule0_lock.lock_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=TRUE  &  new_rule0_lock.lock_triggerflag=TRUE  &  new_rule0_lock.lock_valueflag0=FALSE  &  new_rule0_lock.lock_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=TRUE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE  &  new_rule0_lock.lock_triggerflag=TRUE  &  new_rule0_lock.lock_valueflag0=FALSE  &  new_rule0_lock.lock_valueflag1=TRUE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 2 & step > 0: step + 1;
+            step = 2: 0;
+            TRUE: step;
+    esac;
+
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+      init(ovenMode.ovenMode_last):=heating;
+      init(presenceSensor.presence_last):=present;
+
+      next(ovenMode.ovenMode_last):=ovenMode.ovenMode;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(lock.lock_last):=lock.lock;
+
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+      next(new_rule0_lock.lock_triggerflag) :=
+          case
+            (next(new_rule0_lock.lock_valueflag0) | next(new_rule0_lock.lock_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_lock.lock_triggerflag;
+         esac;
+      next(new_rule0_lock.lock_valueflag0) := new_rule0_lock.lock_valueflag0;
+      next(new_rule0_lock.lock_valueflag1) := new_rule0_lock.lock_valueflag1;
+
+    init(ovenMode.ovenMode):=on;
+    next(ovenMode.ovenMode):=
+          case
+             lock.lock=locked&lock.lock!=lock.lock_last:off;
+             lock.lock=locked&lock.lock!=lock.lock_last:off;
+             lock.lock=unlocked&lock.lock!=lock.lock_last:off;
+             lock.lock=unlocked&lock.lock!=lock.lock_last&presenceSensor.presence=present:off;
+             lock.lock=unlocked&lock.lock!=lock.lock_last&presenceSensor.presence=not_present:off;
+             (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)) & (((new_rule0_lock.lock_valueflag0|new_rule0_lock.lock_valueflag1) & (new_rule0_lock.lock_triggerflag))->(lock.lock != lock.lock_last)) & ((new_rule0_lock.lock_valueflag0)->(lock.lock = locked))&((new_rule0_lock.lock_valueflag1)->(lock.lock = unlocked)):off;
+             TRUE:ovenMode.ovenMode;
+          esac;
+    init(lock.lock):=unlocked;
+    next(lock.lock):=
+          case
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last:unlocked;
+             TRUE:lock.lock;
+          esac;

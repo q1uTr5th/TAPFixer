@@ -1,0 +1,19 @@
+{
+"id":"thermostatHeatingSetpoint",
+"name":"Thermostat Heating Setpoint",
+"status":"live",
+"attributes":[
+  {
+    "name": "heatingSetpoint",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+],
+"commands":[
+  {
+    "name": "heatingSetpoint",
+    "attribute": "heatingSetpoint",
+    "type": "NUMBER"
+  }
+]
+}

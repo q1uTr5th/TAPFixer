@@ -1,0 +1,12 @@
+{
+"id":"thermostatOperatingState",
+"name":"Thermostat Operating State",
+"status":"live",
+"attributes":[
+  {
+    "name": "thermostatOperatingState",
+    "type": "ENUM",
+    "value": ["cooling", "fan only","heating","idle","pending_cool","pending_heat","vent_economizer"]
+  }
+]
+}

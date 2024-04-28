@@ -1,0 +1,66 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     carbonDioxideMeasurement.carbonDioxide:0..10;
+     carbonDioxideMeasurement.carbonDioxide_last:0..10;
+     carbonDioxideMeasurement.carbonDioxide_count:0..1;
+     carbonDioxideMeasurement.carbonDioxide_CONFIG:-8..8;
+     carbonDioxideMeasurement.carbonDioxide_rise_threshold:4..8;
+     carbonDioxideMeasurement.carbonDioxide_drop_threshold:-8..-4;
+     carbonDioxideMeasurement.carbonDioxide_not_handle_config:0..0;
+     ignition.switch:{on,off};
+     ignition.switch_last:{on,off};
+   INVAR
+     carbonDioxideMeasurement.carbonDioxide_not_handle_config = 0
+   ASSIGN
+     next(carbonDioxideMeasurement.carbonDioxide):=
+         case
+           -- 如果在threshold范围内，则温度不变
+           carbonDioxideMeasurement.carbonDioxide_CONFIG<carbonDioxideMeasurement.carbonDioxide_rise_threshold & carbonDioxideMeasurement.carbonDioxide_CONFIG>carbonDioxideMeasurement.carbonDioxide_drop_threshold: carbonDioxideMeasurement.carbonDioxide;
+           carbonDioxideMeasurement.carbonDioxide_CONFIG>=carbonDioxideMeasurement.carbonDioxide_rise_threshold & carbonDioxideMeasurement.carbonDioxide + 1<=10: carbonDioxideMeasurement.carbonDioxide + 1;
+           carbonDioxideMeasurement.carbonDioxide_CONFIG<=carbonDioxideMeasurement.carbonDioxide_drop_threshold & carbonDioxideMeasurement.carbonDioxide - 1>=0: carbonDioxideMeasurement.carbonDioxide - 1;
+           TRUE: carbonDioxideMeasurement.carbonDioxide;
+         esac;
+
+ init(carbonDioxideMeasurement.carbonDioxide_CONFIG):=0;
+        next(carbonDioxideMeasurement.carbonDioxide_CONFIG):=
+          case
+            -- 超过threshold后重新计数
+            carbonDioxideMeasurement.carbonDioxide_CONFIG>=carbonDioxideMeasurement.carbonDioxide_rise_threshold : 0;
+            carbonDioxideMeasurement.carbonDioxide_CONFIG<=carbonDioxideMeasurement.carbonDioxide_drop_threshold : 0;
+            TRUE: carbonDioxideMeasurement.carbonDioxide_CONFIG;
+          esac;
+
+      next(carbonDioxideMeasurement.carbonDioxide_rise_threshold):=carbonDioxideMeasurement.carbonDioxide_rise_threshold;
+
+      next(carbonDioxideMeasurement.carbonDioxide_drop_threshold):=carbonDioxideMeasurement.carbonDioxide_drop_threshold;
+
+      init(doorControl.door_last):=open;
+      init(presenceSensor.presence_last):=present;
+
+      next(doorControl.door_last):=doorControl.door;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(carbonDioxideMeasurement.carbonDioxide_last):=carbonDioxideMeasurement.carbonDioxide;
+      next(ignition.switch_last):=ignition.switch;
+    next(doorControl.door):=
+          case
+             carbonDioxideMeasurement.carbonDioxide=9&carbonDioxideMeasurement.carbonDioxide!=carbonDioxideMeasurement.carbonDioxide_last&carbonDioxideMeasurement.carbonDioxide_last=8:open;
+             ignition.switch=off&ignition.switch!=ignition.switch_last:closed;
+             TRUE:doorControl.door;
+          esac;

@@ -1,0 +1,157 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     lightSensor.illuminance:0..400;
+     lightSensor.illuminance_last:0..400;
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     ignition.switch:{on,off};
+     ignition.switch_last:{on,off};
+     step:0..5;
+     new_rule0_doorControl.door_triggerflag:boolean;
+     new_rule0_doorControl.door_valueflag0:boolean;
+     new_rule0_doorControl.door_valueflag1:boolean;
+     new_rule0_alarm.alarm_triggerflag:boolean;
+     new_rule0_alarm.alarm_valueflag0:boolean;
+     new_rule0_alarm.alarm_valueflag1:boolean;
+     new_rule0_ignition.switch_triggerflag:boolean;
+     new_rule0_ignition.switch_valueflag0:boolean;
+     new_rule0_ignition.switch_valueflag1:boolean;
+     new_rule0_presenceSensor.presence_triggerflag:boolean;
+     new_rule0_presenceSensor.presence_valueflag0:boolean;
+     new_rule0_presenceSensor.presence_valueflag1:boolean;
+   INVAR
+      toint(new_rule0_doorControl.door_valueflag0) + toint(new_rule0_doorControl.door_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_alarm.alarm_valueflag0) + toint(new_rule0_alarm.alarm_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_ignition.switch_valueflag0) + toint(new_rule0_ignition.switch_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_presenceSensor.presence_valueflag0) + toint(new_rule0_presenceSensor.presence_valueflag1) < 2 
+   INVAR
+      toint(new_rule0_doorControl.door_triggerflag) + toint(new_rule0_alarm.alarm_triggerflag) + toint(new_rule0_ignition.switch_triggerflag) + toint(new_rule0_presenceSensor.presence_triggerflag) = 1
+   INVAR
+     !( new_rule0_doorControl.door_triggerflag=FALSE  &  new_rule0_doorControl.door_valueflag0=FALSE  &  new_rule0_doorControl.door_valueflag1=TRUE  &  new_rule0_alarm.alarm_triggerflag=FALSE  &  new_rule0_alarm.alarm_valueflag0=FALSE  &  new_rule0_alarm.alarm_valueflag1=FALSE  &  new_rule0_ignition.switch_triggerflag=FALSE  &  new_rule0_ignition.switch_valueflag0=FALSE  &  new_rule0_ignition.switch_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_doorControl.door_triggerflag=FALSE  &  new_rule0_doorControl.door_valueflag0=FALSE  &  new_rule0_doorControl.door_valueflag1=FALSE  &  new_rule0_alarm.alarm_triggerflag=TRUE  &  new_rule0_alarm.alarm_valueflag0=FALSE  &  new_rule0_alarm.alarm_valueflag1=TRUE  &  new_rule0_ignition.switch_triggerflag=FALSE  &  new_rule0_ignition.switch_valueflag0=FALSE  &  new_rule0_ignition.switch_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=TRUE ) 
+   INVAR
+     !( new_rule0_doorControl.door_triggerflag=TRUE  &  new_rule0_doorControl.door_valueflag0=FALSE  &  new_rule0_doorControl.door_valueflag1=TRUE  &  new_rule0_alarm.alarm_triggerflag=FALSE  &  new_rule0_alarm.alarm_valueflag0=TRUE  &  new_rule0_alarm.alarm_valueflag1=FALSE  &  new_rule0_ignition.switch_triggerflag=FALSE  &  new_rule0_ignition.switch_valueflag0=FALSE  &  new_rule0_ignition.switch_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=FALSE  &  new_rule0_presenceSensor.presence_valueflag0=FALSE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   INVAR
+     !( new_rule0_doorControl.door_triggerflag=FALSE  &  new_rule0_doorControl.door_valueflag0=TRUE  &  new_rule0_doorControl.door_valueflag1=FALSE  &  new_rule0_alarm.alarm_triggerflag=FALSE  &  new_rule0_alarm.alarm_valueflag0=FALSE  &  new_rule0_alarm.alarm_valueflag1=FALSE  &  new_rule0_ignition.switch_triggerflag=FALSE  &  new_rule0_ignition.switch_valueflag0=FALSE  &  new_rule0_ignition.switch_valueflag1=FALSE  &  new_rule0_presenceSensor.presence_triggerflag=TRUE  &  new_rule0_presenceSensor.presence_valueflag0=TRUE  &  new_rule0_presenceSensor.presence_valueflag1=FALSE ) 
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 5 & step > 0: step + 1;
+            step = 5: 0;
+            TRUE: step;
+    esac;
+
+         init(lightSensor.illuminance_last) := 0;
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: present;
+         next(step) = 3: present;
+         next(step) = 4: not_present;
+         next(step) = 5: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(alarm.alarm) := off;
+         init(lightSensor.illuminance) := 0;
+         init(ignition.switch) := off;
+      init(light.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(lightSensor.illuminance_last):=lightSensor.illuminance;
+      next(alarm.alarm_last):=alarm.alarm;
+      next(doorControl.door_last):=doorControl.door;
+      next(ignition.switch_last):=ignition.switch;
+
+     next(ignition.switch):=
+       case
+         next(step) = 2: off;
+         next(step) = 3: on;
+         next(step) = 4: on;
+         next(step) = 5: on;
+         TRUE: ignition.switch;
+       esac;
+
+
+     next(alarm.alarm):=
+       case
+         next(step) = 2: siren;
+         next(step) = 3: off;
+         next(step) = 4: off;
+         next(step) = 5: off;
+         TRUE: alarm.alarm;
+       esac;
+
+
+      next(new_rule0_doorControl.door_triggerflag) :=
+          case
+            (next(new_rule0_doorControl.door_valueflag0) | next(new_rule0_doorControl.door_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_doorControl.door_triggerflag;
+         esac;
+      next(new_rule0_doorControl.door_valueflag0) := new_rule0_doorControl.door_valueflag0;
+      next(new_rule0_doorControl.door_valueflag1) := new_rule0_doorControl.door_valueflag1;
+      next(new_rule0_alarm.alarm_triggerflag) :=
+          case
+            (next(new_rule0_alarm.alarm_valueflag0) | next(new_rule0_alarm.alarm_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_alarm.alarm_triggerflag;
+         esac;
+      next(new_rule0_alarm.alarm_valueflag0) := new_rule0_alarm.alarm_valueflag0;
+      next(new_rule0_alarm.alarm_valueflag1) := new_rule0_alarm.alarm_valueflag1;
+      next(new_rule0_ignition.switch_triggerflag) :=
+          case
+            (next(new_rule0_ignition.switch_valueflag0) | next(new_rule0_ignition.switch_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_ignition.switch_triggerflag;
+         esac;
+      next(new_rule0_ignition.switch_valueflag0) := new_rule0_ignition.switch_valueflag0;
+      next(new_rule0_ignition.switch_valueflag1) := new_rule0_ignition.switch_valueflag1;
+      next(new_rule0_presenceSensor.presence_triggerflag) :=
+          case
+            (next(new_rule0_presenceSensor.presence_valueflag0) | next(new_rule0_presenceSensor.presence_valueflag1))=FALSE: FALSE;
+            TRUE: new_rule0_presenceSensor.presence_triggerflag;
+         esac;
+      next(new_rule0_presenceSensor.presence_valueflag0) := new_rule0_presenceSensor.presence_valueflag0;
+      next(new_rule0_presenceSensor.presence_valueflag1) := new_rule0_presenceSensor.presence_valueflag1;
+
+    init(light.switch):=on;
+    next(light.switch):=
+          case
+             lightSensor.illuminance=31&lightSensor.illuminance!=lightSensor.illuminance_last&lightSensor.illuminance_last=30&presenceSensor.presence = present&ignition.switch = off&doorControl.door = open:off;
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&presenceSensor.presence = present&ignition.switch = off&doorControl.door = closed:on;
+             doorControl.door=open&doorControl.door!=doorControl.door_last&ignition.switch = off&presenceSensor.presence = present&alarm.alarm = off:off;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&doorControl.door=closed:off;
+             (((new_rule0_doorControl.door_valueflag0|new_rule0_doorControl.door_valueflag1) & (new_rule0_doorControl.door_triggerflag))->(doorControl.door != doorControl.door_last)) & ((new_rule0_doorControl.door_valueflag0)->(doorControl.door = closed))&((new_rule0_doorControl.door_valueflag1)->(doorControl.door = open)) & (((new_rule0_alarm.alarm_valueflag0|new_rule0_alarm.alarm_valueflag1) & (new_rule0_alarm.alarm_triggerflag))->(alarm.alarm != alarm.alarm_last)) & ((new_rule0_alarm.alarm_valueflag0)->(alarm.alarm = off))&((new_rule0_alarm.alarm_valueflag1)->(alarm.alarm = siren)) & (((new_rule0_ignition.switch_valueflag0|new_rule0_ignition.switch_valueflag1) & (new_rule0_ignition.switch_triggerflag))->(ignition.switch != ignition.switch_last)) & ((new_rule0_ignition.switch_valueflag0)->(ignition.switch = on))&((new_rule0_ignition.switch_valueflag1)->(ignition.switch = off)) & (((new_rule0_presenceSensor.presence_valueflag0|new_rule0_presenceSensor.presence_valueflag1) & (new_rule0_presenceSensor.presence_triggerflag))->(presenceSensor.presence != presenceSensor.presence_last)) & ((new_rule0_presenceSensor.presence_valueflag0)->(presenceSensor.presence = not_present))&((new_rule0_presenceSensor.presence_valueflag1)->(presenceSensor.presence = present)):off;
+             TRUE:light.switch;
+          esac;
+    init(doorControl.door):=closed;
+    next(doorControl.door):=
+          case
+             ignition.switch=on&ignition.switch!=ignition.switch_last:open;
+             TRUE:doorControl.door;
+          esac;

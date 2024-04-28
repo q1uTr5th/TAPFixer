@@ -1,0 +1,19 @@
+{
+"id":"ovenMode",
+"name":"Oven Mode",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "ovenMode",
+    "type": "ENUM",
+    "value": ["heating","on","grill","warming","off","defrosting"]
+  }
+],
+"commands":[
+  {
+    "name": "setOvenMode",
+    "type": "ENUM",
+    "attribute": "ovenMode"
+  }
+]
+}

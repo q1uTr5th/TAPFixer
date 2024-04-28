@@ -1,0 +1,12 @@
+{
+"id":"powerSource",
+"name":"Power Source",
+"status":"live",
+"attributes":[
+  {
+    "name": "powerSource",
+    "type": "ENUM",
+    "value": ["battery","dc","mains","unknown"]
+  }
+]
+}

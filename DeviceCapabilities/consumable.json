@@ -1,0 +1,19 @@
+{
+"id":"consumable",
+"name":"Consumable",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "consumableStatus",
+    "type": "ENUM",
+    "value": ["good","maintenanceRequired","missing","order","replace"]
+  }
+],
+"commands":[
+  {
+    "name": "setConsumableStatus",
+    "attribute": "consumableStatus",
+    "type": "ENUM"
+  }
+]
+}

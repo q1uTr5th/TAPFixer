@@ -1,0 +1,39 @@
+{
+"id":"colorControl",
+"name":"Color Control",
+"status":"live",
+"attributes":[
+  {
+    "name": "color",
+    "type": "NUMBER",
+    "value": ["0","360"]
+  },
+  {
+    "name": "hue",
+    "type": "NUMBER",
+    "value": ["0","360"]
+  },
+  {
+    "name": "saturation",
+    "type": "NUMBER",
+    "value": ["0","360"]
+  }
+],
+"commands":[
+  {
+    "name": "setColor",
+    "type": "NUMBER",
+    "attribute": "color"
+  },
+  {
+    "name": "setHue",
+    "type": "NUMBER",
+    "attribute": "hue"
+  },
+  {
+    "name": "setSaturation",
+    "type": "NUMBER",
+    "attribute": "saturation"
+  }
+]
+}

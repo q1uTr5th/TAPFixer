@@ -1,0 +1,17 @@
+{
+"id":"washerOperatingState",
+"name":"Washer Operating State",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "machineState",
+    "type": "ENUM",
+    "value": ["pause","run","stop"]
+  },
+  {
+    "name": "washerJobState",
+    "type": "ENUM",
+    "value": ["airWash","cooling","delayWash","drying","finish","none","preWash","rinse","spin","wash","weightSensing","wrinklePrevent"]
+  }
+]
+}

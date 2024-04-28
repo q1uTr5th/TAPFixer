@@ -1,0 +1,29 @@
+{
+"id":"windowShade",
+"name":"Window Shade",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "windowShade",
+    "type": "ENUM",
+    "value": ["closed","closing","open","opening","partially open","unknown"]
+  }
+],
+"commands":[
+  {
+    "name": "close",
+    "attribute": "windowShade",
+    "value": "closed"
+  },
+  {
+    "name": "open",
+    "attribute": "windowShade",
+    "value": "open"
+  },
+  {
+    "name": "close",
+    "attribute": "windowShade",
+    "value": "closed"
+  }
+]
+}

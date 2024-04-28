@@ -1,0 +1,12 @@
+{
+"id":"ultravioletIndex",
+"name":"Ultraviolet Index",
+"status":"live",
+"attributes":[
+  {
+    "name": "ultravioletIndex",
+    "type": "NUMBER",
+    "value": ["0","255"]
+  }
+]
+}

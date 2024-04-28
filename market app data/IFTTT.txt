@@ -1,0 +1,1040 @@
+1    Make sure your lamps are on when new motion is detected in the office=>motionOffice:motionSensor:motion:=:active=>lamps:light:switch:on
+2    Turn on lamp every day at 7 AM=>everyDay::time:=:7=>lamp:light:switch:on
+3    When it's bedtime, turn off WeMo Switch=>everyDay::time:=:18=>WeMo Switch:switch:switch:off
+4    When you check-in at home turn on your radio=>checkIn:presenceSensor:presence:=:present=>radio:switch:switch:on
+5    Turn light on at sunset.=>sunset::time:=:18=>light:light:switch:on
+6    When below 70 degrees, turn off swamp cooler.=>current:temperatureMeasurement:temperature:<:70=>cooler:switch:switch:off
+7    When above 70 degrees, turn on swamp cooler.=>current:temperatureMeasurement:temperature:>:70=>cooler:switch:switch:on
+8    Turn #WeMo on from Google #calendar tag=>calendar::time:=:2=>WeMo:switch:switch:on
+9    Turn #WeMo off from Google #calendar tag=>calendar2::time:=:3=>WeMo:switch:switch:off
+10    Turn on living room lights as it gets dark outside=>sunset::time:=:18=>livingRoomLights:light:switch:on
+11    Turn's off living room lights if left on=>everyDay::time:=:9=>livingRoomLights:light:switch:off
+12    turn off lamp at midnight=>everyDay::time:=:23=>lamp:light:switch:off
+13    Turn on bedroom heater=>current:temperatureMeasurement:temperature:<:18=>bedroomHeater:heater:switch:on
+14    Any check-in on foursquare, then turn off Air Conditioner=>checkIn:presenceSensor:presence:=:present=>airConditioner:airConditioner:switch:off
+15    Lights out (it’s late!)=>everyDay::time:=:12=>lights:light:switch:off
+16    turn off lamp at 830pm every night=>everyDay::time:=:20=>lamp:light:switch:off
+17    Turn my fan on if it's above 75 degrees outside=>current:temperatureMeasurement:temperature:>:23=>fan:switch:switch:on
+18    turn on upstairs fan on hot days=>insideTemperature:temperatureMeasurement:temperature:>:25=>upstairFan:switch:switch:on
+19    When the WeMo Twitter light turns on, turn it off to save power.=>WeMoLight:light:switch:=:on=>WeMoLight:light:switch:off
+21    Turn off at 10:00 PM.=>everyDay::time:=:22=>bedroomLight:light:switch:off
+22    Turn WeMo On during Sunset=>sunset::time:=:18=>WeMo:switch:switch:on
+23    Turn my fan on if it's above 90 degrees outside=>current:temperatureMeasurement:temperature:>:35=>fan:switch:switch:on
+24    Turn on the Light every weekday morning so I can pray and blog (and not fall down in the den)=>everyDay::time:=:8=>light:light:switch:on
+25    Turn off the lights during #movietime event=>movietime::time:=:18=>lights:light:switch:off
+26    Turn on AC at 6pm=>everyDay::time:=:18=>AC:airConditioner:switch:on
+27    Turn off living room lights at 1am.=>everyDay::time:=:1=>living room lights:light:switch:off
+28    Power Cycle the WeMo every hour.=>everyHour::time:=:2=>WeMo:switch:switch:off
+29    Turn off lamp every night at 4PM=>everyDay::time:=:16=>lamp:light:switch:off
+30    Turn on the light when the sun sets=>sunset::time:=:18=>light:light:switch:on
+31    Trick or Treat Wemo motion activated Spookifier.=>SpookifierMotion:motionSensor:motion:=:active=>WeMoLight:light:switch:off
+32    Trick-or-treaters at the front door? Turn on something scary!=>frontDoorMotion:motionSensor:motion:=:active=>scary:switch:switch:off
+33    Turn off lamp every night at 11PM=>everyDay::time:=:23=>lamp:light:switch:off
+34    Light up with a Check-in!=>checkIn:presenceSensor:presence:=:present=>light:light:switch:on
+35    Turn on light when it gets dark.=>sunset::time:=:18=>light:light:switch:on
+36    Pon.-Piątek 05:00 załącznik=>everyDay::time:=:5=>light:light:switch:on
+37    On  back off=>backoffMotion:motionSensor:motion:=:active=>light:light:switch:off
+38    Lampe wyłącznie o godz 21:30=>everyDay::time:=:9=>lamp:light:switch:off
+39    Sunset=>sunset::time:=:18=>light:light:switch:on
+40    Turn off hair straightener=>motion1:motionSensor:motion:=:active=>hairStraightener:switch:switch:off
+41    Central Heating frost protection=>current:temperatureMeasurement:temperature:<:10=>centralHeating:switch:switch:on
+42    Ruch załącznik lampek na 5 min=>motion1:motionSensor:motion:=:active=>lamp:light:switch:on
+43    Ruch załącznik lampek na 1 min=>motion1:motionSensor:motion:=:active=>lamp:light:switch:on
+44    at 22H30 -> Turn OFF=>everyDay::time:=:22=>light:light:switch:off
+45    Turn off lamp every night at 21:00=>everyDay::time:=:21=>lamp:light:switch:off
+46    at 16H30 ->Turn ON=>everyDay::time:=:16=>light:light:switch:on
+47    On Sunset, Turn on Christmas Tree=>sunset::time:=:18=>christmasTree:switch:switch:on
+48    Evening Turn on Christmas Tree at sunset=>sunset::time:=:18=>christmasTree:switch:switch:on
+49    Evening - Turn on Christmas Tree when the sun sets=>sunset::time:=:18=>christmasTree:switch:switch:on
+50    Morning - Turn off #Christmas #Tree=>everyDay::time:=:8=>christmasTree:switch:switch:off
+51    Hey WeMo, turn my Holiday Lights ON at Sunset=>sunset::time:=:18=>holidayLights:light:switch:on
+52    Hey WeMo, turn my Holiday Lights OFF at Sunrise=>sunrise::time:=:7=>holidayLights:light:switch:off
+53    Confused people by keeping turn Wemo off.=>Wemo:switch:switch:=:off=>Wemo:switch:switch:on
+54    Turn on coffeemaker after I have my morning weight-in=>bodyscale:bodyscaleMeasurement:bodyscale:=:8=>coffeemaker:extendedSwitch:switch:onExtend
+55    Turn on the Christmas tree=>everyDay::time:=:8=>christmasTree:switch:switch:on
+56    SI LA TEMPERATURA DE MADRID ES MENOR A 15 GRADOS EN LA CALLE ENCIENDE LA CALEFACCION=>current:temperatureMeasurement:temperature:<:15=>heater:heater:switch:on
+57    Cold Weather=>outsideTemperature:temperatureMeasurement:temperature:<:10=>heater:heater:switch:off
+58    Hall Cube off at 2200=>everyDay::time:=:22=>hallCubeLamp:light:switch:off
+59    Turn on Hall Cube Lamp when the sun sets=>sunset::time:=:18=>hallCubeLamp:light:switch:on
+60    Doe de lamp aan als de zon onder gaat=>sunset::time:=:18=>lamp:light:switch:on
+61    Turn on light at sunrise.=>sunrise::time:=:8=>light:light:switch:on
+62    Turn off coffee machine in the afternoon=>everyDay::time:=:14=>coffeeMaker:extendedSwitch:switch:off
+63    Temp rises above 10°C=>current:temperatureMeasurement:temperature:>:10=>AC:airConditioner:switch:off
+64    Temp drops below 3°C=>current:temperatureMeasurement:temperature:<:3=>AC:airConditioner:switch:on
+65    6:15 Wake Up Interrogation Light=>everyDay::time:=:6=>light:light:switch:on
+66    Turn off lamp every night at 11:45 PM=>everyDay::time:=:23=>lamp:light:switch:off
+67    Turn the dragon's cage light on=>sunrise::time:=:7=>dragonCageLight:light:switch:on
+68    Motion=>motion1:motionSensor:motion:=:active=>light:light:switch:on
+69    Turn on bubblers=>current:temperatureMeasurement:temperature:<:18=>bubblers:switch:switch:on
+70    turn heater off Sat & Sun=>everyDay::time:=:10=>heater:heater:switch:off
+71    turn heater off Mon - Fri=>everyDay::time:=:8=>heater:heater:switch:off
+72    turn heater on=>everyDay::time:=:18=>heater:heater:switch:on
+73    Rise and Shine!=>everyDay::time:=:8=>light:light:switch:off
+74    Using a phone to WeMo to blindly activate the outlet with ANYTHING plugged into it...=>:state:newEvent:=:TRUE=>outlet:switch:switch:on
+75    Turn on lamp every day at 5 PM=>everyDay::time:=:5=>lamp:light:switch:on
+76    Turn off lamp when sun rises=>sunrise::time:=:7=>lamp:light:switch:off
+77    Sunset turn on living room lamp=>sunset::time:=:18=>livingRoomLight:light:switch:on
+78    Turn on light at 5h45AM=>everyDay::time:=:5=>light:light:switch:on
+79    Toggle outlet off/on once a day=>everyDay::time:=:8=>outlet:switch:switch:off
+80    Turns on Livingroom Light at Sunset=>sunset::time:=:18=>livingroomlight:light:switch:on
+82    Turn off the bedside lamp when the sun rises.=>sunrise::time:=:7=>bedsideLamp:light:switch:off
+83    Turn on the bedside lamp at 7 AM.=>everyDay::time:=:7=>bedside lamp:light:switch:on
+84    Fan On=>current:temperatureMeasurement:temperature:>:26=>fan:switch:switch:on
+85    WeMo OFF then ON=>WeMo:switch:switch:=:off=>WeMo:switch:switch:off
+86    Light Off Schedule=>:schedule:time:=:23=>light:light:switch:off
+87    Light On Schedule=>:schedule:time:=:18=>light:light:switch:on
+88    Goot aan bij schemer=>sunset::time:=:18=>goot:switch:switch:on
+89    Switch off=>everyDay::time:=:11=>WeMo:switch:switch:off
+91    weekends WEMO off @ 11:45=>everyDay::time:=:11=>WeMo:switch:switch:off
+92    Versuch=>everyDay::time:=:12=>versuch:switch:switch:off
+93    If temp rises above Xdeg F, turn on wemo.=>current:temperatureMeasurement:temperature:>:28=>wemo:switch:switch:on
+94    On=>motion1:motionSensor:motion:=:active=>light:light:switch:on
+95    At sunset turn light on=>sunset::time:=:18=>light:light:switch:on
+96    Does it feel warm in here to you?=>current:temperatureMeasurement:temperature:>:26=>light:light:switch:on
+97    Turn off the light when the sun rises=>sunrise::time:=:7=>light:light:switch:off
+98    Turn off living room silk lamp at sunrise=>sunrise::time:=:6=>living room silk lamp:light:switch:off
+99    At 2am every day, turn off living room wemo.=>everyDay::time:=:2=>livingroomlight:light:switch:off
+100    At sunset, turn on living room wemo light.=>sunset::time:=:18=>livingroomlight:light:switch:on
+101    1am lamp off at weekend=>everyDay::time:=:1=>lamp:light:switch:off
+102    Midnight lamp off midweek=>everyDay::time:=:2=>lamp:light:switch:off
+105    Prender tv=>everyDay::time:=:16=>TV:switch:switch:on
+107    Turn on a light every time you check in at #home=>checkIn:presenceSensor:presence:=:present=>light:light:switch:on
+110    Turn off WeMo Switch at sunrise.=>sunrise::time:=:6=>WeMo Switch:switch:switch:off
+111    Turn on WeMo Switch at sunset.=>sunset::time:=:18=>WeMo Switch:switch:switch:on
+112    Turn off my under house ventilation at sunset.=>sunset::time:=:18=>under house ventil:switch:switch:off
+113    Turn on my under house ventilation at sunrise.=>sunrise::time:=:7=>under house ventil:switch:switch:on
+115    TURN OFF AT SUNSET=>sunset::time:=:18=>light:light:switch:off
+116    TURN ON AT SUNRISE=>sunrise::time:=:7=>light:light:switch:on
+117    Hot coffee in the morning=>everyDay::time:=:8=>coffeeMaker:extendedSwitch:switch:onExtend
+121    Turn off Lamp every weekday at 11PM=>everyDay::time:=:23=>Lamp:light:switch:off
+122    Turn off the fan if temperature drops below 23oC=>current:temperatureMeasurement:temperature:<:23=>fan:switch:switch:off
+123    Turns on lamp at sunset=>sunset::time:=:18=>lamp:light:switch:on
+126    Turn your lights on every day at a certain time=>everyDay::time:=:19=>lights:light:switch:on
+127    Wake Up my tea kettle=>:state:wakeUp:=:TRUE=>teaKettle:extendedSwitch:switch:onExtend
+128    Intruder at home! Quick, turn on the light=>motion1:motionSensor:motion:=:active=>light:light:switch:on
+129    turn heater off when the temp is above 15 degrees=>current:temperatureMeasurement:temperature:>:15=>heater:heater:switch:off
+130    turn heater on when the temp is below 13 degrees=>current:temperatureMeasurement:temperature:<:13=>heater:heater:switch:on
+131    Make sure heater is off by 10AM=>everyDay::time:=:10=>heater:heater:switch:off
+137    Turn on my lights at sunset=>sunset::time:=:18=>lights:light:switch:on
+138    Turn on lights at sunset=>sunset::time:=:18=>lights:light:switch:on
+139    Turn on bedroom lamp at 5:30am every weekday=>everyDay::time:=:5=>bedroom lamp:light:switch:on
+140    Turn on bedroom lamp at 8:30am every weekend=>everyDay::time:=:8=>bedroom lamp:light:switch:on
+141    Turn off all lights when I step on my body scale.=>bodyscale:bodyscaleMeasurement:bodyscale:=:8=>lights:light:switch:off
+142    Turn on the lights, when I come home=>homePresent:presenceSensor:presence:=:present=>lights:light:switch:on
+143    Automatically turn off your Hue lights at midnight every day=>everyDay::time:=:23=>Hue lights:light:switch:off
+148    #GoodNight=>everyDay::time:=:20=>lights:light:switch:off
+149    If it's 6:00pm then turn on the lights=>everyDay::time:=:18=>lights:light:switch:on
+156    Turn your lights on when the sun sets=>sunset::time:=:18=>lights:light:switch:on
+157    Turn your lights on daily at 6:30pm=>everyDay::time:=:18=>lights:light:switch:on
+158    Turn on the lights when you check in at #home=>checkIn:presenceSensor:presence:=:present=>lights:light:switch:on
+159    If WeMo detects motion in your home, turn on a radio=>wemoMotion:motionSensor:motion:=:active=>radio:switch:switch:on
+160    Turn your lights off nightly at 11:00pm=>everyDay::time:=:23=>lights:light:switch:on
+161    Sunset switches WeMo on.=>sunset::time:=:18=>WeMo:switch:switch:on
+162    Rise And Shine!=>sunrise::time:=:7=>lights:light:switch:on
+165    sunset triggers lights=>sunset::time:=:18=>lights:light:switch:on
+166    Turn on hue lights when check-in tagged home=>checkIn:presenceSensor:presence:=:present=>Hue:light:switch:on
+168    When WeMo is turned on, turn on Hue as well=>WeMo:switch:switch:=:on=>Hue:light:switch:on
+169    When WeMo is switched off, turn off Hue as well.=>WeMo:switch:switch:=:off=>Hue:light:switch:off
+170    Turn off all hue lights at 2:30 AM=>everyDay::time:=:2=>huelights:light:switch:off
+173    Turn off all lights at 1:00 AM=>everyDay::time:=:1=>huelights:light:switch:off
+174    If it's 7:00pm then turn on the lights / BEDROOM=>everyDay::time:=:7=>lights:light:switch:on
+175    If it's 7:00pm then turn on the lights / LIVINGROOM=>everyDay::time:=:19=>lights:light:switch:on
+180    Set the mood at 8 o'clock every day.=>everyDay::time:=:8=>mood:light:level:2
+182    Turn off Lamp every weekday at 12:30 AM=>everyDay::time:=:12=>Lamp:light:switch:off
+183    Turn on bedroom light weekdays at 6:45am=>everyDay::time:=:6=>bedroomLight:light:switch:on
+184    Turn on lamp every day at 9 PM=>everyDay::time:=:9=>lamp:light:switch:on
+186    Elevenses (time for tea & cake)=>everyDay::time:=:9=>cakeMaker:extendedSwitch:switch:onExtend
+187    Have your Hue lights turn on automatically at sunset=>sunset::time:=:18=>Hue:light:switch:on
+188    Turn on the lights at sunset=>sunset::time:=:18=>lights:light:switch:on
+189    Turn on the light at 7pm (when it starts go get dark in DK)=>everyDay::time:=:19=>light:light:switch:on
+190    If temperature rises above 69 then turn on cooler.=>current:temperatureMeasurement:temperature:>:20=>cooler:switch:switch:on
+191    If temperature falls below 70, then turn cooler off.=>current:temperatureMeasurement:temperature:<:21=>cooler:switch:switch:off
+193    At sunset, turn off the pool filter-chlorinator=>sunset::time:=:18=>chlorinator:switch:switch:off
+199    turn off hue lights at 2am=>everyDay::time:=:2=>hue lights:light:switch:off
+201    Turn on all lights as it gets dark outside=>sunset::time:=:18=>lights:light:switch:on
+202    @ 11:30 pm, Turn off=>everyDay::time:=:23=>lights:light:switch:off
+203    Motion causes Hue to blink.=>motion1:motionSensor:motion:=:active=>Hue:light:switch:on
+204    Turn off Philips hue light at 9:30 PM in the Kitchen Sink=>everyDay::time:=:21=>Hue:light:switch:off
+205    At sunrise turn off Grandfather Clock light=>sunrise::time:=:6=>light:light:switch:off
+206    Turn off Philips hue light at 10:00 PM in the Library=>everyDay::time:=:22=>Hue:light:switch:off
+207    Turn off all hue lights everyday at 10:30 PM=>everyDay::time:=:22=>huelights:light:switch:off
+208    If it's almost sunset, turn on the lights. #hue light Front Living Room=>sunset::time:=:18=>Hue:light:switch:on
+209    At sunset turn Wemo light on in Library=>sunset::time:=:18=>Wemo:switch:switch:on
+210    At sunrise turn off all Wemo switches=>sunrise::time:=:7=>WeMo:switch:switch:off
+211    Have your Hue lights turn off automatically at sunrise=>sunrise::time:=:6=>Hue:light:switch:off
+221    Turn off the landscape lights every night at 1115PM=>everyDay::time:=:23=>lights:light:switch:off
+223    Getting cold=>current:temperatureMeasurement:temperature:<:18=>heater:heater:switch:on
+225    Turn off Lamp every weekday at 10PM=>everyDay::time:=:22=>Lamp:light:switch:off
+228    Automatically turn on the lights at sunset=>sunset::time:=:18=>lights:light:switch:on
+229    sunrise=>sunrise::time:=:7=>lights:light:switch:on
+235    Check in #home turn on.=>checkIn:presenceSensor:presence:=:present=>light:light:switch:on
+236    Turn off at 8am weekend.=>everyDay::time:=:8=>light:light:switch:off
+237    Turn off lights at Midnight=>everyDay::time:=:23=>lights:light:switch:off
+238    Turn off lights mid day=>everyDay::time:=:12=>lights:light:switch:off
+239    Turn off attic fan below 76 °=>current:temperatureMeasurement:temperature:<:24=>fan:switch:switch:off
+240    If it's 8:00pm then turn on the lights=>everyDay::time:=:8=>lights:light:switch:on
+242    Turn on AC when above 80 degrees=>current:temperatureMeasurement:temperature:>:26=>AC:airConditioner:switch:on
+245    Wemo off then HUE off.=>Wemo:switch:switch:=:off=>Hue:light:switch:off
+246    Wemo on then HUE on.=>Wemo:switch:switch:=:on=>Hue:light:switch:on
+247    If I go to #sleep, then turn off my #lights !!=>state:location:mode:=:Sleep=>lights:light:switch:off
+248    #home checking lights On.=>checkIn:presenceSensor:presence:=:present=>lights:light:switch:on
+253    Turn off String Lights every weekday at 12:30 AM=>everyDay::time:=:12=>String Lights:light:switch:off
+255    Turn on lounge light at sunset=>sunset::time:=:18=>lounge light:light:switch:on
+261    Turn on my wemo powered dehumidifier when outside humidity reaches 85%. #humidity #wemo #dehumidifie=>humiditySensor:relativeHumidityMeasurement:humidity:>:85=>humidifier:switch:switch:on
+262    Turn #on dining room #light at #sunset.=>sunset::time:=:18=>light:light:switch:on
+263    Turn off my electric blanket at a particular time everyday.=>everyDay::time:=:8=>electricBlanket:switch:switch:off
+264    Turn on #All lights at #Sunset=>sunset::time:=:18=>lights:light:switch:on
+267    Lights off at Midnight=>everyDay::time:=:23=>Lights:light:switch:off
+271    Lights off at dawn=>everyDay::time:=:6=>Lights:light:switch:off
+272    at #sunset #turnon #philipshue=>sunset::time:=:18=>Hue:light:switch:on
+276    Feed cats when I weigh in.=>bodyscale:bodyscaleMeasurement:bodyscale:=:8=>superfeeder:switch:switch:on
+280    If current temperature drops below 25C, turn off A/C.=>current:temperatureMeasurement:temperature:<:25=>AC:airConditioner:switch:off
+281    Turn on A/C is temperature rises above 25C.=>current:temperatureMeasurement:temperature:>:25=>AC:airConditioner:switch:on
+287    Turn off the lamp at 2 AM. Go to bed!=>everyDay::time:=:2=>lamp:light:switch:off
+288    Turn on front porch light at sunset=>sunset::time:=:18=>front porch light:light:switch:on
+289    Turn off front porch light at sunrise=>sunrise::time:=:6=>front porch light:light:switch:off
+291    CjbTurn off all lights at 11=>everyDay::time:=:11=>lights:light:switch:off
+292    Living room Light on at sunset=>sunset::time:=:18=>livingRoom light:light:switch:on
+298    WeMo Motion after 60min Turn All Hue Lights On - #MyHue #WeMo=>wemoMotion:motionSensor:motion:=:active=>lights:light:switch:on
+299    Living room AC on When >78=>current:temperatureMeasurement:temperature:>:18=>LivingRoomAC:airConditioner:switch:on
+301    Turn off all lights at 11:00 PM=>everyDay::time:=:23=>lights:light:switch:off
+302    Turn #Lamp on everyday at 7:00pm using #WeMoSwitch=>everyDay::time:=:19=>lamp:light:switch:off
+303    Turn lights on at sunset=>sunset::time:=:18=>lights:light:switch:on
+304    Turn lights off at sunrise=>sunrise::time:=:6=>lights:light:switch:off
+305    WeMo A/C turn off at 19c=>current:temperatureMeasurement:temperature:<:19=>AC:airConditioner:switch:off
+306    WeMo A/C turn on at 21c=>current:temperatureMeasurement:temperature:>:21=>AC:airConditioner:switch:on
+309    COMING BACK HOME MOTION SENSOR TURNS ON STAIR LIGHT=>motion1:motionSensor:motion:=:active=>Hue:light:switch:on
+310    TURN OFF ALL HOUSE LIGHTS WITHIN 15 MINUTES OF DAILY SUNRISE=>sunrise::time:=:7_runIn_2=>lights:light:switch:off
+312    Turn on a light every time you check in at #Home=>checkIn:presenceSensor:presence:=:present=>light:light:switch:on
+313    Lights OFF at 45 past the hour=>everyHour::time:=:45=>lights:light:switch:off
+315    Fan on when temp rises above 70°F #temp=>current:temperatureMeasurement:temperature:>:21=>Fan:switch:switch:on
+318    Unter 15 Grad Temperatur=>current:temperatureMeasurement:temperature:<:15=>AC:airConditioner:switch:on
+320    Current temperature above 18c turn on Fan=>current:temperatureMeasurement:temperature:>:18=>Fan:switch:switch:on
+321    Temperature below 18c turn off fan=>current:temperatureMeasurement:temperature:<:18=>fan:switch:switch:off
+322    Turn off all hue lights at 1:30 AM=>everyDay::time:=:1=>huelights:light:switch:off
+323    Turn on my lights at sunset.=>sunset::time:=:18=>lights:light:switch:on
+324    Save Electricity #hue=>everyDay::time:=:8=>lights:light:switch:off
+327    Turn on all your lights from a single switch (multiple WeMo Switches req.)=>wemo:switch:switch:=:on=>lights:light:switch:on
+328    Turn off all your lights from a single switch (multiple WeMo Switches req.)=>Wemo:switch:switch:=:off=>lights:light:switch:off
+330    Every day at _ _ : _ _ turn the lights on=>everyDay::time:=:18=>lights:light:switch:on
+338    Flip on my Hue Lights via WeMo Wall Switch=>WeMo:switch:switch:=:on=>Hue:light:switch:on
+341    Turn on lights at Sunset=>sunset::time:=:18=>lights:light:switch:on
+343    If temperature gets to 70 turn on wemo fan.=>current:temperatureMeasurement:temperature:>:18=>WemoFan:switch:switch:on
+344    Schedule Hue - 2 AM Turn Off All Lights=>everyDay::time:=:2=>lights:light:switch:off
+346    Turn on your Phillips Hue lights every day at sunset=>sunset::time:=:18=>Phillips Hue lights:light:switch:on
+347    Turn on Hue at sunset #Jetsaway=>sunset::time:=:18=>Hue:light:switch:on
+357    Light on When it's getting dark.=>sunset::time:=:18=>light:light:switch:on
+360    Turn on Hue lights with a Foursquare checkin at home=>checkIn:presenceSensor:presence:=:present=>Hue:light:switch:on
+361    Turn on the lights at sunset with your WeMo Light Switch=>sunset::time:=:18=>lights:light:switch:on
+365    Turn off all lights at 8:00 AM=>everyDay::time:=:8=>lights:light:switch:off
+366    Turn on all lights at 5:30 AM=>everyDay::time:=:5=>lights:light:switch:on
+368    Sunset - lights come on dimmed=>sunset::time:=:18=>lights:light:level:2
+369    Wakey Wakey=>sunrise::time:=:7=>bedsideLamp:light:switch:on
+374    humidity sensor=>humiditySensor:relativeHumidityMeasurement:humidity:>:20=>light:light:switch:on
+376    Lights off at sunrise.=>sunrise::time:=:6=>Lights:light:switch:off
+378    Lights off at 5am=>everyDay::time:=:5=>Lights:light:switch:off
+380    sunset, lights on=>sunset::time:=:18=>lights:light:switch:on
+382    Fred and George's heater on below 52=>current:temperatureMeasurement:temperature:<:11=>heater:heater:switch:on
+383    Fred and Georges heater off above 53=>current:temperatureMeasurement:temperature:>:11=>heater:heater:switch:off
+384    Turn on the lamp when the sun sets=>sunset::time:=:18=>lamp:light:switch:on
+385    If Garage wemo is on then turn it off.=>Wemo:switch:switch:=:on=>Wemo:switch:switch:off
+386    If Wemo turned on then turn Hue off.=>Wemo:switch:switch:=:on=>Hue:light:switch:off
+388    Turn on dehumidifier when outdoor humidity exceeds 65%=>humiditySensor:relativeHumidityMeasurement:humidity:>:65=>dehumidifier:switch:switch:on
+390    Keep the wemo switch off while I'm on vacation=>:state:vacation:=:TRUE=>Wemo:switch:switch:off
+395    Sun Up Lights Out=>sunrise::time:=:7=>lights:light:switch:off
+396    Turn on hue lights at sunset=>sunset::time:=:18=>hue lights:light:switch:on
+398    Let me in.=>checkIn:presenceSensor:presence:=:present=>doorlock:lock:lock:unlocked
+400    Turn On a Light When It's Nighttime=>sunset::time:=:18=>light:light:switch:on
+401    turn on lights at sunset=>sunset::time:=:18=>lights:light:switch:on
+404    Turn off all lights at sunrise=>sunrise::time:=:6=>lights:light:switch:off
+409    On SmartThings Motion turn on Wemo Switch=>motion1:motionSensor:motion:=:active=>Wemo:switch:switch:on
+410    Switch off swiches after 30sec motion=>motion1:motionSensor:motion:=:active=>switches:switch:switch:off
+414    At Sunset turn on Hue lights with dim=>sunset::time:=:18=>Hue:light:level:2
+415    Turn on a SmartThings Light Switch when Wemo Motion is detected=>wemoMotion:motionSensor:motion:=:active=>light:light:switch:on
+416    Turn on Wemo Switch from SmartThings Motion!=>wemoMotion:motionSensor:motion:=:active=>wemo:switch:switch:on
+417    Turn on Hue Lights when SmartThings detects that you've arrived home=>homePresent:presenceSensor:presence:=:present=>Hue:light:switch:on
+418    Let me in! Checkin with a #hashtag to unlock your door=>checkIn:presenceSensor:presence:=:present=>doorlock:lock:lock:unlocked
+419    When I check in at #home turn on the light=>checkIn:presenceSensor:presence:=:present=>light:light:switch:on
+420    Turns on a #WeMo Switch when presence is detected in #SmartThings=>homePresent:presenceSensor:presence:=:present=>Wemo:switch:switch:on
+421    Turns off a #WeMo Switch when presence is no longer detected in #SmartThings=>homePresent:presenceSensor:presence:=:not_present=>Wemo:switch:switch:off
+422    Turn on all lights at 5:00 AM=>everyDay::time:=:5=>lights:light:switch:on
+424    Turn all off at 8:30am M-F=>everyDay::time:=:8=>lights:light:switch:off
+426    Turns lights on when you check in at home=>checkIn:presenceSensor:presence:=:present=>lights:light:switch:on
+431    Open garage door when presence detected=>garagePresent:presenceSensor:presence:=:present=>garageDoor:doorControl:door:open
+435    Turn on the lights at Sunset=>sunset::time:=:18=>lights:light:switch:on
+436    turn off hue lights at 12:00am=>everyDay::time:=:12=>hue lights:light:switch:off
+437    Lights on at night.=>sunset::time:=:18=>Lights:light:switch:on
+439    Turn on lights at night.=>sunset::time:=:18=>lights:light:switch:on
+440    Turn off lights at night.=>everyDay::time:=:18=>lights:light:switch:off
+441    Turn off lights at Sunrise=>sunrise::time:=:6=>lights:light:switch:off
+442    If I forget to turn off lights do it again later=>everyDay::time:=:9=>lights:light:switch:off
+445    Turn off Hue lights at midnight=>everyDay::time:=:23=>Hue lights:light:switch:off
+446    Turn Hue lights on at a particular time=>everyDay::time:=:18=>Hue:light:switch:on
+457    All lights turn off 9:00 am=>everyDay::time:=:9=>lights:light:switch:off
+458    Turn out the lights when away=>checkIn:presenceSensor:presence:=:not_present=>lights:light:switch:off
+459    Turn my bedroom lights on at 6 AM=>everyDay::time:=:6=>bedroomlights:light:switch:on
+461    Turn OFF WeMo at set time=>everyDay::time:=:9=>WeMo:switch:switch:off
+463    Turn on lamp every day at PM=>everyDay::time:=:18=>lamp:light:switch:on
+464    turn off hue lights at midnight=>everyDay::time:=:23=>hue lights:light:switch:off
+470    Turn off the Air-Con when the temperature drops below 25 degree Celsius=>current:temperatureMeasurement:temperature:<:25=>AC:airConditioner:switch:off
+473    Turn on the kettle at 8am=>everyDay::time:=:8=>kettle:switch:switch:on
+474    Turn on lights at specific time=>everyDay::time:=:19=>lights:light:switch:on
+475    Lock Your Z-Wave Door Lock at a Specific Time=>everyDay::time:=:10=>dooLock:lock:lock:locked
+476    if temperature in the area rises above certain level, turn off wemo switches=>current:temperatureMeasurement:temperature:>:28=>wemo switches:switch:switch:off
+477    Turn lounge lamp on at 5pm=>everyDay::time:=:17=>lounge lamp:light:switch:on
+479    Turn off Bedroom lamp every night at 10:45 PM=>everyDay::time:=:22=>Bedroom lamp:light:switch:off
+481    Your iOS location can activate switches, unlock doors, ect... #wemo #smartthings=>phoneLocation:location:mode:=:Home=>doorlock:lock:lock:unlocked
+483    Turn on lights=>checkIn:presenceSensor:presence:=:present=>lights:light:switch:on
+486    Make a grand entrance with Philips Hue=>homePresent:presenceSensor:presence:=:present=>color loop:switch:switch:on
+490    Turn on WeMo switch at sunset=>sunset::time:=:18=>WeMo switch:switch:switch:on
+500    The moment I wake up, turn on the space heater=>:state:wakeUp:=:TRUE=>heater:heater:switch:on
+504    Front Landscape Lights - ON - Every day at sunset=>sunset::time:=:18=>frontlight:light:switch:on
+508    Turn off your switch at a certain time everyday=>everyDay::time:=:8=>switch:switch:switch:off
+509    Motion > feature lights (+Security)=>motion1:motionSensor:motion:=:active=>lights:light:switch:on
+515    Turn off lights at midnight=>everyDay::time:=:23=>lights:light:switch:off
+516    Lights on at 18:00=>everyDay::time:=:18=>Lights:light:switch:on
+518    open all your hue at 6:00pm everyday=>everyDay::time:=:6=>lights:light:switch:on
+519    Wemo On == Hue On=>Wemo:switch:switch:=:on=>Hue:light:switch:on
+520    Every day at 10:00 PM, turn off the Kids TV=>everyDay::time:=:22=>Kids TV:switch:switch:off
+522    If motion detected in Living Room turn on All Switches=>livingRoomMotion:motionSensor:motion:=:active=>lights:light:switch:on
+524    Turn off the lights at sunrise with your WeMo Light Switch=>sunrise::time:=:6=>lights:light:switch:off
+525    Turn on Wemo Switch at Sunset=>sunset::time:=:18=>Wemo Switch:switch:switch:on
+526    When I wake up, fade in a light to 100=>:state:wakeUp:=:TRUE=>light:light:level:10
+530    Turn on a light as you leave home for safety!=>homePresent:presenceSensor:presence:=:not_present=>light:light:switch:on
+531    Turn on my WeMo Switch if I check-in at home=>checkIn:presenceSensor:presence:=:present=>WeMo:switch:switch:on
+533    When you get home, turn on the holiday lights.=>homePresent:presenceSensor:presence:=:present=>holidayLights:light:switch:on
+535    Blink my lights when my friends are already having fun=>checkIn:presenceSensor:presence:=:present=>lights:light:switch:on
+536    Turn off the lights when you leave the house=>homePresent:presenceSensor:presence:=:not_present=>lights:light:switch:off
+540    Turn your Hue lights on when you get close to home=>homePresent:presenceSensor:presence:=:present=>Hue:light:switch:on
+545    When I leave the house, turn the Christmas Tree lights off.=>homePresent:presenceSensor:presence:=:not_present=>christmasTree:switch:switch:off
+546    When I get home, turn the Christmas Tree lights on.=>homePresent:presenceSensor:presence:=:present=>christmasTree:switch:switch:on
+552    Turn stuff on!=>areaPresent:presenceSensor:presence:=:present=>stuff:switch:switch:on
+573    Wemo on at Sunset=>sunset::time:=:18=>Wemo:switch:switch:on
+577    Shut Off TV When I Leave Home=>homePresent:presenceSensor:presence:=:not_present=>TV:switch:switch:off
+581    Garage opener=>homePresent:presenceSensor:presence:=:present=>garageDoor:doorControl:door:open
+586    Block Heater Control=>current:temperatureMeasurement:temperature:<:14=>heater:heater:switch:on
+588    Garage shut off relay protection=>WemoDoor:switch:switch:=:on=>WemoDoor:switch:switch:off:1
+589    Turn on the fan for the dogs if the temperature goes above 30 degrees celsius=>current:temperatureMeasurement:temperature:>:30=>dogFan:switch:switch:on
+590    Turn lights off at 9pm.=>everyDay::time:=:21=>lights:light:switch:off
+591    Turn on the fan for the dogs if the temperature goes above 30°C=>current:temperatureMeasurement:temperature:>:30=>dogFan:switch:switch:on
+594    It's late, make sure all the lights are off=>everyDay::time:=:23=>lights:light:switch:off
+595    Turn on your heater when you get close to home=>homePresent:presenceSensor:presence:=:present=>heater:heater:switch:on
+599    Turn Off Bedroom light when presence not detected.=>bedroomPresent:presenceSensor:presence:=:present=>bedroomLight:light:switch:off
+601    Turn On bedroom Light when Presence detected.=>bedroomPresent:presenceSensor:presence:=:present=>bedroomLight:light:switch:on
+602    Arrive home > Turn on Hue lights=>homePresent:presenceSensor:presence:=:present=>Hue:light:switch:on
+605    Hue turn on lights at sunset=>sunset::time:=:18=>lights:light:switch:on
+607    If the current #temperature goes above 30°C then turn on the #fan to keep the dogs nice and cool=>current:temperatureMeasurement:temperature:>:30=>fan:switch:switch:on
+610    Turn on your heater if it is cold outside=>current:temperatureMeasurement:temperature:<:16=>heater:heater:switch:on
+611    Turn on your lights at sunset everyday of the week=>sunset::time:=:18=>lights:light:switch:on
+619    Turn on Wemo switch when it gets dark.=>sunset::time:=:18=>Wemo:switch:switch:on
+620    Turn off lamp every night at specified time=>everyDay::time:=:23=>lamp:light:switch:off
+621    turn on lights if it becomes dark=>sunset::time:=:18=>lights:light:switch:on
+625    Turn off all Hue Lights AM=>everyDay::time:=:8=>Hue:light:switch:off
+628    Turn on heater=>current:temperatureMeasurement:temperature:<:18=>heater:heater:switch:on
+631    Every day at 10:30 PM, turn off all lights=>everyDay::time:=:22=>lights:light:switch:off
+634    Garage Refrigerator Trigger Off=>current:temperatureMeasurement:temperature:<:18=>garageRefrigerator:switch:switch:off
+638    Turn on lights at sunrise=>sunrise::time:=:6=>lights:light:switch:on
+644    Hue lights go bonkers at midnight on New Years Eve=>everyYear::time:=:23=>Hue:light:switch:on
+649    Turn off Wemo at a time.=>everyDay::time:=:23=>Wemo:switch:switch:off
+656    Turn on Wemo Swicth above 24 degrees C=>current:temperatureMeasurement:temperature:>:23=>Wemo switch:switch:switch:on
+661    Lights on at Sunset=>sunset::time:=:18=>Lights:light:switch:on
+687    Happy New Year ! Loop Colors on All Lights at 00:00=>everyYear::time:=:23=>lights:light:switch:on
+697    Turn on WeMo at sunset=>sunset::time:=:18=>WeMo:switch:switch:on
+704    Turn on night light at bedtime.=>everyDay::time:=:22=>night light:light:switch:on
+705    Turn on the fireplace fan when the fireplace switch it turned on.=>fireplace:switch:switch:=:on=>fireplaceFan:switch:switch:on
+706    Use this to automatically lock your door at a time of day.=>everyDay::time:=:20=>doorlock:lock:lock:locked
+708    Wake up sunshine!=>everyDay::time:=:7=>lights:light:switch:on
+710    Too hot! Turn on the fan=>current:temperatureMeasurement:temperature:>:29=>fan:switch:switch:on
+711    Too cold! Turn on the space heater=>current:temperatureMeasurement:temperature:<:18=>heater:heater:switch:on
+721    Wemo switch on at sunset=>sunset::time:=:18=>Wemo switch:switch:switch:on
+722    Turn outside lights on=>homePresent:presenceSensor:presence:=:present=>outsidelights:light:switch:on
+725    It's time to Turn Off the Light=>everyDay::time:=:23=>Light:light:switch:off
+726    Turn on the space heater if it gets below -10=>current:temperatureMeasurement:temperature:<:1=>space heater:heater:switch:on
+727    Turn-on Coffee Pot=>everyDay::time:=:8=>coffeeMaker:extendedSwitch:switch:onExtend
+728    Turn-off Coffee Pot=>everyDay::time:=:9=>coffeeMaker:extendedSwitch:switch:off
+734    turn on air exchanger every hour=>everyHour::time:=:2=>airExchanger:switch:switch:on
+742    Humidity above 42, turn off humidifier.=>humiditySensor:relativeHumidityMeasurement:humidity:>:42=>humidifier:switch:switch:off
+743    Humidity below 40, turns on humidifier.=>humiditySensor:relativeHumidityMeasurement:humidity:<:40=>humidifier:switch:switch:on
+744    Turn on a WeMo switch at sunset=>sunset::time:=:18=>WeMo switch:switch:switch:on
+748    Weather Drop -> Turn on Heater=>outsideTemperature:temperatureMeasurement:temperature:<:18=>heater:heater:switch:on
+750    Turn off Venta air washer connected with a LC socket.=>humiditySensor:relativeHumidityMeasurement:humidity:>:42=>airWasher:switch:switch:off
+751    Turn on Venta air washer connected with a LC socket.=>humiditySensor:relativeHumidityMeasurement:humidity:<:40=>airWasher:switch:switch:on
+754    Don't die from too high CO2=>carbonDioxideSensor:carbonDioxideMeasurement:carbonDioxide:>:8=>heater:heater:switch:off
+767    Turn on WeMo Switch everyday at sunset=>sunset::time:=:18=>WeMo Switch:switch:switch:on
+781    Lock Down=>lights:light:switch:=:off=>doorlock:lock:lock:locked
+787    Turn on Hue at Sunset=>sunset::time:=:18=>Hue:light:switch:on
+792    Unlock my house door when I get home and turn off the car.=>homePresent:presenceSensor:presence:=:present=>doorlock:lock:lock:unlocked
+797    Humidity controll via netatmo via philips living hue (philips living colors)=>humiditySensor:relativeHumidityMeasurement:humidity:>:42=>hue:switch:switch:off
+805    If ignition turned off in area, then close Garage=>ignition:switch:switch:=:off=>garageDoor:doorControl:door:closed
+814    Ignition off near home, turn on Wemo=>ignition:switch:switch:=:on=>Wemo:switch:switch:on
+815    Turn on all WeMo Switches at Sunset=>sunset::time:=:18=>WeMo Switches:switch:switch:on
+817    Turn on the ceiling fan... Much Hot!=>current:temperatureMeasurement:temperature:>:28=>fan:switch:switch:on
+818    Dehumidifier=>humiditySensor:relativeHumidityMeasurement:humidity:>:42=>dehumidifier:switch:switch:on
+833    If every work day night at 01:45 AM on M Tu W Th Su, then turn on Hue Kitchen Cabinet 1 West=>everyDay::time:=:1=>Hue:light:switch:on
+838    Come home to Hue=>wifiPresent:presenceSensor:presence:=:present=>lights:light:switch:on
+839    Turn off weekends at 12.15 am=>everyDay::time:=:0=>weekends:switch:switch:off
+844    Blink my lights when I connect to my home wifi network.=>homeWifi:hubConnection:connection:=:TRUE=>light:light:switch:on
+853    Turn on heater when temperature drops below certain degree=>current:temperatureMeasurement:temperature:<:10=>heater:heater:switch:on
+854    Turn off Fan=>:temperatureMeasurement:temperature:<:20=>fan:switch:switch:off
+855    Turn on Fan=>:temperatureMeasurement:temperature:>:28=>fan:switch:switch:on
+856    Some fresh air.=>co2Detector:carbonDioxideMeasurement:carbonDioxide:>:8=>fan:switch:switch:on
+865    Welcome home! Initiate Light Sequence.=>homeWifi:hubConnection:connection:=:TRUE=>lights:light:switch:on
+873    Frost guard on for the greenhouse=>greenhouseTemperature:temperatureMeasurement:temperature:<:5=>heater:heater:switch:on
+879    When WeMo #1 is switched on this Recipe turns on WeMo #2=>wemo1:switch:switch:=:on=>wemo2:switch:switch:on
+880    Arriving at home light=>homePresent:presenceSensor:presence:=:present=>light:light:switch:on
+888    Long Press Wemo Light Switch, Turn On Or Off The Outdoor Floodlight.=>wemobutton:button:button:=:pushed=>floodlight:light:switch:off
+891    If you leave your home, turn off hue lamps=>homePresent:presenceSensor:presence:=:not_present=>hue lamps:light:switch:off
+893    Turn on hue if sunset=>sunset::time:=:18=>hue:switch:switch:on
+900    It's cold turn on the electric blanket=>current:temperatureMeasurement:temperature:<:5=>electricBlanket:switch:switch:on
+902    Turn house fan off when it gets cool=>:temperatureMeasurement:temperature:<:18=>fan:switch:switch:off
+913    If temperature rises above 70°F then turn on the fan=>:temperatureMeasurement:temperature:>:21=>fan:switch:switch:on
+914    If temperature drops below 70°F then turn off the fan=>:temperatureMeasurement:temperature:<:21=>fan:switch:switch:off
+917    Dim Nightlight=>everyDay::time:=:22=>nightlight:light:level:2
+921    Turn off the fan if it is cold=>:temperatureMeasurement:temperature:<:18=>fan:switch:switch:off
+924    Switch On the light when Motion=>motion1:motionSensor:motion:=:active=>Switch:switch:switch:on
+925    Switch off when you go off=>homePresent:presenceSensor:presence:=:not_present=>Switch:switch:switch:off
+932    Automatically water your garden with WeMo=>gardenWaterSensor:waterSensor:water:=:dry=>WemoWater:switch:switch:on
+933    Landed Safely=>checkIn:presenceSensor:presence:=:present=>lights:light:switch:off
+935    Turn Aros on before quitting time=>everyDay::time:=:17=>Aros:airConditioner:switch:on
+936    Turn Aros on when my phone gets in range of my home network=>homeWifi:hubConnection:connection:=:TRUE=>Aros:airConditioner:switch:on
+937    If you exit an area, then turn off WeMo Switch=>areaPresent:presenceSensor:presence:=:not_present=>WeMo:switch:switch:off
+938    If you enter an area, then turn off WeMo Switch=>areaPresent:presenceSensor:presence:=:present=>WeMo:switch:switch:on
+954    Turn On AC When It Is Hot=>current:temperatureMeasurement:temperature:>:30=>AC:airConditioner:switch:on
+956    If It Cools Down, Turn Off My AC=>current:temperatureMeasurement:temperature:<:23=>AC:airConditioner:switch:off
+957    Turn Off My AC When I Start My Car To Leave=>homePresent:presenceSensor:presence:=:not_present=>AC:airConditioner:switch:off
+973    Wake me up WEMO Light=>everyDay::time:=:8=>WemoLight:light:switch:on
+982    Wemo switched ceiling fan for cooling, but not too much=>current:temperatureMeasurement:temperature:<:25=>fan:switch:switch:off
+983    Hjem=>homePresent:presenceSensor:presence:=:present=>lights:light:switch:on
+985    If the temperature inside drops below ___ degrees then turn off A/C=>insideTemperature:temperatureMeasurement:temperature:<:25=>AC:airConditioner:switch:off
+986    If the temperature inside rises above ___ degrees then turn on A/C=>insideTemperature:temperatureMeasurement:temperature:>:28=>AC:airConditioner:switch:on
+987    If you turn your car off at home then turn A/C on=>carStatus:switch:switch:=:off=>AC:airConditioner:switch:on
+988    Set a weekly schedule to turn your A/C on=>everyDay::time:=:18=>AC:airConditioner:switch:on
+989    Set a weekly schedule to turn your A/C off=>everyDay::time:=:8=>AC:airConditioner:switch:off
+990    Every day at __:__ turn your A/C on=>everyDay::time:=:19=>AC:airConditioner:switch:on
+991    Every day at __:__ turn your A/C off=>everyDay::time:=:9=>AC:airConditioner:switch:off
+994    If you connect to your home WiFi network then turn your A/C on=>homeWifi:hubConnection:connection:=:TRUE=>AC:airConditioner:switch:on
+995    If you disconnect from your home WiFi network then turn your A/C on=>homeWifi:hubConnection:connection:=:FALSE=>AC:airConditioner:switch:on
+996    If you're near home then turn your A/C on=>homePresent:presenceSensor:presence:=:present=>AC:airConditioner:switch:on
+997    If you're leaving home then turn your A/C off=>homePresent:presenceSensor:presence:=:not_present=>AC:airConditioner:switch:off
+1000    At sunrise turn your A/C on=>sunrise::time:=:7=>AC:airConditioner:switch:on
+1001    At sunset turn your A/C off=>sunset::time:=:18=>AC:airConditioner:switch:off
+1002    If it drops below ___ degrees outside then turn your A/C off=>current:temperatureMeasurement:temperature:<:18=>AC:airConditioner:switch:off
+1003    If it rises above ___ degrees outside then turn your A/C on=>current:temperatureMeasurement:temperature:>:28=>AC:airConditioner:switch:on
+1004    Temperature to low switch off air con.=>current:temperatureMeasurement:temperature:<:20=>AC:airConditioner:switch:off
+1006    Turn on sump pump when water detected=>waterSensor:waterSensor:water:=:wet=>sumppump:switch:switch:on
+1009    If your Nest Thermostat rises above ___° then turn on a WeMo Switch=>thermostatTemperature:temperatureMeasurement:temperature:>:30=>WeMo Switch:switch:switch:on
+1010    If your Nest Thermostat rises above ___° then turn off a WeMo Switch=>thermostatTemperature:temperatureMeasurement:temperature:>:30=>WeMo Switch:switch:switch:off
+1011    If your Nest Thermostat drops below ___° then turn on a WeMo Switch=>thermostatTemperature:temperatureMeasurement:temperature:<:18=>WeMo Switch:switch:switch:on
+1012    If your Nest Thermostat drops below ___° then turn off a WeMo Switch=>thermostatTemperature:temperatureMeasurement:temperature:<:18=>WeMo Switch:switch:switch:off
+1013    When you enter a specific area turn your fan on for 15 minutes=>areaPresent:presenceSensor:presence:=:present=>fan:switch:switch:on_2
+1014    When you exit a specific area turn your fan on for 15 minutes=>areaPresent:presenceSensor:presence:=:not_present=>fan:switch:switch:on_2
+1015    At sunset turn your fan on for 15 minutes=>sunset::time:=:18=>fan:switch:switch:on_2
+1016    At sunrise turn your fan on for 15 minutes=>sunrise::time:=:7=>fan:switch:switch:on_2
+1018    Turn on house fans when outside temp drops below 68 degrees.=>current:temperatureMeasurement:temperature:<:20=>fan:switch:switch:on
+1020    Turn on climate battery fan=>current:temperatureMeasurement:temperature:>:25=>fan:switch:switch:on
+1021    Turn my AC on if it's above 95 degrees outside=>current:temperatureMeasurement:temperature:>:35=>AC:airConditioner:switch:on
+1022    When below 69 degrees, turn off swamp cooler.=>current:temperatureMeasurement:temperature:<:19=>cooler:switch:switch:off
+1023    If smoke warning, blink lights.=>alarm:alarm:alarm:=:siren=>lights:light:switch:on
+1025    If there is smoke in the kitchen turn on the thermostat fan=>alarm:alarm:alarm:=:siren=>fan:switch:switch:on_2
+1026    If smoke alarm emergency by Living Room Nest Protect, then turn on Living Room Floor Lamp=>livingAlarm:alarm:alarm:=:siren=>lamp:light:switch:on
+1027    If smoke alarm emergency by Living Room Nest Protect, then turn off Washing Machine=>livingAlarm:alarm:alarm:=:siren=>WashingMachine:switch:switch:off
+1029    Fan for Carbon Monoxide Warning=>carbonMonxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>fan:switch:switch:on_2
+1030    If outside temp goes above 69, turn off fans=>current:temperatureMeasurement:temperature:>:20=>fans:switch:switch:off
+1031    When a carbon monoxide warning occurs, turn on exhaust fan to vent boiler room.=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>fan:switch:switch:on_2
+1033    When I get home, run my HVAC fan for 15 minutes.=>ignition:switch:switch:=:on=>fan:switch:switch:on_2
+1035    Turn on Nest at 5 am=>everyDay::time:=:5=>fan:switch:switch:on_2
+1037    Auto fan above high temp=>current:temperatureMeasurement:temperature:>:28=>fan:switch:switch:on_2
+1042    #Nest above 80, #Nest Fan for 15min=>current:temperatureMeasurement:temperature:>:28=>fan:switch:switch:on_2
+1054    Blink Hue when air gets bad=>carbonDioxideSensor:carbonDioxideMeasurement:carbonDioxide:>:8=>Hue:light:switch:on
+1055    Low cost cooling=>current:temperatureMeasurement:temperature:<:20=>fan:switch:switch:off
+1061    Nest to Aros=>current:temperatureMeasurement:temperature:>:32=>AC:airConditioner:switch:on
+1062    Turn on Fan When It Becomes Too Hot=>current:temperatureMeasurement:temperature:>:28=>fan:switch:switch:on
+1065    If carbon monoxide warning by Nest Protect, then turn on HRV.=>carbonMonixideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>HRV:switch:switch:on
+1068    If outside temperature drops below 60° F, turn fan on for specified period=>current:temperatureMeasurement:temperature:<:15=>fan:switch:switch:on_2
+1076    If temp < 75.0F, turn off Tyler - AC (Cold enough)=>current:temperatureMeasurement:temperature:<:24=>AC:airConditioner:switch:off
+1087    Bath light on=>everyDay::time:=:19=>Bath light:light:switch:on
+1088    Turn on A/C when waking up=>:state:wakeUp:=:TRUE=>AC:airConditioner:switch:on
+1089    Turn on A/C at bedtime=>::time:=:23=>AC:airConditioner:switch:on
+1091    Turn on Aros when it's too hot=>current:temperatureMeasurement:temperature:>:32=>Aros:airConditioner:switch:on
+1092    Turn of Aros when it's cold out=>current:temperatureMeasurement:temperature:<:15=>AC:airConditioner:switch:off
+1093    Turn on Aros when Nest temp is high=>current:temperatureMeasurement:temperature:>:32=>Aros:airConditioner:switch:on
+1094    Turn on Aros when Automatic turns off=>Ignition:switch:switch:=:on=>Aros:airConditioner:switch:on
+1095    Turn off Aros when Automatic is turned on=>Ignition:switch:switch:=:on=>Aros:airConditioner:switch:off
+1098    At specific times throughout the week turn a WeMo Switch on or off=>everyDay::time:=:18=>WeMo Switch:switch:switch:off
+1099    If temperature rises, turn on A/C=>current:temperatureMeasurement:temperature:>:25=>AC:airConditioner:switch:on
+1102    Circulate Air - Clear The Smoke!=>alarm:alarm:alarm:=:siren=>fan:switch:switch:on_2
+1105    Using your Ecobee Thermostat to Trigger a dehumidifier.=>humiditySensor:relativeHumidityMeasurement:humidity:>:42=>dehumidifier:switch:switch:on
+1117    Turn off a WeMo Switch at Sunrise=>sunrise::time:=:6=>WeMo Switch:switch:switch:off
+1118    Dim the lights at midnight=>everyDay::time:=:23=>lights:light:level:2
+1120    At sunset, activate all lights=>sunset::time:=:18=>lights:light:switch:on
+1123    WeMo OFF to Hue OFF=>Wemo:switch:switch:=:off=>hue:switch:switch:off
+1130    Spiders dead :-)=>humiditySensor:relativeHumidityMeasurement:humidity:<:40=>dehumidifier:switch:switch:off
+1131    IF TEMP RISES ABOVE 80 TURN ON THE AIR CONDITIONER=>current:temperatureMeasurement:temperature:>:26=>AC:airConditioner:switch:on
+1133    It' too dry in here!=>humiditySensor:relativeHumidityMeasurement:humidity:<:40=>dehumidifier:switch:switch:on
+1134    Ahh. Humidity just right.=>humiditySensor:relativeHumidityMeasurement:humidity:>:60=>dehumidifier:switch:switch:off
+1138    If there is smoke in the kitchen turn on the HVAC fan=>alarm:alarm:alarm:=:siren=>fan:switch:switch:on_2
+1141    If Key Fob detected deactivate Alarm=>keyPresent:presenceSensor:presence:=:present=>alarm:alarm:alarm:off
+1144    Everyday at 9:30pm turn on bedroom=>everyDay::time:=:21=>bedroom:switch:switch:on
+1147    Turn OFF Outdoor Fountain at Sunset=>sunset::time:=:18=>Outdoor Fountain:switch:switch:off
+1148    Turn ON Outdoor Fountain at Sunrise=>sunrise::time:=:6=>Outdoor Fountain:switch:switch:on
+1158    Turn off my security cam when I get home (when android connects to WiFi)=>homeWifi:hubConnection:connection:=:TRUE=>securityCam:switch:switch:off
+1160    Close WeMo on Sunrise=>sunrise::time:=:7=>WeMo:switch:switch:off
+1161    Turn On WeMo on Sunset=>sunset::time:=:18=>WeMo:switch:switch:on
+1170    Turn on car block heater at -15 C=>current:temperatureMeasurement:temperature:<:15=>carheater:heater:switch:on
+1177    Turn on every day at 2, Wemo Switch=>everyDay::time:=:2=>wemo:switch:switch:on
+1180    Turn off a gas dryer if Nest Protect detects CO=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>gasDryer:switch:switch:off
+1181    If Nest Protect detects Carbon Monoxide leak, turn off natural gas hot water heater using Wemo=>carbonMonxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>waterHeater:extendedSwitch:switch:off
+1182    Turn off hot water heater if there is a gas leak=>carbonMonxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>waterHeater:extendedSwitch:switch:off
+1198    When you exit an area, turn off your Wemo=>areaPresent:presenceSensor:presence:=:not_present=>Wemo:switch:switch:off
+1205    I'm home.=>homePresent:presenceSensor:presence:=:present=>doorlock:lock:lock:unlocked
+1206    Long press deactivates alarm=>antiPanicButton:button:button:=:pushed=>alarm:alarm:alarm:off
+1207    When I Arrive set Nest to...=>homePresent:presenceSensor:presence:=:present=>nestfan:switch:switch:on_2
+1208    Turn ON WeMo at set time=>everyDay::time:=:18=>WeMo:switch:switch:on
+1209    Hue on at sunset=>sunset::time:=:18=>Hue:light:switch:on
+1216    Turn on Hue Lamp on sunset=>sunset::time:=:18=>Hue:light:switch:on
+1224    turn on at 6pm=>everyDay::time:=:18=>light:light:switch:on
+1225    Deactivate the alarm with a secret button=>secretButton:button:button:=:pushed=>alarm:alarm:alarm:off
+1226    Run fan 15min if >79F=>current:temperatureMeasurement:temperature:>:24=>fan:switch:switch:on_2
+1237    Turn on HVAC fan when CO2>1000ppm.=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:10=>fan:switch:switch:on_2
+1238    Unlock my front door when I press the Push to Talk button in my car.=>talkButton:button:button:=:pushed=>doorlock:lock:lock:unlocked
+1239    Unlock your front door when you arrive home=>Ignition:switch:switch:=:off=>doorlock:lock:lock:unlocked
+1240    Lock my front door when I turn my car on near my house.=>Ignition:switch:switch:=:on=>doorlock:lock:lock:locked
+1242    Turn on WeMo switch after 1 hour of non movement=>motion1:motionSensor:motion:=:inactive=>WeMo:switch:switch:on
+1246    Sleep Mode Enabled > Turn OFF WeMo Outlet=>state:location:mode:=:Sleep=>outlet:smartPlug:switch:off
+1247    Turn off AC plugged into Wemo when outdoor temp falls below a certain point (User picks the temp)=>current:temperatureMeasurement:temperature:<:20=>AC:airConditioner:switch:off
+1248    Turn on AC plugged into Wemo when outdoor temp rises above a certain point (User picks the temp)=>current:temperatureMeasurement:temperature:>:28=>AC:airConditioner:switch:on
+1251    If the temperature rises above __, then turn on the fan for 15 minutes.=>insideTemperature:temperatureMeasurement:temperature:>:27=>fan:switch:switch:on_2
+1254    Switch on WeMo if my Homeboy detects motion=>motion1:motionSensor:motion:=:active=>Wemo:switch:switch:on
+1255    See through the smoke=>alarm:alarm:alarm:=:siren=>plug:switch:switch:on
+1258    wemo light timer on=>everyDay::time:=:18=>wemolight:light:switch:on
+1260    Turn switch at 6pm=>everyDay::time:=:6=>wemo:switch:switch:on
+1262    Turn on the heater when it is too cold=>current:temperatureMeasurement:temperature:<:18=>heater:heater:switch:on
+1263    Sleep Mode Turns out Light=>state:location:mode:=:Sleep:=:sleeping=>bedroomLight:light:switch:off
+1272    Lights out - Sunrise=>sunrise::time:=:7=>lights:light:switch:off:5
+1281    Every day at __:__ turn the hot water on=>everyDay::time:=:19=>hot water:switch:switch:on
+1282    Every day at __:__ turn the hot water off=>everyDay::time:=:9=>hot water:switch:switch:off
+1285    Enjoy a freshly brewed pot of coffee when you wake up=>everyDay::time:=:8=>coffeemaker:extendedSwitch:switch:onExtend
+1286    Wake me up when there is coffee=>coffeemaker:extendedSwitch:switch:=:onExtend_1=>Hue:light:switch:on
+1287    Sunset turn on Hue=>sunset::time:=:18=>Hue:light:switch:on
+1298    If I arrive at my house then open my garage door=>homePresent:presenceSensor:presence:=:present=>garageDoor:doorControl:door:open
+1299    If I leave my house then close my garage door=>homePresent:presenceSensor:presence:=:not_present=>garageDoor:doorControl:door:closed
+1300    If it's 6:00 PM then close my garage door=>everyDay::time:=:18=>garageDoor:doorControl:door:closed
+1301    If the current temperature drops below 65°F then close my garage door=>garageTemperature:temperatureMeasurement:temperature:<:18=>garageDoor:doorControl:door:closed
+1303    Turn On Humidifier=>humiditySensor:relativeHumidityMeasurement:humidity:<:40=>humidifier:switch:switch:on
+1307    Reboot my router if my Homeboy camera loses connection=>cameraConnection:hubConnection:connection:=:FALSE=>router:switch:switch:offon
+1309    Geofencing Nest Fan=>homePresent:presenceSensor:presence:=:present=>fan:switch:switch:on_2
+1313    Sunset time, All Hue bulbs on=>sunset::time:=:18=>bulbs:light:switch:on
+1315    Off at 9PM=>everyDay::time:=:21=>bedroom lamp:light:switch:off
+1338    if temp reaches a certain temp, shut off the heater=>current:temperatureMeasurement:temperature:>:28=>heater:heater:switch:off
+1345    Preheat your oven=>ovenpreheat:boost:tap:=:TRUE=>oven:ovenMode:ovenMode:warming
+1346    Start cook food with your oven=>ovenheating:boost:tap:=:TRUE=>oven:ovenMode:ovenMode:heating
+1347    Turn your GE oven off when you leave home=>homePresent:presenceSensor:presence:=:not_present=>oven:ovenMode:ovenMode:off
+1348    Signal your Nest thermostat to turn on the HVAC fan when your oven is on=>oven:ovenMode:ovenMode:!=:off=>fan:switch:switch:on_2
+1349    Flash your Philips Hue lights when your oven is done cooking=>oven:ovenMode:ovenMode:=:heating_1=>hue:switch:switch:on
+1353    Prevent gas furnace from blowing up house if there is a carbon monoxide leak!=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>waterHeater:extendedSwitch:switch:off
+1357    Turn on switch at sunset=>sunset::time:=:18=>switch:switch:switch:on
+1360    Turn off the wife's electric blanket=>everyDay::time:=:8=>electricBlanket:switch:switch:off
+1370    Arm my Homeboy if I leave my Home=>homeWifi:hubConnection:connection:=:FALSE=>homeboy:switch:switch:on
+1372    Control a Heater connected to wemo through temperature of netatmo=>current:temperatureMeasurement:temperature:<:18=>heater:heater:switch:on
+1378    Hot water tap=>homePresent:presenceSensor:presence:=:not_present=>waterHeater:extendedSwitch:switch:off
+1384    Above 80% humidity, turn on dehumidifier.=>humiditySensor:relativeHumidityMeasurement:humidity:>:80=>dehumidifier:switch:switch:on
+1394    Nest Protect triggers Smartthings Door Unlock=>alarm:alarm:alarm:=:siren=>doorlock:lock:lock:unlocked
+1403    Make my coffee=>upBand:band:mode:!=:sleep=>coffeemaker:extendedSwitch:switch:onExtend
+1406    Warm up the Basement=>basementMotion:motionSensor:motion:=:active=>fan:switch:switch:on_2
+1408    Open garage when I get home=>homePresent:presenceSensor:presence:=:present=>garageDoor:doorControl:door:open
+1413    Use wemo switch to turn on space heaters at 4:30 am Mon, Tues, We'd, Thur, and Fri.=>everyDay::time:=:4=>heater:heater:switch:on
+1432    turn on heater if temperature drops below 15=>:temperatureMeasurement:temperature:<:15=>heater:heater:switch:on
+1433    turn off heater if temperature rises above 28=>:temperatureMeasurement:temperature:>:28=>heater:heater:switch:off
+1439    Turn on Wemo switch every weekday at 6 AM.=>everyDay::time:=:6=>Wemo switch:switch:switch:on
+1440    Turn off Wemo switch every weekday at 8 AM=>everyDay::time:=:8=>Wemo switch:switch:switch:off
+1444    Bed Warmer!!=>current:temperatureMeasurement:temperature:<:10=>electricBlanket:switch:switch:on
+1458    Turn on your heater when it falls below 32° Fahrenheit outside=>current:temperatureMeasurement:temperature:<:1=>heater:heater:switch:on
+1462    Turn on garage heater if outside temperature drops below 32°F=>current:temperatureMeasurement:temperature:<:1=>garage he:switch:switch:on
+1463    Bad air? Blink lights=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:8=>lights:light:switch:onoff
+1465    Freezing lights=>current:temperatureMeasurement:temperature:<:10=>lights:light:switch:onoff
+1466    Chilly=>current:temperatureMeasurement:temperature:<:6=>heater:heater:switch:on
+1468    Nobody is home=>homePresent:presenceSensor:presence:=:not_present=>lights:light:switch:off
+1470    At noon turn your fan on for 15 minutes=>everyDay::time:=:12=>fan:switch:switch:on_2
+1473    Start VMC if too much CO2=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:8=>smapper:switch:switch:on
+1475    Temp drops below 30°F, turn Heater 1 on.=>current:temperatureMeasurement:temperature:<:1=>heater1:switch:switch:on
+1476    Light my exit!=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>light:light:switch:on
+1478    Start VMC with smappee plug if netatmo humidity sensor too high=>humiditySensor:relativeHumidityMeasurement:humidity:>:42=>smapper:switch:switch:on
+1482    Turn on your coffee maker=>button:button:button:=:pushed=>coffeeMaker:extendedSwitch:switch:onExtend
+1499    Your heater turns on as you arrive home=>homePresent:presenceSensor:presence:=:present=>heater:heater:switch:on
+1503    Run fan for 15 minutes at 6 PM=>everyDay::time:=:18=>fan:switch:switch:on_2
+1504    Run fan for 15 minutes at 12 PM=>everyDay::time:=:23=>fan:switch:switch:on_2
+1505    Turn on Christmas Tree at sunset=>sunset::time:=:18=>Christmas Tree:switch:switch:on
+1507    turn off hue @ 1:30 am=>everyDay::time:=:1=>hue:switch:switch:off
+1511    Never forget to close the garage!=>homePresent:presenceSensor:presence:=:not_present=>garageDoor:doorControl:door:closed
+1514    Dad's Home=>homePresent:presenceSensor:presence:=:present=>gate:doorControl:door:open
+1514    Dad's Home=>homePresent:presenceSensor:presence:=:present=>gate:doorControl:door:open
+1518    Time hue=>sunset::time:=:18=>lights:light:switch:on
+1521    Ceiling fan off when Nest detects temp cooler than ?? degrees=>current:temperatureMeasurement:temperature:<:20=>fan:switch:switch:off
+1524    Freeze alert=>current:temperatureMeasurement:temperature:<:32=>lamp:light:switch:off
+1527    Wemo on=>homePresent:presenceSensor:presence:=:present=>Wemo:switch:switch:on
+1528    Burnt the toast? Switch on your fans=>alarm:alarm:alarm:=:siren=>fan:switch:switch:on
+1534    Set a hue light to max brightness at sunset=>sunset::time:=:18=>Hue:light:level:10
+1538    Mute my Manything camera when I get home=>homePresent:presenceSensor:presence:=:present=>carmerAudio:audioMute:mute:muted
+1539    Set my Manything camera to unmute audio when I leave home=>homePresent:presenceSensor:presence:=:not_present=>cameraAudio:audioMute:mute:unmuted
+1541    Licht aan test=>sunset::time:=:18=>lights:light:switch:on
+1543    Astro - Zonsondergang=>sunset::time:=:18=>Astro:switch:switch:on
+1551    Welcome home light=>sunset::time:=:18=>lights:light:switch:on
+1556    Turn Heater ON, Temp Drops below 32 degrees.=>current:temperatureMeasurement:temperature:<:32=>heater:heater:switch:on
+1557    I Wake UP--> Bedroom Heater On=>:state:wakeUp:=:TRUE=>bedroomheater:heater:switch:on
+1561    Reset router using Wemo switch=>homeWifi:hubConnection:connection:=:FALSE=>router:switch:switch:offon
+1563    Turn on remote outlet=>secondLight:light:switch:=:on=>waterPump:switch:switch:on
+1566    Wemo wall switch toggles wemo plug switch=>longPress:button:button:=:pushed=>doorlight:light:switch:off
+1576    Turn on all switches with one switch=>longPress:button:button:=:pushed=>wemo:switch:switch:on
+1579    Ventilate CO2=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:750=>fan:switch:switch:on_2
+1583    If ComEd Hourly price exceeds 14cents, turn off the heater=>energyPrice:energyPrice:price:>:3=>heater:heater:switch:off
+1584    If ComEd Real-time price >$.14, switch EcoBee Thermostat to off=>energyPrice:energyPrice:price:>:3=>thermostat:thermostat:thermostatMode:off
+1585    Adjust AC when electricity is expensive=>energyPrice:energyPrice:price:>:3=>AC:airConditioner:switch:off
+1586    Bright low energy price turn on plug=>energyPrice:energyPrice:price:<:2=>plug:switch:switch:on
+1587    Bright high energy price turn off plug=>energyPrice:energyPrice:price:>:3=>plug:switch:switch:off
+1589    Stop the sprinkle system when you arrive home=>homePresent:presenceSensor:presence:=:present=>watering:switch:switch:off
+1608    Shut off gas water heater via Wemo at 8pm.=>everyDay::time:=:20=>waterHeater:extendedSwitch:switch:off
+1611    turn on wemo switch when temperature dips below 38 degrees=>current:temperatureMeasurement:temperature:<:3=>wemo switch:switch:switch:off
+1643    Circulate my HVAC=>everyDay:balance:time:=:2=>fan:switch:switch:on_2
+1649    If temperature drops below 3F, turn the heater on.=>current:temperatureMeasurement:temperature:<:3=>heater:heater:switch:on
+1659    Circulate air when CO2 high=>carbonDioxideDector:carbonDioxideMeasurement:carbonDioxide:>:8=>window:doorControl:door:open
+1664    WeMoLongPress=>longPress:button:button:=:pushed=>Wemo:switch:switch:off
+1666    If Netatmo outside detect temp > 27c then turn on network cab fans=>current:temperatureMeasurement:temperature:>:27=>fan:switch:switch:on
+1669    Turn on hue at sunrise=>sunrise::time:=:6=>hue:switch:switch:on
+1684    SMOKE ALARM!=>alarm:alarm:alarm:=:siren=>fan:switch:switch:on_2
+1694    Turn on electric blanket=>everyDay::time:=:20=>electricBlanket:switch:switch:on
+1711    MeeTeeWeeMooFan is Smart 25+ turn on fan!=>current:temperatureMeasurement:temperature:>:25=>fan:switch:switch:on
+1720    Temp drops below 58. Heater On.=>current:temperatureMeasurement:temperature:<:14=>heater:heater:switch:on
+1721    Arrive Home- Turn Heater On=>homePresent:presenceSensor:presence:=:present=>heater:heater:switch:on
+1724    Turn off Wemo switch at bedtime=>everyDay::time:=:22=>Wemo switch:switch:switch:off
+1728    Open my garage door when I start my car at home=>Ignition:switch:switch:=:on=>garageDoor:doorControl:door:open
+1729    Shut my garage door when I turn my car off at home=>Ignition:switch:switch:=:off=>garageDoor:doorControl:door:closed
+1784    If Indoor CO2 goes up, turn on the fan.=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:8=>fan:switch:switch:on_2
+1787    Turn off Heater if Temperature rises above 20 Degree Celsius=>:temperatureMeasurement:temperature:>:20=>heater:heater:switch:off
+1792    If disconnects from any WiFi network, then turn on WeMo Insight=>homeWifi:hubConnection:connection:=:FALSE=>WeMo:switch:switch:on
+1794    Turn on WeMo Maker (connected to my heating) when temperature drops to zero=>current:temperatureMeasurement:temperature:<:0=>heater:heater:switch:on
+1808    Check and close the garage door every night with Garageio=>everyDay::time:=:20=>garageDoor:doorControl:door:closed
+1809    Open Garage if ignition started=>Ignition:switch:switch:=:on=>garageDoor:doorControl:door:open
+1828    Lifx turns off when WiFi disconnects=>homeWifi:hubConnection:connection:=:FALSE=>lifx:switch:switch:off
+1834    It's time to sleep!=>everyDay::time:=:1=>lifx:switch:switch:off
+1849    Disarm Homeboy camera by using SmartThings presence sensor.=>homePresent:presenceSensor:presence:=:present=>camera:switch:switch:off
+1867    Run HVAC Fan for 15 minutes every day at 1pm with Nest=>everyDay::time:=:13=>fan:switch:switch:on_2
+1869    If CO2 above threshold then turn on fan for 15 minutes.=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:8=>fan:switch:switch:on_2
+1872    Disarm Scout Alarm when I get home=>homePresent:presenceSensor:presence:=:present=>scoutAlarm:alarm:alarm:off
+1886    Turn on my Scout Siren if There is Smoke in my Kitchen=>alarm:alarm:alarm:=:siren=>scoutAlarm:alarm:alarm:siren
+1888    Hue on timer=>everyDay::time:=:18=>Hue:light:switch:on
+1899    Don't get out of bed before the living room is __°C=>current:temperatureMeasurement:temperature:>:28=>bedlight:light:switch:on
+1916    If the room is warm, then turn off the heater=>current:temperatureMeasurement:temperature:>:30=>heater:heater:switch:off
+1917    If the room is cold, then turn on the heater=>current:temperatureMeasurement:temperature:<:15=>heater:heater:switch:on
+1938    Disarm Scout When you Connect to Your Home Wifi=>homeWifi:hubConnection:connection:=:TRUE=>scoutAlarm:alarm:alarm:off
+1941    Arm Scout at Night During the Week=>everyDay::time:=:20=>scoutAlarm:alarm:alarm:siren
+1945    Don't Walk Into a Dark House=>frontDoor:doorControl:door:=:open=>Hue:light:switch:on
+1948    Open garage door (Android)=>homeWifi:hubConnection:connection:=:TRUE=>garageDoor:doorControl:door:open
+1949    Go to sleep lock doors=>state:location:mode:=:Sleep:=:sleeping=>doorlock:lock:lock:locked
+1966    Motion Siren On=>motion:motionSensor:motion:=:active=>alarm:alarm:alarm:siren
+1969    Energy saving=>sunrise::time:=:7=>lights:light:switch:off
+1971    Close Garage When Disconnect From WiFi. (Android)=>homeWifi:hubConnection:connection:=:FALSE=>garageDoor:doorControl:door:closed
+1978    Disable/Enable garage opener for extra security=>homePresent:presenceSensor:presence:=:not_present=>garageDoor:doorControl:door:closed
+1989    Turn nest fans on every day at a certain time=>everyDay::time:=:18=>nest fans:switch:switch:on
+1995    Night mode=>motion:motionSensor:motion:=:active=>flashlight:light:switch:on
+1997    Hot water off at noon=>everyDay::time:=:12=>waterHeater:extendedSwitch:switch:off
+2009    Arm ScoutAlarm if diconected from home WIFI=>homeWifi:hubConnection:connection:=:FALSE=>scoutAlarm:alarm:alarm:siren
+2010    1:30 turn off Fan=>everyDay::time:=:13=>fan:switch:switch:off
+2011    Turn on fan at 1=>everyDay::time:=:1=>fan:switch:switch:on
+2021    Turn On My Belkin Insight Switch When My iSmartAlarm  is Triggered By Contact Sensor=>contact:contactSensor:contact:=:open=>belkin:switch:switch:on
+2032    Turn off Fan if it's cold outside=>current:temperatureMeasurement:temperature:<:19=>fan:switch:switch:off
+2033    Lock your door when leaving home network=>phonehomeWifi:hubConnection:connection:=:FALSE=>doorlock:lock:lock:locked
+2043    Zoll TV2 - Turns TV On @ 2pm=>everyDay::time:=:14=>TV:switch:switch:on
+2044    Zoll TV2 - Turns TV Off on Monday @ 4:30pm=>everyDay::time:=:16=>TV:switch:switch:off
+2046    Zoll TV2 - Turns TV Off @ 5pm on Tues, Wed, Thurs, & Sat=>everyDay::time:=:17=>TV:switch:switch:off
+2047    Zoll TV2 - Turns TV On @ 10am on Tues, Wed, Thurs, & Sat=>everyDay::time:=:10=>TV:switch:switch:on
+2060    CO2 unterschreiten 450ppm Off=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:450=>Wemo:switch:switch:off
+2069    turn on fan when your room becomes too hot=>current:temperatureMeasurement:temperature:>:28=>fan:switch:switch:on_2
+2070    If every day of the week at 05:00 AM on Mon Tue Wed Thu Fri,=>everyDay::time:=:5=>light:light:switch:on
+2071    If humidity is too high, turn on fan=>humiditySensor:relativeHumidityMeasurement:humidity:>:50=>fan:switch:switch:on_2
+2076    Hue off at sunrise=>sunrise::time:=:6=>Hue:light:switch:off
+2082    Switch off humidifier with WeMo=>humiditySensor:relativeHumidityMeasurement:humidity:>:45=>humidifier:switch:switch:off
+2083    Turn the ceiling fan off when temperature falls=>insideTemperature:temperatureMeasurement:temperature:<:20=>fan:switch:switch:off
+2085    Turn on humidifier if indoor humidity gets too low.=>humiditySensor:relativeHumidityMeasurement:humidity:<:40=>humidifier:switch:switch:on
+2092    WirelessTags turn off Netatmo=>window:doorControl:door:=:opening=>thermostat:thermostat:thermostatMode:off
+2122    Garage door opened=>garageDoor:doorControl:door:=:open=>Hue:light:switch:onoff
+2126    Chirp When A Door Or Window Is Opened=>window:doorControl:door:=:open=>chirp:switch:switch:on
+2142    If your smoke alarm detects an emergency, then turn off your oven=>alarm:alarm:alarm:=:siren=>oven:ovenMode:ovenMode:off
+2146    Safer Home=>alarm:alarm:alarm:=:siren=>Wemo:switch:switch:off
+2149    Turn on fan if Nest temp 75d=>current:temperatureMeasurement:temperature:>:23=>fan:switch:switch:on
+2151    If Wally detects water, sound an alarm=>waterSensor:waterSensor:water:=:wet=>alarm:alarm:alarm:siren
+2179    Every day at a specific time switch off the air conditioner=>everyDay::time:=:8=>AC:airConditioner:switch:off
+2196    Switch your Mi|Home adapter OFF everyday at 9PM=>everyDay::time:=:21=>adapter:switch:switch:off
+2197    Switch your Mi|Home adapter ON everyday at 9AM=>everyDay::time:=:9=>adapter:switch:switch:on
+2200    If I check in a home, unlock my door!=>checkIn:presenceSensor:presence:=:present=>doorlock:lock:lock:unlocked
+2204    Turn on at 10:30=>everyDay::time:=:22=>light:light:switch:on
+2205    Turn off at 10:45=>everyDay::time:=:22=>light:light:switch:off
+2206    Turn ON at 11AM=>everyDay::time:=:11=>light:light:switch:on
+2207    Turn OFF at 11:15=>everyDay::time:=:23=>light:light:switch:off
+2208    Switch on every hour at 15 past=>everyHour::time:=:15=>Switch:switch:switch:on
+2209    Switch off every hour at 15 past=>everyHour::time:=:15=>Switch:switch:switch:off
+2216    Turn hue Porch on at sunset=>sunrise::time:=:6=>hue Porch:switch:switch:off
+2225    Turn off WeMo at 2pm=>everyDay::time:=:14=>WeMo:switch:switch:off
+2227    Turn on WeMo at 1pm=>everyDay::time:=:13=>WeMo:switch:switch:on
+2228    Turn on WeMo at 3am=>everyDay::time:=:3=>WeMo:switch:switch:on
+2233    If every day at 02:00 pm, then turn off ALs Spa WeMo=>everyDay::time:=:14=>spa:switch:switch:off
+2234    Turn on spa every day at 1pm=>everyDay::time:=:13=>spa:switch:switch:on
+2235    Turn off spa every day at 2pm=>everyDay::time:=:14=>spa:switch:switch:off
+2236    Turn on spa every day at 3am=>everyDay::time:=:3=>spa:switch:switch:on
+2237    Turn off spa evey day at 4am=>everyDay::time:=:4=>spa:switch:switch:off
+2238    Spa is on, then off/on to restart heat=>spa:switch:switch:=:on=>heater:heater:switch:off
+2252    If your android device connects to the WiFi network then switch on your A/C using Sensibo=>phonehomewifi:hubConnection:connection:=:TRUE=>AC:airConditioner:switch:on
+2253    If your android device disconnects from a specific network then switch off the A/C using Sensibo=>phonehomewifi:hubConnection:connection:=:FALSE=>AC:airConditioner:switch:off
+2257    Turn on Nest fan when temperature drops below a specified temperature=>current:temperatureMeasurement:temperature:<:25=>nestfan:switch:switch:on_2
+2258    If every day of the week at 05:00 PM on Mon Tue Wed Thu Fri, then Switch on Water heater=>everyDay::time:=:17=>waterHeater:extendedSwitch:switch:onExtend
+2259    If every day of the week at 09:00 AM on Mon Tue Wed Thu Fri, then Switch off Water heater=>everyDay::time:=:9=>waterHeater:extendedSwitch:switch:off
+2268    Change thermostat cool set point=>thermostatCoolSet:boost:tap:=:TRUE=>thermostat:thermostat:coolingSetpoint:18-extend
+2270    Change thermostat heat set point=>thermostatHeatSet:boost:tap:=:TRUE=>thermostat:thermostat:heatingSetpoint:28-extend
+2269    Change thermostat mode to auto=>thermostatButton:button:button:=:pushed=>thermostat:thermostat:thermostatMode:auto
+2271    Change thermostat mode to cool=>thermostatButton:button:button:=:pushed=>thermost:thermostat:thermostatMode:cool
+2298    Wemo Heater=>current:temperatureMeasurement:temperature:<:15=>heater:heater:switch:on
+2302    Switch your Mi|Home adapter ON when the temperature falls below 10°C=>current:temperatureMeasurement:temperature:<:10=>adapter:switch:switch:on
+2303    Switch your Mi|Home adapter OFF when the temperature falls below 10°C=>current:temperatureMeasurement:temperature:<:10=>adapter:switch:switch:off
+2305    Switch your Mi|Home adapter ON when the temperature rises above 20°C=>current:temperatureMeasurement:temperature:>:20=>adapter:switch:switch:on
+2306    Switch your Mi|Home adapter OFF when the temperature rises above 20°C=>current:temperatureMeasurement:temperature:>:20=>adapter:switch:switch:off
+2307    Switch your Mi|Home adapter ON everyday at sunrise=>sunrise::time:=:7=>adapter:switch:switch:on
+2308    Switch your Mi|Home adapter OFF everyday at sunrise=>sunrise::time:=:7=>adapter:switch:switch:off
+2309    Switch your Mi|Home adapter ON everyday at sunset=>sunset::time:=:18=>adapter:switch:switch:on
+2310    Switch your Mi|Home adapter OFF everyday at sunset=>sunset::time:=:18=>adapater:switch:switch:off
+2311    Switch your Mi|Home adapter ON when you enter an area=>areaPresent:presenceSensor:presence:=:present=>adapter:switch:switch:on
+2312    Switch your Mi|Home adapter OFF when you exit an area=>areaPresent:presenceSensor:presence:=:not_present=>adapter:switch:switch:off
+2357    Turn on electric blanket at time=>everyDay::time:=:8=>electricBlanket:switch:switch:off
+2363    When I leave home, turn off my heater=>homePresentor:presenceSensor:presence:=:not_present=>heater:heater:switch:off
+2367    Switch Mi|Home Adapter on when my Wemo Switches on=>Wemo:switch:switch:=:on=>adapter:switch:switch:on
+2368    Switch Mi|Home Adapter off when my Wemo switches off=>Wemo:switch:switch:=:off=>adapter:switch:switch:off
+2373    Switch Mi|Home adapter ON when my Nest protect detects a smoke alarm emergency=>alarm:alarm:alarm:=:siren=>adapter:switch:switch:on
+2374    Switch Mi|Home adapter OFF when my Nest protect detects a smoke alarm emergency=>alarm:alarm:alarm:=:siren=>adapter:switch:switch:off
+2382    Make sure your oven is off after 11pm=>everyDay::time:=:23=>oven:ovenMode:ovenMode:off
+2385    Wlan an hue aus=>wlanHub:hubConnection:connection:=:TRUE=>lights:light:switch:off
+2390    Turn off Wemo switch at 12:15 AM nightly=>everyDay::time:=:0=>Wemo switch:switch:switch:off
+2462    If current temperature drops below specific level, turn off A/C=>current:temperatureMeasurement:temperature:<:23=>AC:airConditioner:switch:off
+2463    Turn on A/C if the current temperature rises above a certain level=>current:temperatureMeasurement:temperature:>:29=>AC:airConditioner:switch:on
+2467    Turn off your A/C everyday at a certain time=>everyDay::time:=:8=>AC:airConditioner:switch:off
+2469    If temperature drops below specific level, turn on A/C heating=>:temperatureMeasurement:temperature:<:10=>ACheating:switch:switch:on
+2470    If temperature rises above specific level, turn on A/C=>:temperatureMeasurement:temperature:>:28=>ACheating:switch:switch:on
+2492    Nest Outlet Control=>current:temperatureMeasurement:temperature:<:20=>outlet:switch:switch:off
+2502    Turn off Wemo at 12:15 AM=>everyDay::time:=:0=>Wemo:switch:switch:off
+2505    Flash your Phillips Hue lights when your oven turns on=>oven:ovenMode:ovenMode:!=:off=>hue:switch:switch:on
+2506    Turn on your HVAC fan to circulate air after using the oven=>oven:ovenMode:ovenMode:!=:off=>fan:switch:switch:on_2
+2515    Turn on Cooling when Temp rises=>current:temperatureMeasurement:temperature:>:30=>Cooling:switch:switch:on
+2516    Leaving the house? Make sure the front door is locked.=>homePresent:presenceSensor:presence:=:not_present=>frontdoorlock:lock:lock:locked
+2521    Every morning put the water heater in boost mode=>everyDay::time:=:8=>waterHeater:extendedSwitch:switch:onExtend
+2523    Set your water heater mode when you get home=>homePresent:presenceSensor:presence:=:present=>waterHeater:extendedSwitch:switch:onExtend
+2532    When the outdoor temperature is above ___° turn off your thermostat=>outsideTemperature:temperatureMeasurement:temperature:>:23=>thermostat:thermostat:thermostatMode:off
+2540    Turn Hue On/Off when motion detected after quiet period=>motion1:motionSensor:motion:=:active_runIn_2=>Hue:light:switch:onoff
+2543    IF WEMO THEN HUE !=>Wemoinsight:switch:switch:=:on=>lights:light:switch:on
+2550    Turn on my coffee maker when I wake up=>:state:wakeUp:=:TRUE=>coffeemaker:extendedSwitch:switch:onExtend
+2552    If Wemo Insight gets turned off, turn it back on!=>poweroutage:state:powerOutage:=:TRUE=>Wemoinsight:switch:switch:on
+2571    Fade off at sunrise=>sunrise::time:=:6=>Fade:switch:switch:off
+2591    Turn on the AC if it is too hot.=>current:temperatureMeasurement:temperature:>:30=>AC:airConditioner:switch:on
+2595    Turn on Home8 switch at a specific time=>everyDay::time:=:19=>Home8 switch:switch:switch:on
+2596    Turn off Home8 switch at a specific Time=>everyDay::time:=:2=>Home8 switch:switch:switch:off
+2597    Turn off Wemo switch when Home8 detects a water leak=>home8waterSensor:waterSensor:water:=:wet=>Wemoswitch:switch:switch:off
+2598    Turn off Home8 switch at sunrise=>sunrise::time:=:6=>Home8 switch:switch:switch:off
+2599    Turn on Home8 switch at sunset=>sunset::time:=:18=>Home8 switch:switch:switch:on
+2605    on at some time=>everyDay::time:=:19=>light:light:switch:on
+2632    If Nest temp rises above a specific temp, then turn on ceiling fan via WeMo=>:temperatureMeasurement:temperature:>:27=>ceilingfan:switch:switch:on
+2667    Turn off WeMo switch if ecobee humidity is below set threshold.=>humiditySensor :relativeHumidityMeasurement:humidity:<:35=>WeMo switch:switch:switch:off
+2669    Sunset On=>sunset::time:=:18=>lights:light:switch:on
+2672    Turn on AC when room temperature raises above 25°C=>:temperatureMeasurement:temperature:>:25=>AC:airConditioner:switch:on
+2673    Turn off AC when room temperature drops under 24°C=>current:temperatureMeasurement:temperature:<:24=>AC:airConditioner:switch:off
+2675    Ensure garage door is open when ignition is turned on!=>Ignition:switch:switch:=:on=>garageDoor:doorControl:door:open
+2696    Open my garage door when I get home and turn off my car=>Ignition:switch:switch:=:off=>garageDoor:doorControl:door:open
+2726    Disarm alarm in the morning=>everyDay::time:=:8=>alarm:alarm:alarm:off
+2728    Turn on wemo in the am Sat-Sun=>everyDay::time:=:8=>wemo:switch:switch:on
+2730    Disable camera recording when you come home=>homePresent:presenceSensor:presence:=:present=>camera:switch:switch:off
+2731    Disable camera recording when you come home from work=>everyDay::time:=:18=>camera:switch:switch:off
+2733    At sunset set Hue brightness to 75%=>sunset::time:=:18=>Hue:light:level:7
+2761    Boost heating to ___°C=>boost:boost:tap:=:TRUE=>heater:heater:switch:on-30-extend
+2762    Boost air conditioning to ___ °=>boost:boost:tap:=:TRUE=>airConditioner:airConditioner:airConditionerMode:cool-20-extend
+2772    If the temperature outside drops below ___ °C, then set your tado° to ___ °C=>current:temperatureMeasurement:temperature:<:20=>tado:thermostat:thermostatMode:heat
+2779    If the temperature outside rises above ___ °, then set your AC to ___ °=>current:temperatureMeasurement:temperature:>:30=>airCondition:airConditioner:airConditionerMode:cool
+2780    If a 'vacation' event starts, then turn heating off=>:state:vacation:=:TRUE=>heater:heater:switch:off
+2781    If a 'vacation' event starts, then turn off the AC=>:state:vacation:=:TRUE=>AC:airConditioner:switch:off
+2785    If one WIFIPLUG turned on then toggle another WIFIPLUG=>wifiplug1:smartPlug:switch:=:on=>wifiplug2:smartPlug:switch:on
+2801    Nest Protect &  tado° Carbon Monoxide (CO) Emergency Heating Off=>carbonMonxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>heater:heater:switch:off
+2807    When your Android phone connects to your home WiFi, disable alarm=>phoneHomewifi:hubConnection:connection:=:TRUE=>homeAlarm:alarm:alarm:off
+2814    Turn off your thermostat when outside temperature is above ___°=>current:temperatureMeasurement:temperature:>:25=>thermostat:thermostat:thermostatMode:off
+2825    If every day at 8.15 pm, then turn off WeMo Insight=>everyDay::time:=:20=>WeMo Insight:switch:switch:off
+2826    If every day at 8.00pm, then turn on WeMo Insight=>everyDay::time:=:20=>WeMo Insight:switch:switch:on
+2827    Turn on WeMo Switch at=>everyDay::time:=:18=>WeMo Switch:switch:switch:on
+2828    Turn off WeMo Switch at=>everyDay::time:=:9=>WeMo Switch:switch:switch:off
+2849    Fade lights off when sleep mode enabled=>state:location:mode:=:Sleep=>lights:light:switch:off
+2886    If there's a smoke alarm, turn on fan to clear smoke=>alarm:alarm:alarm:=:siren=>fan:switch:switch:on_2
+2892    If the humidity is too high, start drying!=>humiditySensor:relativeHumidityMeasurement:humidity:>:50=>airCondition:airConditioner:airConditionerMode:dry
+2895    Arm Kidde RemoteLync camera at night=>everyDay::time:=:19=>camera:switch:switch:on
+2907    Every day at certain time switch all security on=>everyDay::time:=:8=>security:switch:switch:on
+2908    Every day at certain time switch all security off=>everyDay::time:=:18=>security:switch:switch:off
+2909    If connects to home wifi, then switch all security off=>phoneHomeWifi:hubConnection:connection:=:TRUE=>security:switch:switch:off
+2910    If disconnects from home wifi, then switch all security on=>phoneHomeWifi:hubConnection:connection:=:FALSE=>security:switch:switch:on
+2918    If it is a certain time, turn off a smart things device=>everyDay::time:=:18=>device:switch:switch:off
+2929    Turn off tabletop airfilter if smoke is detected.=>alarm:alarm:alarm:=:siren=>airfilter:switch:switch:off
+2930    Turn on Hue at 5pm everyday=>everyDay::time:=:17=>Hue:light:switch:on
+2935    Turn AC off when Tado Heating Goes to Away Mode=>tado:thermostat:thermostatMode:=:off=>AC:airConditioner:switch:off
+2949    Turning off switch turns off plug=>wemo:switch:switch:=:off=>plug:smartPlug:switch:off
+2950    Turning on switch turns on plug=>wemo:switch:switch:=:on=>plug:smartPlug:switch:on
+2954    turn on belkin wemo insight switch at 7am every week days=>everyDay::time:=:7=>belkin wemo insight switch:switch:switch:on
+2955    Motion Alert=>motion1:motionSensor:motion:=:active=>hue:switch:switch:onExtend
+2958    If you connect to a specific Wi-Fi network, your Grove - Relay will turn on=>phoneHomeWifi:hubConnection:connection:=:TRUE=>relay:switch:switch:off
+2981    Coffee Machine ON=>everyDay::time:=:5=>coffeemaker:extendedSwitch:switch:onExtend
+2986    Dim to 40% at 11pm=>everyDay::time:=:23=>light:light:level:2
+2994    If the outdoor humidity gets too high, turn on my Daikin AC unit in Dry mode.=>humiditySensor:relativeHumidityMeasurement:humidity:>:50=>AC:airConditioner:airConditionerMode:dry
+2995    Use the Daikin controller to switch your A/C unit to cooling mode when it's hot=>current:temperatureMeasurement:temperature:>:30=>AC:airConditioner:airConditionerMode:cool
+3012    Turn on cat feeder at specific times=>everyDay::time:=:18=>catFeeder:switch:switch:on
+3013    Turn off at feeder at specific times=>everyDay::time:=:19=>catFeeder:switch:switch:off
+3024    Turn on my Oco camera every morning=>everyDay::time:=:8=>camera:switch:switch:on
+3029    Automatic turns on WEMO=>Ignition:switch:switch:=:on=>WemoOutlet:switch:switch:off_2
+3031    GPS-Triggered Television=>homePresent:presenceSensor:presence:=:present=>TV:switch:switch:on
+3033    If sunrise, turn on coffee maker via Wemo switch.=>sunrise::time:=:7=>coffeeMaker:extendedSwitch:switch:onExtend
+3040    Turn camera off when you come home=>homePresent:presenceSensor:presence:=:present=>camera:switch:switch:off
+3062    Turn off devices when someone specific arrives home=>homePresent:presenceSensor:presence:=:present=>devices:switch:switch:off
+3088    Stop all watering on RainMachine=>waterButton:button:button:=:pushed=>rainMachine:switch:switch:off
+3094    If Doorbell is activated then activate SmartThings switch=>doorbell:state:newEvent:=:TRUE=>switch:switch:switch:on
+3112    Switch on Smarthings device when doorbell pressed=>doorbelll:state:newEvent:=:TRUE=>Switch:switch:switch:on
+3114    Turn on your heater=>everyDay::time:=:19=>heater:heater:switch:on
+3133    Turn on air purifier when I arrive back home=>homePresent:presenceSensor:presence:=:present=>airpurifier:switch:switch:on
+3140    IF12AM=>everyDay::time:=:12=>lights:light:switch:off
+3146    Turn Hue on at Dusk=>sunset::time:=:18=>Hue:light:switch:on
+3147    Turn off Hue at Midnight=>everyDay::time:=:23=>Hue:light:switch:off
+3151    If time then turn off=>everyDay::time:=:14=>light:light:switch:off
+3153    Turn off Energenie device every day at specific time=>everyDay::time:=:17=>Energenie device:switch:switch:off
+3164    IFTTT fan in garage off below 60deg=>garageTemperature:temperatureMeasurement:temperature:<:15=>garageFan:switch:switch:off
+3165    Turn off fan if cold in garage=>garageTemperature:temperatureMeasurement:temperature:<:19=>fan:switch:switch:off
+3171    Power Down=>phoneCharge:state:newEvent:=:TRUE=>lights:light:level:2
+3174    Switch on a Smappee plug on specific days of the week=>everyDay::time:=:12=>smappeePlug:switch:switch:on
+3177    Arrive Home and Disarm Scout Alarm=>homePresent:presenceSensor:presence:=:present=>scoutAlarm:alarm:alarm:off
+3189    Set operation mode to Dry, when humidity level reaches the value you specify=>humiditySensor:relativeHumidityMeasurement:humidity:>:50=>aircondition:airConditioner:airConditionerMode:dry
+3196    Front Porch - off at 2100=>everyDay::time:=:21=>frontPorchLight:light:switch:off
+3197    Front Porch - on at sunset=>sunset::time:=:18=>frontPorchLight:light:switch:on
+3203    Freshly brewed coffee for when you arrive=>homePresent:presenceSensor:presence:=:present=>coffeeMaker:extendedSwitch:switch:onExtend
+3204    Freshly brewed coffee every morning=>sunrise::time:=:7=>coffeeMaker:extendedSwitch:switch:onExtend
+3205    Turn off your air purifier when you leave an area=>areaPresent:presenceSensor:presence:=:not_present=>airpurifier:switch:switch:off
+3206    When you enter an area, set your air purifier to turn on=>areaPresent:presenceSensor:presence:=:present=>airpurifier:switch:switch:on
+3207    Turn on your Air Purifier when the air quality decreases=>airQuailitySensor:airQualitySensor:airQuality:<:5=>airpurifier:switch:switch:on
+3208    At sunrise, Brew my coffee=>sunrise::time:=:7=>coffeeMaker:extendedSwitch:switch:onExtend
+3209    If You exit an area, then set Crock-Pot® Slow Cooker cook timer and mode to High=>areaPresent:presenceSensor:presence:=:not_present=>cooker:heater:switch:onExtend
+3210    If current humidity level rises above 55%, then adjust fan mode for Holmes® Humidifier Holmes to Off=>humiditySensor:relativeHumidityMeasurement:humidity:>:55=>thermostat:thermostat:thermostatFanMode:off
+3211    If You enter an area, then adjust fan mode for Holmes® Humidifier to Medium=>areaPresent:presenceSensor:presence:=:present=>thermostat:thermostat:thermostatFanMode:on
+3217    On Nest Smoke Warning, Turn on Emergency Switch=>alarm:alarm:alarm:=:siren=>emergencySwitch:switch:switch:on
+3219    On Nest Protect Carbon Monoxide Warning, Turn On Emergency Switch=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>emergencySwitch:switch:switch:on
+3227    lock up after me=>homePresent:presenceSensor:presence:=:not_present=>doorlock:lock:lock:locked
+3229    Nest Detects Smoke/Fire, Turn on all Wemo switches.=>alarm:alarm:alarm:=:siren=>Wemoswitches:switch:switch:on
+3242    Ring Doorbell and Hue=>doorbel:state:newEvent:=:TRUE=>Hue:light:switch:on
+3251    Hue On Sunset=>sunset::time:=:18=>Hue:light:switch:on
+3252    (ON) WeMo_Heater and  WeMo_TV=>Wemoheater:heater:switch:=:on=>WemoTV:switch:switch:on
+3253    OFF 2 WEMO PLUG TOGETHER=>Wemoheater:heater:switch:=:off=>WemoTV:switch:switch:off
+3255    Automatically turn on A/C if the temperature rises above certain level=>current:temperatureMeasurement:temperature:>:28=>AC:airConditioner:switch:on
+3291    I'm on vacation, enable Holiday mode.=>:state:vacation:=:TRUE=>state:location:mode:Away
+3296    If the fridge is off then turn it on.=>fridge:switch:switch:=:off=>fridge:switch:switch:on
+3297    If current temperature drops below 10°C, then heat air conditioned room to 20 °C=>current:temperatureMeasurement:temperature:<:10=>thermostat:thermostat:heatingSetpoint:20-extend
+3298    Clear smoke=>alarm:alarm:alarm:=:siren=>fan:switch:switch:on_2
+3314    CONTROL GAS FIREPLACE=>current:temperatureMeasurement:temperature:<:18=>fireplace:switch:switch:on
+3318    If temp above 45, shut off wemo=>current:temperatureMeasurement:temperature:>:7=>wemo:switch:switch:off
+3324    Be sure that your garage is closed every night at 10:30pm=>everyDay::time:>:22=>garageDoor:doorControl:door:closed
+3360    Turn Oco camera on when you leave home (disconnect from home Wi-Fi)=>phoneHomeWifi:hubConnection:connection:=:FALSE=>camera:switch:switch:on
+3364    If a water leak is detected, then sound the alarm!=>waterSensor:waterSensor:water:=:wet=>mybose:musicPlayer:status:play
+3367    If a water leak is detected, then turn on Nest Thermostat fan for 15 minutes=>waterSensor:waterSensor:water:=:wet=>fan:switch:switch:on_2
+3368    Sound alarm when motion is detected=>motion:motionSensor:motion:=:active=>mybose:musicPlayer:status:play
+3370    Automatically sound an alarm when Nest Thermostat's temperature gets too high=>current:temperatureMeasurement:temperature:>:30=>mybose:musicPlayer:status:play
+3371    Trigger an alarm when unsafe CO2 levels are detected=>carbonDioxideDextector:carbonDioxideMeasurement:carbonDioxide:>:8=>mybedroombose:musicPlayer:status:play
+3372    Sound alarm when smoke is detected=>alarm:alarm:alarm:=:siren=>mybedroombose:musicPlayer:status:play
+3377    Turn the coffeemaker on when the sun rises=>sunrise::time:=:7=>coffeemaker:extendedSwitch:switch:onExtend
+3380    If Nest detects smoke, blink Lifx=>alarm:alarm:alarm:=:siren=>lifx:switch:switch:onoff
+3383    switch on outlet if siren goes on=>alarm:alarm:alarm:=:siren=>outlet:switch:switch:on
+3392    Activation WEMO switch at Sunset=>sunset::time:=:18=>Wemo switch:switch:switch:on
+3399    Turn on/off hot water tap=>homePresent:presenceSensor:presence:=:present=>hotwater:switch:switch:on
+3415    Turn on switch if temperature above=>current:temperatureMeasurement:temperature:>:30=>switch:switch:switch:on
+3416    Turn switch off if temperature below 10=>current:temperatureMeasurement:temperature:<:10=>switch:switch:switch:off
+3417    Turn switch off if temperature above 30=>current:temperatureMeasurement:temperature:>:30=>switch:switch:switch:off
+3418    Turn switch on if temperature fall below 10=>current:temperatureMeasurement:temperature:<:10=>switch:switch:switch:on
+3419    If @day @time blink and turn on @hue=>everyDay::time:=:18=>Hue:light:switch:onoff
+3421    Close Garage Door in the morning=>everyDay::time:=:9=>garageDoor:doorControl:door:closed
+3422    Below 25 degrees F=>current:temperatureMeasurement:temperature:<:25=>lights:light:switch:off
+3424    Turn on an outlet=>everyDay::time:=:18=>outlet:switch:switch:on
+3426    Bedroom off on charge=>phoneCharge:state:newEvent:=:TRUE=>bedroomlights:light:switch:off
+3433    If sunset, then Switch on Front Porch using SmartThings=>sunset::time:=:18=>frontPorchLight:light:switch:on
+3434    If sunrise, then Switch off Front Porch using SmartThings=>sunrise::time:=:7=>frontPorchLight:light:switch:off
+3456    Activate NFC when you enter a specific location=>areaPresent:presenceSensor:presence:=:not_present=>phoneNFC:switch:switch:on
+3465    If temperature drops below ___ then switch off AC=>insideTemperature:temperatureMeasurement:temperature:<:23=>AC:airConditioner:switch:on
+3468    Turn on heat if below 70=>outsideTemperature:temperatureMeasurement:temperature:<:10=>heater:heater:switch:on
+3475    Turn off microBees when you leave home=>phoneHomeWifi:hubConnection:connection:=:FALSE=>microBees:switch:switch:off
+3479    When I sit on my sofa, turn the TV on=>sofamotion:motionSensor:motion:=:active=>TV:switch:switch:on
+3492    Nest turns on switch below 68*f=>:temperatureMeasurement:temperature:<:20=>nest:switch:switch:on
+3493    When a device disconnects from OnHub turn off WeMo Insight switch.=>deviceConnect:hubConnection:connection:=:FALSE=>WemoInsight:switch:switch:off
+3494    When a device connects to OnHub turn on WeMo Insight switch.=>deviceConnect:hubConnection:connection:=:TRUE=>WeMoInsight switch:switch:switch:on
+3496    Ring doorbell turns on all WeMo switches.=>doorMotion:motionSensor:motion:=:active=>lights:light:switch:on
+3516    If You exit an area, then turn on D-Link Smart Plug=>areaPresent:presenceSensor:presence:=:not_present=>smartPlug:switch:switch:on
+3517    If connects to specific WiFi, then turn off D-Link Smart Plug=>phoneHomeWifi:hubConnection:connection:=:TRUE=>smartPlug:switch:switch:off
+3518    If You enter an area, then turn off D-Link Smart Plug=>areaPresent:presenceSensor:presence:=:present=>smartPlug:switch:switch:off
+3520    If motion detected by D-Link Motion Sensor , then turn on D-Link Smart Plug.=>dlinkmotion:motionSensor:motion:=:active=>SmartPlug:switch:switch:on
+3521    If new SMS received from , then turn on D-Link Smart Plug .=>newSMS:state:newEvent:=:TRUE=>SmartPlug:switch:switch:on
+3522    If unknown person seen by Welcome, then turn on D-Link Smart Plug .=>outmotion:motionSensor:motion:=:active=>SmartPlug:switch:switch:on
+3523    If rain detected, then turn on D-Link Smart Plug .=>outrain:rainSensor:rain:=:detected=>SmartPlug:switch:switch:on
+3524    If Netatmo thermostat enters away mode, then turn on D-Link Smart Plug .=>thermostat:thermostat:thermostatMode:=:off=>SmartPlug:switch:switch:on
+3527    If Temperature drops below, then turn on D-Link Smart Plug .=>:temperatureMeasurement:temperature:<:10=>SmartPlug:switch:switch:on
+3528    If Temperature rises above, then turn on D-Link Smart Plug .=>:temperatureMeasurement:temperature:>:30=>SmartPlug:switch:switch:on
+3529    If carbon dioxide rises above, then turn on D-Link Smart Plug.=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:8=>SmartPlug:switch:switch:on
+3530    If humidity rises above 90%, then turn on D-Link Smart Plug.=>humiditySensor:relativeHumidityMeasurement:humidity:>:90=>SmartPlug:switch:switch:on
+3532    If motion seen by Netatmo Welcome, then turn on D-Link Smart Plug.=>outmotion:motionSensor:motion:=:active=>SmartPlug:switch:switch:on
+3534    If current temperature drops below , then turn on D-Link Smart Plug.=>current:temperatureMeasurement:temperature:<:10=>SmartPlug:switch:switch:on
+3535    If current temperature rises above , then turn on D-Link Smart Plug.=>current:temperatureMeasurement:temperature:>:29=>SmartPlug:switch:switch:on
+3536    If sunrise, then turn off D-Link Smart Plug.=>sunrise::time:=:7=>SmartPlug:switch:switch:off
+3537    If sunset, then turn on D-Link Smart Plug.=>sunset::time:=:18=>SmartPlug:switch:switch:on
+3538    If current humidity level rises above 80%, then turn on D-Link Smart Plug.=>humiditySensor:relativeHumidityMeasurement:humidity:>:80=>SmartPlug:switch:switch:on
+3540    If .... is seen, then turn on D-Link Smart Plug.=>homePresent:presenceSensor:presence:=:present=>SmartPlug:switch:switch:on
+3543    If ... is seen, then turn off D-Link Smart Plug.=>homePresent:presenceSensor:presence:=:present=>SmartPlug:switch:switch:off
+3546    Turn on Smappee Plug when temperature drops bellow x=>current:temperatureMeasurement:temperature:<:10=>smartPlug:switch:switch:on
+3547    Turn off Smappee Plug when temperature rises above x=>current:temperatureMeasurement:temperature:>:28=>smartPlug:switch:switch:off
+3549    If battery drops below ... ,then turn on D-Link Smart Plug.=>battery:battery:battery:<:15=>SmartPlug:switch:switch:on
+3562    Turn on pump if leak detected=>waterSensor:waterSensor:water:=:wet=>pump:switch:switch:on
+3578    Turn off at 23:00=>everyDay::time:=:23=>light:light:switch:off
+3588    Turn on with alarm at 40% brightness=>illuminance:illuminanceMeasurement:illuminance:=:4=>alarmSwitch:switch:switch:off
+3595    Leaving home, save energy.=>homePresent:presenceSensor:presence:=:not_present=>thermostat:thermostat:heatingSetpoint:26-extend
+3642    PJG - Door bell=>doorbell:ringBell:ring:=:detected=>light:switch:switch:on
+3653    If Nest turns below XX temperature then turn Wemo switch off=>outsideTemperature:temperatureMeasurement:temperature:<:14=>Wemo switch:switch:switch:off
+3654    If Nest Temp rises above XX temperature, then turn on Wemo Switch=>outsideTemperature:temperatureMeasurement:temperature:>:30=>Wemo Switch:switch:switch:on
+3655    Open your window when the sun rises.=>sunrise::time:=:7=>window:doorControl:door:open
+3656    If your Nest Thermostat rises above ___° your window will close.=>current:temperatureMeasurement:temperature:>:30=>window:doorControl:door:close
+3657    If I leave my house then close my window.=>homePresent:presenceSensor:presence:=:not_present=>window:doorControl:door:closed
+3658    Close your window if a new motion event is detected.=>motion:motionSensor:motion:=:active=>window:doorControl:door:closed
+3666    When humidity rises above 50%, disable fan.=>humiditySensor:relativeHumidityMeasurement:humidity:>:50=>thermostat:thermostat:thermostatFanMode:off
+3670    If Netatmo detects elevated Carbon Dioxide, ventilate the room.=>carbonDioxideDector:carbonDioxideMeasurement:carbonDioxide:>:8=>fan:switch:switch:on_2
+3673    If Motion detected, close Garage Door=>motion:motionSensor:motion:=:active=>garageDoor:doorControl:door:closed
+3674    If Rain detected, close Garage Door=>rainSensor:rainSensor:rain:=:detected=>garageDoor:doorControl:door:closed
+3676    Turn off switch based on time=>everyDay::time:=:20=>switch:switch:switch:off
+3710    Lock a socket on when you charge your Android=>phoneCharge:state:newEvent:=:TRUE=>socket:lock:lock:locked
+3716    chandelier on at 7=>everyDay::time:=:7=>chandelier:switch:switch:on
+3717    chandelier off at 9=>everyDay::time:=:9=>chandelier:switch:switch:off
+3728    If pollution is high, then turn on WeMo Switch=>airQualitySensor:airQualitySensor:airQuality:>:10=>airpurifier:switch:switch:on
+3759    When a device disconnects from OnHub turn off smart plug=>deviceConnect:hubConnection:connection:=:FALSE=>SmartPlug:switch:switch:off
+3770    If Motion Detected Switch On WIFIPLUG=>motion:motionSensor:motion:=:active=>wifiplug:switch:switch:on
+3771    If Ding detected, toggle WIFIPLUG=>ding:state:newEvent:=:TRUE=>wifiplug:switch:switch:on
+3772    If new Motion detected at Front Door, then toggle WIFIPLUG on/off=>frontmotion:motionSensor:motion:=:active=>wifiplug:switch:switch:onoff
+3789    If ignition is turned on in an area, open garage door=>Ignition:switch:switch:=:on=>garageDoor:doorControl:door:open
+3808    Every hr turn off smartplug=>everyHour::time:=:2=>smartplug:switch:switch:off
+3831    Easy CO2 regulator for urban gardening=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:8=>regulator:switch:switch:on
+3836    Turn off the kids music when it's time for bed=>everyDay::time:=:22=>kids music:switch:switch:off
+3853    Ecobee Senses Rain Shut off Sprinklers=>humiditySensor:relativeHumidityMeasurement:humidity:>:95=>sprinkler:switch:switch:off
+3860    Auto-unlock door=>homePresent:presenceSensor:presence:=:present=>doorlock:lock:lock:unlocked
+3861    Auto-lock door=>homePresent:presenceSensor:presence:=:not_present=>doorlock:lock:lock:locked
+3862    If the living room temperature drops below 20°C switch on boiler=>:temperatureMeasurement:temperature:<:20=>boiler:switch:switch:on
+3863    If the living room temperature rises above 25°C switch off boiler=>:temperatureMeasurement:temperature:>:25=>boiler:switch:switch:off
+3864    If Nest above set point then Wemo stitch on=>:temperatureMeasurement:temperature:>:28=>Wemo stitch:switch:switch:off
+3866    Turn off the Humidifier=>humiditySensor:relativeHumidityMeasurement:humidity:>:40=>humidifier:switch:switch:off
+3871    Make sure your door is locked every day by a specific time=>everyDay::time:=:9=>doorlock:lock:lock:locked
+3881    If there is carbon monoxide emergency by Nest Protect, then open my windows.=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>window:doorControl:door:open
+3890    Turn Smart Things devices on at Sunset=>sunset::time:=:18=>Smart Things devices:switch:switch:on
+3892    Arm security system when wifi disconnects=>phoneHomeWifi:hubConnection:connection:=:FALSE=>security system:switch:switch:on
+3893    Arm security=>homePresent:presenceSensor:presence:=:not_present=>security system:switch:switch:on
+3894    Turn off the oven when I lock the door=>doorlock:lock:lock:=:locked=>oven:ovenMode:ovenMode:off
+3898    Turn on security system when away=>homePresent:presenceSensor:presence:=:not_present=>security system:switch:switch:on
+3899    When Netatmo carbon dioxyde (CO2) drops below ?, Turn off Wemo Insight Switch=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:<:5=>Wemo:switch:switch:off
+3900    If carbon dioxide rise above ?switch on Wemo Insight Switch=>carbonDioxide:carbonDioxideMeasurement:carbonDioxide:>:8=>wemo:switch:switch:on
+3905    Turn off the oven when you lock the door and leave home=>doorlock:lock:lock:=:locked=>oven:ovenMode:ovenMode:off
+3929    Cool Enough, turn off the fan.=>current:temperatureMeasurement:temperature:<:18=>fan:switch:switch:off
+3933    Turn off Water Heater when not here=>homePresent:presenceSensor:presence:=:not_present=>waterHeater:extendedSwitch:switch:off
+3947    Open Main Gate at 6am=>everyDay::time:=:6=>door:doorControl:door:open
+3955    Automatically turn AC off at set times=>everyHour::time:=:9=>AC:airConditioner:switch:off
+3956    Set AC to turn on automatically=>everyHour::time:=:19=>autom:switch:switch:on
+3961    Turn on Fan, when I come Home=>homePresent:presenceSensor:presence:=:present=>fan:switch:switch:on
+3970    If Window/Door opened, place heating zone into Standby mode.=>window:doorControl:door:=:open=>thermostat:thermostat:thermostatMode:off
+3971    If You exit an area, then set Away Mode=>areaPresent:presenceSensor:presence:=:not_present=>state:location:mode:Away
+3972    At sunset, automatically turn on your neoPlug=>sunset::time:=:18=>smartPlug:switch:switch:on
+3974    Turn off automatically=>everyDay::time:=:9=>light:light:switch:off
+3981    Turn off a/c when temp drops below 85F=>current:temperatureMeasurement:temperature:<:29=>a/c:switch:switch:off
+3982    Turn a/c on when temperature reaches 90F.=>current:temperatureMeasurement:temperature:>:32=>AC:airConditioner:switch:on
+4001    Turn off the Sleep mode when you leave home=>homePresent:presenceSensor:presence:=:not_present=>state:location:mode:Away
+4001    Turn on Sleep Mode when you arrive home=>homePresent:presenceSensor:presence:=:present=>state:location:mode:Sleep
+4021    Turn off Sleep Mode in the morning.=>everyday::time:=:7=>state:location:mode:Away
+4024    If a person is seen,lock the door=>motion:motionSensor:motion:=:active=>doorlock:lock:lock:locked
+4025    If the danalock locks in the morning by a spcific user, then the Thermostat goes to away mode=>doorlock:lock:lock:=:locked=>thermostat:thermostat:thermostatMode:off
+4026    If the car is started at home, then the danalock will lock the door.=>Ignition:switch:switch:=:on=>doorlock:lock:lock:locked
+4027    if the danalock is locked then the tado will turn the heat of.=>doorlock:lock:lock:=:locked=>heater:heater:switch:off
+4032    If You enter an area, then unlock Back Door=>areaPresent:presenceSensor:presence:=:present=>backdoorlock:lock:lock:unlocked
+4033    If You exit an area, then lock Back Door=>areaPresent:presenceSensor:presence:=:not_present=>backdoorlock:lock:lock:locked
+4036    Swith on AC fan when Air Quality is poor=>airQualitySensor:airQualitySensor:airQuality:>:10=>fan:switch:switch:on
+4037    D-Link Smart Plug timed shut down=>everyDay::time:=:9=>smartPlug:switch:switch:off
+4038    turn off 2nd bed if below 75=>:temperatureMeasurement:temperature:<:24=>AC:airConditioner:switch:off
+4039    Turn off if Living Room below 75=>:temperatureMeasurement:temperature:<:24=>AC:airConditioner:switch:off
+4053    Every day at a specific time, turn the A/C off=>everyDay::time:=:8=>AC:airConditioner:switch:off
+4085    If the temperature outside drops below 5°C then boost my heating=>current:temperatureMeasurement:temperature:<:5=>thermostat:thermostat:thermostatMode:heat-28-extend
+4086    Boost hot water for my next shower=>hotwaterBoost:boost:tap:=:TRUE=>hotWater:extendedSwitch:switch:onExtend
+4087    Boost my heating when I'm on my way home=>heatingBoost:boost:tap:=:TRUE=>thermostat:thermostat:thermostatMode:heat-22-extend
+4106    At a set time, turn on WeMo switch=>everyDay::time:=:15=>WeMo switch:switch:switch:on
+4129    Close garage when alarm is on=>alarm:alarm:alarm:=:siren=>garageDoor:doorControl:door:closed
+4145    Garage Door notification=>garageDoor:doorControl:door:=:open=>light:light:switch:on
+4153    Basement Smoke Alarm=>alarm:alarm:alarm:=:siren=>lights:light:switch:on
+4155    Hallway Nest Protect=>alarm:alarm:alarm:=:siren=>lights:light:switch:on
+4162    iSmartAlarm contact open turns on Wemo switch=>ismartalarmContact:contactSensor:contact:=:open=>wemo:switch:switch:on
+4164    Switch boiler off when ETRV temp drops below 18=>:temperatureMeasurement:temperature:<:18=>boiler:switch:switch:off
+4168    If the humidity is high, turn on your fan=>humiditySensor:relativeHumidityMeasurement:humidity:>:56=>fan:switch:switch:on
+4208    If outdoor temperature rises above 73, turn off whole-house fan=>outsideTemperature:temperatureMeasurement:temperature:>:22=>whole-house fan:switch:switch:off
+4209    If outdoor temperature drops below 73, turn on whole-house fan=>outsideTemperature:temperatureMeasurement:temperature:<:22=>whole-house fan:switch:switch:on
+4218    Turn Sleep On At 3:00 PM on Fridays.=>everyDay::time:=:15=>state:location:mode:Sleep
+4219    Turn Sleep off On Saturday at 9:00 PM=>everyDay::time:=:21=>state:location:mode:Away
+4225    If Nest Protect detects Carbon Monoxide, open SkylinkNet garage door opener for ventilation=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>garageDoor:doorControl:door:open
+4226    If Nest Protect detects smoke, open SkylinkNet garage door opener=>alarm:alarm:alarm:=:siren=>garageDoor:doorControl:door:open
+4238    Turn on WeMo switch(es) at Sunset=>sunset::time:=:18=>WeMo switch:switch:switch:on
+4256    Turn off Front door at 12 AM=>everyDay::time:=:12=>Front door:switch:switch:off
+4262    If temperature rises above _, turn on fan for 15 minutes=>:temperatureMeasurement:temperature:>:28=>fan:switch:switch:on_2
+4263    When I am on my way home boost my heating=>homePreset:presenceSensor:presence:=:present=>heater:heater:switch:on-22-extend
+4264    When I leave home turn my heating off=>homePresent:presenceSensor:presence:=:not_present=>heater:heater:switch:off
+4282    If SpotCam detect motion then turn on/off D-Link Smart Plug=>cammotion:motionSensor:motion:=:active=>SmartPlug:switch:switch:on_2
+4287    If SpotCam detect motion, then turn on D-link SmartPlug=>cammotion:motionSensor:motion:=:active=>SmartPlug:switch:switch:on
+4288    If SpotCam detect motion, then turn off D-link SmartPlug=>cammotion:motionSensor:motion:=:active=>SmartPlug:switch:switch:off
+4289    Turn off water heater on leave the city=>homePresent:presenceSensor:presence:=:not_present=>waterHeater:extendedSwitch:switch:off
+4296    Co2 detected turn hive thermo off=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>thermometer:switch:switch:off
+4299    Run fan if Moisture level is too high=>waterSensor:waterSensor:water:=:wet=>fan:switch:switch:on_2
+4302    If every day at 01:00 AM, then turn off Ligth switch=>everyDay::time:=:1=>Ligtht:switch:switch:off
+4315    Turn off SmartThings Outlet at a set time.=>everyDay::time:=:17=>outlet:switch:switch:off
+4351    Boost heating after excercise=>runBoost:state:newEvent:=:TRUE=>waterHeater:extendedSwitch:switch:onExtend
+4363    on at 430=>everyDay::time:=:4=>light:light:switch:on
+4372    Close an opened Garage Door=>garageDoor:doorControl:door:=:open=>garageDoor:doorControl:door:closed
+4376    If Garage Door open and temperature too low then close it=>garageTemperature:temperatureMeasurement:temperature:<:5=>garageDoor:doorControl:door:closed
+4400    ironing socket auto power off=>homePresent:presenceSensor:presence:=:not_present=>ironSocket:switch:switch:off
+4411    Close garage door at 8:00am=>everyDay::time:=:8=>garageDoor:doorControl:door:closed
+4415    If motion, turn on air conditioner=>motion:motionSensor:motion:=:active=>airconditioner:airConditioner:switch:on
+4452    If your Nest Protect smoke alarm detects an emergency, then turn off your oven=>alarm:alarm:alarm:=:siren=>oven:ovenMode:ovenMode:off
+4455    Turn off your WeMo Insight Switch automatically at sunrise=>sunrise::time:=:6=>WeMo Insight Switch autom:switch:switch:off
+4456    Turn on your WeMo Insight Switch automatically at sunset=>sunset::time:=:18=>WeMo Insight Switch autom:switch:switch:on
+4457    Smartthings Unlock door when Android phone connects to Specific WiFi=>phoneHomeWifi:hubConnection:connection:=:TRUE=>doorlock:lock:lock:unlocked
+4486    If temperature rises above X, turn on D-Link Smart Plug=>current:temperatureMeasurement:temperature:>:28=>SmartPlug:switch:switch:off
+4488    Up Unit on if Temp < 45=>current:temperatureMeasurement:temperature:<:7=>unitAC:airConditioner:switch:on
+4494    If CO2 over 1000 Blink=>carbonDioxideDetector:carbonDioxideMeasurement:carbonDioxide:>:8=>lights:light:switch:onoff
+4516    door to outlet=>door:doorControl:door:=:open=>outlet:switch:switch:on
+4521    Front door lock at 10pm=>everyDay::time:=:22=>frontdoorlock:lock:lock:locked
+4530    Hot water on when back from a run!=>runBoost:state:newEvent:=:TRUE=>waterHeater:extendedSwitch:switch:onExtend
+4537    Monoxid carbone stop the heater=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>heater:heater:switch:off
+4546    Heating boost if temp drops below 3c=>current:temperatureMeasurement:temperature:<:3=>heater:heater:switch:onExtend
+4547    Turn heating off when temp outside is 18c +=>current:temperatureMeasurement:temperature:>:18=>heater:heater:switch:off
+4560    Stop watering the garden when your pet is outside=>petMotion:motionSensor:motion:=:active=>watering:switch:switch:off
+4561    Make sure the door is locked when Presence sees someone outside=>motion:motionSensor:motion:=:active=>doorlock:lock:lock:locked
+4566    Carbon Monoxide Warning Siren=>carbonMonoxideDetector:carbonMonoxideDetector:carbonMonoxide:=:detected=>alarm:alarm:alarm:siren
+4568    If Presence in Home Is No Longer Detected, Arm My iSmartAlarm=>homePresent:presenceSensor:presence:=:present=>ismartalarm:switch:switch:on
+4569    Disarm your iSmartAlarm when you arrive home with your iPhone=>homePresent:presenceSensor:presence:=:present=>ismartalarm:switch:switch:off
+4573    Homeboy Arms iSmartAlarm=>homebyLocation:switch:switch:=:on=>ismartalarm:switch:switch:on
+4574    Homeboy disarms iSmartAlarm=>homeboyLocation:switch:switch:=:on=>ismartalarm:switch:switch:off
+4575    Unlock=>homePresent:presenceSensor:presence:=:present=>doorlock:lock:lock:unlocked
+4580    Arm ismartalarm if disconnected from WiFi network=>phoneHomeWifi:hubConnection:connection:=:FALSE=>ismartalarm:switch:switch:on
+4589    Automatically disarm iSmartAlarm on certain days and time=>everyDay::time:=:18=>iSmartAlarm:switch:switch:off
+4590    Automatically arm iSmartAlarm on certain days and time=>everyDay::time:=:8=>iSmartAlarm:switch:switch:on
+4591    Auto arm iSmartAlarm when not home=>homePresent:presenceSensor:presence:=:not_present=>ismartalarm:switch:switch:on
+4598    When I start my car at Home, arm my iSmartAlarm=>Ignition:switch:switch:=:on=>ismartalarm:switch:switch:on
+4599    When I turn off my car at Home, disarm my iSmartAlarm=>Ignition:switch:switch:=:off=>ismartalarm:switch:switch:off
+4604    Disarm IsmartAlarm at 5AM each day=>everyDay::time:=:5=>ismartalarm:switch:switch:off
+4608    Arm my iSmartAlarm Mon-Fri at 8:30a=>everyDay::time:=:8=>ismartalarm:switch:switch:on
+4609    If 8:15 in the morning, then disarm my iSmart Alarm | You-Start.it=>everyDay::time:=:8=>ismartalarm:switch:switch:off
+4610    Disarm IsmartAlarm with Smartthings when I get home.=>homePresent:presenceSensor:presence:=:present=>ismartalarm:switch:switch:off
+4611    If the danalock locks, then arm the  ismartalarm=>danalock:lock:lock:=:locked=>ismartalarm:switch:switch:on
+4612    If the danalock is unlocked then the ismartalarm will disarm=>danalock:lock:lock:=:unlocked=>ismartalarm:switch:switch:off
+4615    Disarm alarm when your phone connects to your home WiFi.=>phoneHomeWifi:hubConnection:connection:=:TRUE=>ismartalarm:switch:switch:off
+4616    Arm alarm when your phone disconnects from your home WiFi.=>phoneHomeWifi:hubConnection:connection:=:FALSE=>ismartalarm:switch:switch:on
+4617    If outdoor weather data rises humidity above 65%, then toggle switch in telldus live=>humiditySensor:relativeHumidityMeasurement:humidity:>:65=>device:switch:switch:on
+4621    On motion detect use http://crowsnest.io to turn on an outlet + take a photo=>motion:motionSensor:motion:=:active=>outlet:switch:switch:off
+4633    If MyQ WGarage Door Open after 8:00pm then Turn on WeMo Lamp=>garageDoor:doorControl:door:=:open@20=>Wemolamp:light:switch:off
+4634    If MyQ Garage Door Open then Turn on WeMo Lamp=>garageDoor:doorControl:door:=:open=>Wemolamp:light:switch:off
+4639    Turn off WeMo Switch during #OhmHour=>energyPrice:energyPrice:price:>:3=>WeMo:switch:switch:off

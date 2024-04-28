@@ -1,0 +1,30 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     airConditioner.switch:{on,off};
+     airConditioner.switch_last:{on,off};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+   ASSIGN
+      init(airConditioner.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+
+      next(airConditioner.switch_last):=airConditioner.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+    next(airConditioner.switch):=
+          case
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last:off;
+             TRUE:airConditioner.switch;
+          esac;

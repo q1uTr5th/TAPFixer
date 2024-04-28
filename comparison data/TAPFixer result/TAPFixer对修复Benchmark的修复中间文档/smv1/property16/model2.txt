@@ -1,0 +1,66 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     smokeDetector.smoke:{clear,detected};
+     smokeDetector.smoke_last:{clear,detected};
+     smokeDetector.smoke_count:0..1;
+     smokeDetector.smoke_CONFIG:-1..8;
+     smokeDetector.smoke_threshold:4..8;
+     smokeDetector.smoke_not_handle_config:0..0;
+   INVAR
+     smokeDetector.smoke_not_handle_config = 0
+   ASSIGN
+     init(smokeDetector.smoke_count):=1;
+         next(smokeDetector.smoke_count):=
+              case
+                next(smokeDetector.smoke)!=smokeDetector.smoke & smokeDetector.smoke_count =0: 1;
+                smokeDetector.smoke_count = 1: 0;
+                TRUE: smokeDetector.smoke_count;
+              esac;
+    
+         next(smokeDetector.smoke):=
+              case
+                smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold: detected;
+                smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: clear;
+                --因为顺序执行，所以下面肯定是smoke_clear=-1
+                smokeDetector.smoke_count = 1: smokeDetector.smoke;
+                smokeDetector.smoke_count = 0: {clear,detected};
+                TRUE: smokeDetector.smoke;
+              esac;
+
+ init(smokeDetector.smoke_CONFIG):=-1;
+     next(smokeDetector.smoke_CONFIG):=
+       case
+         smokeDetector.smoke=detected & smokeDetector.smoke!=smokeDetector.smoke_last: 0;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)>=0: smokeDetector.smoke_CONFIG + smokeDetector.smoke_not_handle_config;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)<0: 0;
+         smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: -1;
+         TRUE: smokeDetector.smoke_CONFIG;
+       esac;
+
+      next(smokeDetector.smoke_threshold):=smokeDetector.smoke_threshold;
+
+      init(alarm.alarm_last):=off;
+      init(smokeDetector.smoke_last):=clear;
+
+      next(alarm.alarm_last):=alarm.alarm;
+      next(smokeDetector.smoke_last):=smokeDetector.smoke;
+    next(alarm.alarm):=
+          case
+             smokeDetector.smoke=clear&smokeDetector.smoke!=smokeDetector.smoke_last:siren;
+             TRUE:alarm.alarm;
+          esac;

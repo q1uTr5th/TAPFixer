@@ -1,0 +1,36 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     smartPlug.switch:{off,on};
+     smartPlug.switch_last:{off,on};
+     hubConnection.connection:boolean;
+     hubConnection.connection_last:boolean;
+   ASSIGN
+      init(presenceSensor.presence_last):=present;
+      init(smartPlug.switch_last):=on;
+
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(smartPlug.switch_last):=smartPlug.switch;
+      next(hubConnection.connection_last):=hubConnection.connection;
+    next(smartPlug.switch):=
+          case
+             hubConnection.connection=FALSE&hubConnection.connection!=hubConnection.connection_last:off;
+             hubConnection.connection=TRUE&hubConnection.connection!=hubConnection.connection_last:off;
+             hubConnection.connection=TRUE&hubConnection.connection!=hubConnection.connection_last&presenceSensor.presence=present:off;
+             hubConnection.connection=TRUE&hubConnection.connection!=hubConnection.connection_last&presenceSensor.presence=not_present:off;
+             TRUE:smartPlug.switch;
+          esac;

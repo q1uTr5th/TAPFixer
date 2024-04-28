@@ -1,0 +1,115 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     smokeDetector.smoke:{clear,detected};
+     smokeDetector.smoke_last:{clear,detected};
+     smokeDetector.smoke_count:0..1;
+     smokeDetector.smoke_CONFIG:-1..8;
+     smokeDetector.smoke_threshold:4..8;
+     smokeDetector.smoke_not_handle_config:0..0;
+     carbonMonoxideDetector.carbonMonoxide:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_last:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_count:0..1;
+     carbonMonoxideDetector.carbonMonoxide_CONFIG:-1..8;
+     carbonMonoxideDetector.carbonMonoxide_threshold:4..8;
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config:0..0;
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     motionSensor.motion:{active,inactive};
+     motionSensor.motion_last:{active,inactive};
+   INVAR
+     smokeDetector.smoke_not_handle_config = 0
+   INVAR
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config = 0
+   ASSIGN
+     init(smokeDetector.smoke_count):=1;
+         next(smokeDetector.smoke_count):=
+              case
+                next(smokeDetector.smoke)!=smokeDetector.smoke & smokeDetector.smoke_count =0: 1;
+                smokeDetector.smoke_count = 1: 0;
+                TRUE: smokeDetector.smoke_count;
+              esac;
+    
+         next(smokeDetector.smoke):=
+              case
+                smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold: detected;
+                smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: clear;
+                --因为顺序执行，所以下面肯定是smoke_clear=-1
+                smokeDetector.smoke_count = 1: smokeDetector.smoke;
+                smokeDetector.smoke_count = 0: {clear,detected};
+                TRUE: smokeDetector.smoke;
+              esac;
+
+ init(smokeDetector.smoke_CONFIG):=-1;
+     next(smokeDetector.smoke_CONFIG):=
+       case
+         smokeDetector.smoke=detected & smokeDetector.smoke!=smokeDetector.smoke_last: 0;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)>=0: smokeDetector.smoke_CONFIG + smokeDetector.smoke_not_handle_config;
+         smokeDetector.smoke_CONFIG>=0 & smokeDetector.smoke_CONFIG<smokeDetector.smoke_threshold & (smokeDetector.smoke_CONFIG+smokeDetector.smoke_not_handle_config)<0: 0;
+         smokeDetector.smoke_CONFIG>=smokeDetector.smoke_threshold: -1;
+         TRUE: smokeDetector.smoke_CONFIG;
+       esac;
+
+     init(carbonMonoxideDetector.carbonMonoxide_count):=1;
+         next(carbonMonoxideDetector.carbonMonoxide_count):=
+              case
+                next(carbonMonoxideDetector.carbonMonoxide)!=carbonMonoxideDetector.carbonMonoxide & carbonMonoxideDetector.carbonMonoxide_count =0: 1;
+                carbonMonoxideDetector.carbonMonoxide_count = 1: 0;
+                TRUE: carbonMonoxideDetector.carbonMonoxide_count;
+              esac;
+    
+         next(carbonMonoxideDetector.carbonMonoxide):=
+              case
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold: detected;
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: clear;
+                --因为顺序执行，所以下面肯定是smoke_clear=-1
+                carbonMonoxideDetector.carbonMonoxide_count = 1: carbonMonoxideDetector.carbonMonoxide;
+                carbonMonoxideDetector.carbonMonoxide_count = 0: {clear,detected};
+                TRUE: carbonMonoxideDetector.carbonMonoxide;
+              esac;
+
+ init(carbonMonoxideDetector.carbonMonoxide_CONFIG):=-1;
+     next(carbonMonoxideDetector.carbonMonoxide_CONFIG):=
+       case
+         carbonMonoxideDetector.carbonMonoxide=detected & carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)>=0: carbonMonoxideDetector.carbonMonoxide_CONFIG + carbonMonoxideDetector.carbonMonoxide_not_handle_config;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)<0: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: -1;
+         TRUE: carbonMonoxideDetector.carbonMonoxide_CONFIG;
+       esac;
+
+      next(smokeDetector.smoke_threshold):=smokeDetector.smoke_threshold;
+
+      next(carbonMonoxideDetector.carbonMonoxide_threshold):=carbonMonoxideDetector.carbonMonoxide_threshold;
+
+      init(alarm.alarm_last):=off;
+      init(smokeDetector.smoke_last):=clear;
+      init(carbonMonoxideDetector.carbonMonoxide_last):=clear;
+
+      next(alarm.alarm_last):=alarm.alarm;
+      next(smokeDetector.smoke_last):=smokeDetector.smoke;
+      next(carbonMonoxideDetector.carbonMonoxide_last):=carbonMonoxideDetector.carbonMonoxide;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(motionSensor.motion_last):=motionSensor.motion;
+    next(alarm.alarm):=
+          case
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last:siren;
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last&carbonMonoxideDetector.carbonMonoxide = clear&motionSensor.motion = inactive:off;
+             motionSensor.motion=active&motionSensor.motion!=motionSensor.motion_last:siren;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&smokeDetector.smoke=detected:siren;
+             TRUE:alarm.alarm;
+          esac;

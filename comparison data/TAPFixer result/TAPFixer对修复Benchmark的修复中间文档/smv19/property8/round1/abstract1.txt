@@ -1,0 +1,116 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     smartPlug.switch:{off,on};
+     smartPlug.switch_last:{off,on};
+     carbonDioxideMeasurement.carbonDioxide:0..10;
+     carbonDioxideMeasurement.carbonDioxide_last:0..10;
+     carbonDioxideMeasurement.carbonDioxide_count:0..1;
+     carbonDioxideMeasurement.carbonDioxide_CONFIG:-8..8;
+     carbonDioxideMeasurement.carbonDioxide_rise_threshold:4..8;
+     carbonDioxideMeasurement.carbonDioxide_drop_threshold:-8..-4;
+     carbonDioxideMeasurement.carbonDioxide_not_handle_config:0..0;
+     rainSensor.rain:{detected,not_detected};
+     rainSensor.rain_last:{detected,not_detected};
+     rainSensor.rain_count:0..1;
+     step:0..7;
+   INVAR
+     carbonDioxideMeasurement.carbonDioxide_not_handle_config = 0
+    INVAR
+        carbonDioxideMeasurement.carbonDioxide_rise_threshold = 4 &     carbonDioxideMeasurement.carbonDioxide_drop_threshold = -8 
+
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 7 & step > 0: step + 1;
+            step = 7: 0;
+            TRUE: step;
+    esac;
+
+         init(carbonDioxideMeasurement.carbonDioxide_last) := 0;
+     init(rainSensor.rain_count):=1;
+     next(rainSensor.rain_count):=
+       case
+         next(rainSensor.rain)!=rainSensor.rain & rainSensor.rain_count =0: 1;
+         rainSensor.rain_count = 1: 0;
+         TRUE: rainSensor.rain_count;
+       esac;
+
+     init(rainSensor.rain):=detected;
+     next(rainSensor.rain):=
+       case
+         next(step) = 2: detected;
+         next(step) = 3: not_detected;
+         next(step) = 4: not_detected;
+         next(step) = 5: detected;
+         next(step) = 6: detected;
+         next(step) = 7: not_detected;
+         rainSensor.rain_count = 1: rainSensor.rain;
+         rainSensor.rain_count = 0: {detected,not_detected};
+         TRUE: rainSensor.rain;
+       esac;
+
+
+     init(presenceSensor.presence):=not_present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: not_present;
+         next(step) = 4: not_present;
+         next(step) = 5: present;
+         next(step) = 6: not_present;
+         next(step) = 7: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+     
+    init(carbonDioxideMeasurement.carbonDioxide):=0;     
+    next(carbonDioxideMeasurement.carbonDioxide):=
+        case
+
+          -- 如果在threshold范围内，则温度不变
+          carbonDioxideMeasurement.carbonDioxide_CONFIG<carbonDioxideMeasurement.carbonDioxide_rise_threshold & carbonDioxideMeasurement.carbonDioxide_CONFIG>carbonDioxideMeasurement.carbonDioxide_drop_threshold: carbonDioxideMeasurement.carbonDioxide;
+          carbonDioxideMeasurement.carbonDioxide_CONFIG>=carbonDioxideMeasurement.carbonDioxide_rise_threshold & carbonDioxideMeasurement.carbonDioxide + 1<=10: carbonDioxideMeasurement.carbonDioxide + 1;
+          carbonDioxideMeasurement.carbonDioxide_CONFIG<=carbonDioxideMeasurement.carbonDioxide_drop_threshold & carbonDioxideMeasurement.carbonDioxide - 1>=0: carbonDioxideMeasurement.carbonDioxide - 1;
+          TRUE: carbonDioxideMeasurement.carbonDioxide;
+        esac;
+
+ init(carbonDioxideMeasurement.carbonDioxide_CONFIG):=0;
+        next(carbonDioxideMeasurement.carbonDioxide_CONFIG):=
+          case
+            -- 超过threshold后重新计数
+            carbonDioxideMeasurement.carbonDioxide_CONFIG>=carbonDioxideMeasurement.carbonDioxide_rise_threshold : 0;
+            carbonDioxideMeasurement.carbonDioxide_CONFIG<=carbonDioxideMeasurement.carbonDioxide_drop_threshold : 0;
+            TRUE: carbonDioxideMeasurement.carbonDioxide_CONFIG;
+          esac;
+
+      init(presenceSensor.presence_last):=present;
+      init(smartPlug.switch_last):=on;
+      init(rainSensor.rain_last):=detected;
+
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(smartPlug.switch_last):=smartPlug.switch;
+      next(carbonDioxideMeasurement.carbonDioxide_last):=carbonDioxideMeasurement.carbonDioxide;
+      next(rainSensor.rain_last):=rainSensor.rain;
+    init(smartPlug.switch):=off;
+    next(smartPlug.switch):=
+          case
+             carbonDioxideMeasurement.carbonDioxide=9&carbonDioxideMeasurement.carbonDioxide!=carbonDioxideMeasurement.carbonDioxide_last&carbonDioxideMeasurement.carbonDioxide_last=8&presenceSensor.presence = not_present&rainSensor.rain = not_detected:on;
+             rainSensor.rain=detected&rainSensor.rain!=rainSensor.rain_last&presenceSensor.presence = present:on;
+             TRUE:smartPlug.switch;
+          esac;

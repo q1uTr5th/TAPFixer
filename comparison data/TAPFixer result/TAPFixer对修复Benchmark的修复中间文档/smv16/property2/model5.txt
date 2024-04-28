@@ -1,0 +1,121 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     alarm.alarm:{off,siren};
+     alarm.alarm_last:{off,siren};
+     hubConnection.connection:boolean;
+     hubConnection.connection_last:boolean;
+     state.newEvent:boolean;
+     state.newEvent_last:boolean;
+     carbonMonoxideDetector.carbonMonoxide:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_last:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_count:0..1;
+     carbonMonoxideDetector.carbonMonoxide_CONFIG:-1..8;
+     carbonMonoxideDetector.carbonMonoxide_threshold:4..8;
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config:0..0;
+     contactSensor.contact:{closed,open};
+     contactSensor.contact_last:{closed,open};
+     carbonDioxideMeasurement.carbonDioxide:0..10;
+     carbonDioxideMeasurement.carbonDioxide_last:0..10;
+     carbonDioxideMeasurement.carbonDioxide_count:0..1;
+     carbonDioxideMeasurement.carbonDioxide_CONFIG:-8..8;
+     carbonDioxideMeasurement.carbonDioxide_rise_threshold:4..8;
+     carbonDioxideMeasurement.carbonDioxide_drop_threshold:-8..-4;
+     carbonDioxideMeasurement.carbonDioxide_not_handle_config:0..0;
+   INVAR
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config = 0
+   INVAR
+     carbonDioxideMeasurement.carbonDioxide_not_handle_config = 0
+   ASSIGN
+     init(carbonMonoxideDetector.carbonMonoxide_count):=1;
+         next(carbonMonoxideDetector.carbonMonoxide_count):=
+              case
+                next(carbonMonoxideDetector.carbonMonoxide)!=carbonMonoxideDetector.carbonMonoxide & carbonMonoxideDetector.carbonMonoxide_count =0: 1;
+                carbonMonoxideDetector.carbonMonoxide_count = 1: 0;
+                TRUE: carbonMonoxideDetector.carbonMonoxide_count;
+              esac;
+    
+         next(carbonMonoxideDetector.carbonMonoxide):=
+              case
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold: detected;
+                carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: clear;
+                --因为顺序执行，所以下面肯定是smoke_clear=-1
+                carbonMonoxideDetector.carbonMonoxide_count = 1: carbonMonoxideDetector.carbonMonoxide;
+                carbonMonoxideDetector.carbonMonoxide_count = 0: {clear,detected};
+                TRUE: carbonMonoxideDetector.carbonMonoxide;
+              esac;
+
+ init(carbonMonoxideDetector.carbonMonoxide_CONFIG):=-1;
+     next(carbonMonoxideDetector.carbonMonoxide_CONFIG):=
+       case
+         carbonMonoxideDetector.carbonMonoxide=detected & carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)>=0: carbonMonoxideDetector.carbonMonoxide_CONFIG + carbonMonoxideDetector.carbonMonoxide_not_handle_config;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)<0: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: -1;
+         TRUE: carbonMonoxideDetector.carbonMonoxide_CONFIG;
+       esac;
+
+     next(carbonDioxideMeasurement.carbonDioxide):=
+         case
+           -- 如果在threshold范围内，则温度不变
+           carbonDioxideMeasurement.carbonDioxide_CONFIG<carbonDioxideMeasurement.carbonDioxide_rise_threshold & carbonDioxideMeasurement.carbonDioxide_CONFIG>carbonDioxideMeasurement.carbonDioxide_drop_threshold: carbonDioxideMeasurement.carbonDioxide;
+           carbonDioxideMeasurement.carbonDioxide_CONFIG>=carbonDioxideMeasurement.carbonDioxide_rise_threshold & carbonDioxideMeasurement.carbonDioxide + 1<=10: carbonDioxideMeasurement.carbonDioxide + 1;
+           carbonDioxideMeasurement.carbonDioxide_CONFIG<=carbonDioxideMeasurement.carbonDioxide_drop_threshold & carbonDioxideMeasurement.carbonDioxide - 1>=0: carbonDioxideMeasurement.carbonDioxide - 1;
+           TRUE: carbonDioxideMeasurement.carbonDioxide;
+         esac;
+
+ init(carbonDioxideMeasurement.carbonDioxide_CONFIG):=0;
+        next(carbonDioxideMeasurement.carbonDioxide_CONFIG):=
+          case
+            -- 超过threshold后重新计数
+            carbonDioxideMeasurement.carbonDioxide_CONFIG>=carbonDioxideMeasurement.carbonDioxide_rise_threshold : 0;
+            carbonDioxideMeasurement.carbonDioxide_CONFIG<=carbonDioxideMeasurement.carbonDioxide_drop_threshold : 0;
+            TRUE: carbonDioxideMeasurement.carbonDioxide_CONFIG;
+          esac;
+
+      next(carbonMonoxideDetector.carbonMonoxide_threshold):=carbonMonoxideDetector.carbonMonoxide_threshold;
+
+      next(carbonDioxideMeasurement.carbonDioxide_rise_threshold):=carbonDioxideMeasurement.carbonDioxide_rise_threshold;
+
+      next(carbonDioxideMeasurement.carbonDioxide_drop_threshold):=carbonDioxideMeasurement.carbonDioxide_drop_threshold;
+
+      init(light.switch_last):=on;
+      init(presenceSensor.presence_last):=present;
+      init(carbonMonoxideDetector.carbonMonoxide_last):=clear;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(alarm.alarm_last):=alarm.alarm;
+      next(hubConnection.connection_last):=hubConnection.connection;
+      next(state.newEvent_last):=state.newEvent;
+      next(carbonMonoxideDetector.carbonMonoxide_last):=carbonMonoxideDetector.carbonMonoxide;
+      next(contactSensor.contact_last):=contactSensor.contact;
+      next(carbonDioxideMeasurement.carbonDioxide_last):=carbonDioxideMeasurement.carbonDioxide;
+    next(light.switch):=
+          case
+             alarm.alarm=siren&alarm.alarm!=alarm.alarm_last&presenceSensor.presence = present&state.newEvent = TRUE&contactSensor.contact = open&carbonMonoxideDetector.carbonMonoxide = detected:on;
+             hubConnection.connection=TRUE&hubConnection.connection!=hubConnection.connection_last&presenceSensor.presence = present&state.newEvent = TRUE&contactSensor.contact = open&carbonMonoxideDetector.carbonMonoxide = detected:on;
+             state.newEvent=TRUE&state.newEvent!=state.newEvent_last&presenceSensor.presence = present&hubConnection.connection = TRUE&contactSensor.contact = open&carbonMonoxideDetector.carbonMonoxide = detected:on;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&presenceSensor.presence = present&hubConnection.connection = TRUE&state.newEvent = FALSE&contactSensor.contact = open:on;
+             contactSensor.contact=open&contactSensor.contact!=contactSensor.contact_last&carbonMonoxideDetector.carbonMonoxide = clear&presenceSensor.presence = present&hubConnection.connection = FALSE&state.newEvent = FALSE:off;
+             carbonDioxideMeasurement.carbonDioxide=9&carbonDioxideMeasurement.carbonDioxide!=carbonDioxideMeasurement.carbonDioxide_last&carbonDioxideMeasurement.carbonDioxide_last=8&state.newEvent = TRUE&contactSensor.contact = open&carbonMonoxideDetector.carbonMonoxide = clear&presenceSensor.presence = present&hubConnection.connection = TRUE:off;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&alarm.alarm=off:off;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last&alarm.alarm=siren:off;
+             TRUE:light.switch;
+          esac;

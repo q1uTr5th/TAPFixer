@@ -1,0 +1,19 @@
+{
+  "id":"mediaInputSource",
+  "name":"Media Input Source",
+  "status":"proposed",
+  "attributes":[
+    {
+      "name": "inputSource",
+      "type": "ENUM",
+      "value": ["AM","CD","FM","HDMI","HDMI2","USB","YouTube","aux","bluetooth","digital","melon","wifi"]
+    }
+  ],
+  "commands":[
+    {
+      "name": "setInputSource",
+      "type": "ENUM",
+      "attribute": "inputSource"
+    }
+  ]
+}

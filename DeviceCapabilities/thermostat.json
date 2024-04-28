@@ -1,0 +1,79 @@
+{
+"id":"thermostat",
+"name":"Thermostat",
+"status":"deprecated",
+"attributes":[
+  {
+    "name": "coolingSetpoint",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "heatingSetpoint",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "temperature",
+    "type": "NUMBER",
+    "value": ["0",""]
+  },
+  {
+    "name": "thermostatFanMode",
+    "type": "ENUM",
+    "value": ["auto","circulate","followschedule","on","off"]
+  },
+  {
+    "name": "thermostatMode",
+    "type": "ENUM",
+    "value": ["auto","eco","rush hour","cool","cooling","fanOnly","heating","emergency heat","heat","off"]
+  }
+],
+"commands":[
+  {
+    "name": "setCoolingSetpoint",
+    "type": "NUMBER",
+    "attribute": "coolingSetpoint"
+  },
+  {
+    "name": "setHeatingSetpoint",
+    "type": "NUMBER",
+    "attribute": "heatingSetpoint"
+  },
+  {
+    "name": "setThermostatFanMode",
+    "type": "ENUM",
+    "attribute": "thermostatFanMode"
+  },
+  {
+    "name": "setThermostatMode",
+    "type": "ENUM",
+    "attribute": "thermostatMode"
+  },
+  {
+    "name": "auto",
+    "attribute": "thermostatMode",
+    "value": "auto"
+  },
+  {
+    "name": "cool",
+    "attribute": "thermostatMode",
+    "value": "cool"
+  },
+  {
+    "name": "emergencyHeat",
+    "attribute": "thermostatMode",
+    "value": "emergency_heat"
+  },
+  {
+    "name": "heat",
+    "attribute": "thermostatMode",
+    "value": "heat"
+  },
+  {
+    "name": "off",
+    "attribute": "thermostatMode",
+    "value": "off"
+  }
+]
+}

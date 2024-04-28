@@ -1,0 +1,12 @@
+{
+"id":"soundSensor",
+"name":"Sound Sensor",
+"status":"live",
+"attributes":[
+  {
+    "name": "sound",
+    "type": "ENUM",
+    "value": ["detected","not detected"]
+  }
+]
+}

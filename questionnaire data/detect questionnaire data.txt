@@ -1,0 +1,488 @@
+1：
+IF temperatureMeasurement.temperature>28,THEN airConditionerMode.airConditionerCoolMode=on
+IF temperatureMeasurement.temperature<5,THEN electricBlanket.switch=on
+IF smokeDetector.smoke=detected,THEN window.switch=on
+IF illuminanceMeasurement.illuminance<5,THEN light.switch=on 客厅光照低于一定阈值时，打开智能灯。
+IF bathroom.mirrorSensor.presence=active,THEN light.switch=on 
+IF window.switch=on,THEN airConditioner.switch=off
+IF light.switch=on,THEN heater.switch=on  卫生间灯亮且湿度传感器检测到有人在洗澡时，打开浴霸暖风适当升高温度。
+IF relativeHumidityMeasurement.humidity>10,THEN window.switch=on
+IF relativeHumidityMeasurement.humidity<5,THEN humidifier.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected,THEN alarm.alarm=siren
+IF carbonMonoxideDetector.carbonMonoxide=detected,THEN window.switch=on
+IF presenceSensor.presence=present,THEN smartSpeaker.speak=co2Sensor.co2
+IF presenceSensor.presence=present AND smokeDetector.smoke=detected,THEN sprinkler.switch=on 
+IF presenceSensor.presence=present AND smokeDetector.smoke=detected,THEN smartSpeaker.speak=alarm 
+IF presenceSensor.presence=not_present AND smokeDetector.smoke=detected,THEN message.send=owner
+IF presenceSensor.presence=not_present,THEN alarm.alarm=siren
+IF presenceSensor.presence=not_present,THEN co2Sensor.mode=monitor
+IF presenceSensor.presence=not_present AND smokeDetector.smoke=detected,THEN sprinkler.switch=on
+IF presenceSensor.presence=not_present,THEN light.switch=off
+IF camera.face=unknown,THEN alarm.alarm=siren 
+IF camera.face=unknown,THEN message.send=owner
+IF TV.switch=on,THEN light.switch=off
+IF presenceSensor.presence=present,THEN TV.switch=on
+
+# V1 3个 
+IF smokeDetector.smoke=detected,THEN window.switch=on
+IF window.switch=on,THEN airConditioner.switch=off
+IF light.switch=on,THEN heater.switch=on
+# V3 1个 失败
+IF TV.switch=on,THEN light.switch=off
+IF presenceSensor.presence=present,THEN TV.switch=on
+{'TV.switch': [[['presenceSensor.presence=present'], ['none'], ['on'], [0, 'none']]],
+                                'light.switch': [[['TV.switch=on'], ['none'], ['none', 'on'], [2, 0, 'none']]]
+                                }
+[r'--LTLSPEC G((presenceSensor.presence = present & presenceSensor.presence != presenceSensor.presence_last)->X(light.switch = on))', 'state-event']]
+# V4 2个
+IF temperatureMeasurement.temperature>28,THEN airConditionerMode.airConditionerCoolMode=on
+IF temperatureMeasurement.temperature<5,THEN electricBlanket.switch=on
+IF smokeDetector.smoke=detected,THEN window.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected,THEN window.switch=on
+IF light.switch=on,THEN heater.switch=on
+{'window.switch': [[['smokeDetector.smoke=detected'], ['none'], ['on'], [0, 'none']],
+                                                  [['carbonMonoxideDetector.carbonMonoxide=detected'], ['none'], ['on'], [0, 'none']]],
+                                'heater.switch': [
+                                    [['temperatureMeasurement.temperature<16'], ['none'], ['on'], [0, 'none']],
+                                    [['temperatureMeasurement.temperature>24'], ['none'], ['off'], [0, 'none']]]
+
+                                }
+
+
+2：
+IF presenceSensor.presence=present, THEN airConditioner.switch=on
+IF lock.lock=unlocked, THEN light.switch=on
+IF relativeHumidityMeasurement.humidity>10, THEN airConditioner.switch=on
+IF illuminanceMeasurement.illuminance<5, THEN light.switch=on
+IF illuminanceMeasurement.illuminance<5 AND light.switch=off, THEN TV.switch=on
+IF presenceSensor.presence=present, THEN light.switch=on
+IF airConditioner.switch=off AND temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on
+IF temperatureMeasurement.temperature<20, THEN heater.switch=on
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on 
+IF temperatureMeasurement.temperature<20, THEN airConditionerMode.airConditionerCoolMode=off 
+IF relativeHumidityMeasurement.humidity>8, THEN fan.switch=on
+IF relativeHumidityMeasurement.humidity<5, THEN fan.switch=off
+IF carbonDioxideMeasurement.carbonDioxide>5, THEN airConditioner.switch=on
+IF carbonDioxideMeasurement.carbonDioxide>5, THEN window.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN valve.valve=closed
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN xiaoAi.sendMessage=warning
+IF smokeDetector.smoke=detected, THEN sprinkler.switch=on
+IF lock.lock=unlocked AND camera.face=unknown, THEN xiaoAi.sendMessage=warning
+IF smartBasin.use=true, THEN gasDryer.switch=on
+IF presenceSensor.presence=present, THEN light.switch=on
+
+V1 1个 灯泡频闪 失败1个
+IF temperatureMeasurement.temperature<20, THEN airConditionerMode.airConditionerCoolMode=off 
+IF airConditioner.switch=off AND temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on
+
+V8 1GE
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on 
+IF airConditioner.switch=off AND temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on
+IF temperatureMeasurement.temperature<20, THEN airConditionerMode.airConditionerCoolMode=off 
+
+V4 1个
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on 
+IF temperatureMeasurement.temperature<20, THEN airConditionerMode.airConditionerCoolMode=off 
+IF carbonDioxideMeasurement.carbonDioxide>5, THEN window.switch=on
+
+V7 1个
+IF smoke>8, THEN fan.switch=on
+IF relativeHumidityMeasurement.humidity>8, THEN fan.switch=on
+
+V6一个
+IF airConditioner.switch=off AND temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on
+
+3：
+IF sleepDetection.sleep=true, THEN light.switch=off
+IF presenceSensor.presence=present after 10min, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>20, THEN airConditionerMode.airConditionerHeatMode=off
+IF temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on
+IF presenceSensor.presence=present, THEN light.switch=on 
+IF presenceSensor.presence=present, curtain.switch=open
+IF sleepDetection.sleep=true, THEN airConditioner.switch=off
+IF presenceSensor.presence=not_present, THEN window.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN window.switch=on
+IF smokeDetector.smoke=detected AND presenceSensor.presence=not_present, THEN alarm.alarm=siren
+IF camera.face=unknown, THEN alarm.alarm=siren
+IF bathroom.mirrorSensor.presence=active, THEN light.switch=on
+IF TV.switch=on, THEN light.switch=off
+
+V2 1个sleep
+
+V3 2个
+IF sleepDetection.sleep=true, THEN light.switch=off
+IF presenceSensor.presence=present, THEN light.switch=on 
+
+
+IF sleepDetection.sleep=true, THEN light.switch=off
+IF sleepDetection.sleep=true, THEN airConditioner.switch=off
+
+V6 2个
+IF presenceSensor.presence=present after 10min, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>20, THEN airConditionerMode.airConditionerHeatMode=off
+IF presenceSensor.presence=present, THEN window.switch=on
+
+IF temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on
+
+V4 1个
+IF presenceSensor.presence=present after 10min, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>20, THEN airConditionerMode.airConditionerHeatMode=off
+IF presenceSensor.presence=present, THEN window.switch=on 这条block了上一条的trigger
+
+
+4：
+IF presenceSensor.presence=present, THEN airPurifier.switch=on
+IF presenceSensor.presence=present, THEN fan.switch=on
+IF presenceSensor.presence=present, THEN light.switch=on 
+IF presenceSensor.presence=present, THEN curtain.switch=close
+IF illuminanceMeasurement.illuminance>8, THEN alarm.alarm=siren 
+IF illuminanceMeasurement.illuminance>8, THEN AND curtain.switch=open
+IF illuminanceMeasurement.illuminance>8, THEN light.switch=on
+IF illuminanceMeasurement.illuminance>8, THEN xiaoAi.sendMessage=weather
+IF illuminanceMeasurement.illuminance<5, THEN light.switch=on
+IF illuminanceMeasurement.illuminance<5, THEN curtain.switch=close
+IF temperatureMeasurement.temperature<15, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on
+IF sleepDetection.sleep=true AND temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on
+IF presenceSensor.presence=not_present, THEN fan.switch=on
+IF handSensor.hand=true, THEN dryer.switch=on
+IF sleepDetection.sleep=true, THEN light.switch=off
+IF carbonDioxideMeasurement.carbonDioxide>5 AND presenceSensor.presence=present, THEN airPurifier.switch=on
+IF carbonDioxideMeasurement.carbonDioxide>5 AND presenceSensor.presence=present, THEN fan.switch=on
+IF presenceSensor.presence=not_present, THEN fan.switch=on
+IF carbonDioxideMeasurement.carbonDioxide>5 AND presenceSensor.presence=present, THEN window.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN alarm.alarm=siren
+IF smokeDetector.smoke=detected, THEN alarm.alarm=siren
+IF smokeDetector.smoke=detected, THEN window.switch=on
+IF sleepDetection.sleep=true, THEN curtain.switch=close
+IF sleepDetection.sleep=true, THEN light.switch=off
+
+V2一个sleep
+
+V7 1个 fan
+
+V8 一个 
+IF temperatureMeasurement.temperature<15, THEN airConditionerMode.airConditionerHeatMode=on
+IF sleepDetection.sleep=true AND temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on
+
+V4 一个 IF temperatureMeasurement.temperature<15, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on
+
+5：
+IF presenceSensor.presence=present, THEN light.switch=on
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on
+IF presenceSensor.presence=present, THEN fan.switch=on
+IF presenceSensor.presence=present, THEN airConditioner.switch=on
+IF temperatureMeasurement.temperature<15, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerCoolMode=on
+IF presenceSensor.presence=not_present, THEN fan.switch=on
+IF presenceSensor.presence=not_present, THEN fan.switch=off
+IF smokeDetector.smoke=detected, THEN fan.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN alarm.alarm=siren
+IF alarm.alarm=siren, THEN xiaoAi.sendMessage=warning
+IF presenceSensor.presence=not_present, THEN smartPlug.switch=off
+IF doorSensor.knock=true, THEN xiaoAi.call=emergency AND xiaoAi.sendMessage=siren
+IF presenceSensor.presence=not_present, THEN camera.switch=on
+IF presenceSensor.presence=not_present, THEN doorControl.door=closed
+
+V4 一个
+
+V7一个
+
+
+6：
+IF presenceSensor.presence=present, THEN light.switch=on
+IF light.switch=on, THEN curtain.switch=close
+IF presenceSensor.presence=present, THEN speaker.switch=on
+IF temperatureMeasurement.temperature<26, THEN airConditioner.switch=off
+IF temperatureMeasurement.temperature>30, THEN airConditioner.switch=on
+IF relativeHumidityMeasurement.humidity<8, THEN sprinkler.switch=on
+IF relativeHumidityMeasurement.humidity>12, THEN airConditioner.switch=on
+IF illuminanceMeasurement.illuminance>8, THEN window.switch=on
+IF illuminanceMeasurement.illuminance<5, THEN window.switch=off
+IF rainSensor.rain=detected, THEN window.switch=off
+IF alarm.alarm=siren, THEN xiaoAi.sendMessage=warning
+
+V4 一个
+
+
+7：
+IF presenceSensor.presence=present, THEN airConditionerMode.airConditionerHeatMode=on
+IF presenceSensor.presence=present, THEN alarm.alarm=siren
+IF illuminanceMeasurement.illuminance<5 AND presenceSensor.presence=present, THEN light.switch=on
+IF temperatureMeasurement.temperature>25, THEN sprinkler.switch=on
+IF temperatureMeasurement.temperature>20, THEN fan.switch=on
+IF temperatureMeasurement.temperature<15, THEN heater.switch=on
+IF temperatureMeasurement.temperature>20, THEN heater.switch=off
+IF temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on
+IF smokeDetector.smoke=detected, THEN sprinkler.switch=on
+IF handSensor.hand=true, THEN dryer.switch=on
+IF presenceSensor.presence=present, THEN fan.switch=on
+IF presenceSensor.presence=present, THEN window.switch=on
+IF smokeDetector.smoke=detected, THEN window.switch=on
+IF smokeDetector.smoke=detected, THEN fan.switch=on
+IF presenceSensor.presence=not_present, THEN light.switch=off
+IF presenceSensor.presence=not_present, THEN smartPlug.switch=off
+IF presenceSensor.presence=present, THEN light.switch=on
+
+V7 1
+V4 3
+
+
+8：
+IF presenceSensor.presence=present after 10min, THEN airConditioner.switch=on
+IF presenceSensor.presence=present, THEN light.switch=on
+IF presenceSensor.presence=present after 10min, THEN electricBlanket.switch=on
+IF illuminanceMeasurement.illuminance>8, THEN curtain.switch=open
+IF illuminanceMeasurement.illuminance<5, THEN light.switch=on
+IF temperatureMeasurement.temperature>25, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature<23, THEN airConditionerMode.airConditionerHeatMode=off
+IF temperatureMeasurement.temperature<15, THEN heater.switch=on
+IF temperatureMeasurement.temperature>20, THEN heater.switch=off
+IF relativeHumidityMeasurement.humidity>12, THEN fan.switch=on
+IF relativeHumidityMeasurement.humidity<8, THEN sprinkler.switch=on
+IF carbonDioxideMeasurement.carbonDioxide>5, THEN fan.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN alarm.alarm=siren
+IF presenceSensor.presence=not_present, THEN smartPlug.switch=off
+IF presenceSensor.presence=not_present, THEN camera.switch=on
+
+V6 1个
+V4 2个
+
+9:
+IF presenceSensor.presence=present, THEN airConditioner.switch=on
+IF temperatureMeasurement.temperature>20, THEN airConditionerMode.airConditionerHeatMode=off
+IF presenceSensor.presence=present, THEN lock.lock=locked
+IF presenceSensor.presence=present, THEN TV.switch=onTVV1
+IF presenceSensor.presence=present, THEN xiaoAi.sendMessage=weather
+IF illuminanceMeasurement.illuminance>8, THEN light.switch=on
+IF presenceSensor.presence=present, THEN window.switch=on
+
+V4 一个
+
+10：
+IF presenceSensor.presence=present, THEN TV.switch=on
+IF TV.switch=on, THEN light.switch=on
+IF sleepDetection.sleep=true, THEN airConditioner.switch=off
+IF presenceSensor.presence=present, THEN light.switch=on
+IF presenceSensor.presence=present AND TV.switch=on, THEN light.switch=off
+IF sleepDetection.sleep=true AND temperatureMeasurement.temperature<15, THEN airConditionerMode.airConditionerHeatMode=on
+IF smokeDetector.smoke=detected, THEN fan.switch=on
+IF presenceSensor.presence=not_present, THEN camera.switch=on
+IF presenceSensor.presence=present, THEN xiaoAi.sendMessage=music
+IF earthquakeSensor.alarm=true, THEN light.switch=on
+IF presenceSensor.presence=not_present, THEN robotCleaner.switch=on
+
+V1 一个 TV
+V2一个TV
+V3一个
+
+11：
+IF presenceSensor.presence=present, THEN light.switch=on
+IF presenceSensor.presence=present, THEN TV.switch=on
+IF temperatureMeasurement.temperature>27, THEN airConditionerMode.airConditionerCoolMode=on
+IF presenceSensor.presence=present, THEN light.switch=on
+IF temperatureMeasurement.temperature<15, THEN heater.switch=on
+IF relativeHumidityMeasurement.humidity<8, THEN humidifier.switch=on
+IF relativeHumidityMeasurement.humidity>12, THEN fan.switch=on
+IF carbonDioxideMeasurement.carbonDioxide>5, THEN window.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN alarm.alarm=siren
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN smartPlug.switch=off
+IF presenceSensor.presence=not_present, THEN camera.switch=on
+
+V4 2个
+
+12：
+IF presenceSensor.presence=present, THEN light.switch=on
+IF presenceSensor.presence=present, THEN window.switch=on
+IF temperatureMeasurement.temperature>30, THEN airConditionerMode.airConditionerCoolMode=on
+IF relativeHumidityMeasurement.humidity>12, THEN fan.switch=on
+IF presenceSensor.presence=not_present, THEN fan.switch=on
+IF carbonDioxideMeasurement.carbonDioxide>5 AND CO2Sensor.location=living room, THEN window.switch=on
+IF CO1Sensor.level>30, THEN fan.switch=on
+IF carbonMonoxideDetector.carbonMonoxide=detected, THEN fan.switch=on
+IF illuminanceMeasurement.illuminance>8, THEN window.switch=on
+IF rainSensor.rain=detected, THEN window.switch=off
+
+V4
+
+13：
+IF relativeHumidityMeasurement.humidity>8, THEN fan.switch=off
+IF smokeDetector.smoke=detected, THEN sprinkler.switch=on
+IF presenceSensor.presence=not_present after 10min, THEN lock.lock=locked
+IF camera.face=unknown, THEN alarm.alarm=siren
+IF presenceSensor.presence=present AND camera.face=unknown, THEN xiaoAi.sendMessage=warning
+IF illuminanceMeasurement.illuminance<5 AND presenceSensor.presence=present, THEN light.switch=on
+
+
+14：
+IF presenceSensor.presence=present AND temperatureMeasurement.temperature<15, THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>23, THEN airConditionerMode.airConditionerHeatMode=off
+IF camera.face=unknown, THEN xiaoAi.sendMessage=warning
+IF TV.switch=on, THEN curtain.switch=close
+IF presenceSensor.presence=present, THEN light.switch=on
+IF sleepDetection.sleep=true, THEN light.switch=off
+IF presenceSensor.presence=present, THEN heater.switch=on
+IF relativeHumidityMeasurement.humidity>12, THEN fan.switch=on for 60s
+IF presenceSensor.presence=not_present, THEN TV.switch=off
+IF presenceSensor.presence=present, THEN curtain.switch=open=open
+
+V3 1个
+
+15：
+IF sleepDetection.sleep=true,THEN curtain.switch=close
+IF sleepDetection.sleep=true,THEN light.switch=off
+IF temperatureMeasurement.temperature>25 AND presenceSensor.presence=present,THEN airConditionerMode.airConditionerCoolMode=on
+IF temperatureMeasurement.temperature<20,THEN airConditionerMode.airConditionerCoolMode=off
+IF temperatureMeasurement.temperature<15,THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>23,THEN airConditionerMode.airConditionerHeatMode=off
+IF smokeDetector.smoke=detected,THEN window.switch=on 
+IF smokeDetector.smoke=detected,THEN valve.valve=closed 
+IF smokeDetector.smoke=detected,THEN alarm.alarm=siren
+IF presenceSensor.presence=present,THEN fan.switch=on
+IF presenceSensor.presence=not_present,THEN airConditioner.switch=off
+
+V4 2个
+
+
+16：
+IF presenceSensor.presence=present,THEN airConditionerMode.airConditionerHeatMode=on
+IF temperatureMeasurement.temperature>23,THEN airConditionerMode.airConditionerHeatMode=off
+# V4 一个
+
+17：
+IF presenceSensor.presence=present,THEN TV.switch=on
+IF motionSensor.location=bedroom AND presenceSensor.presence=present AND lightSensor.level=dark,THEN bedroomLight.switch=on
+IF co2Sensor.location=bedroom AND co2Sensor.level=changed AND sleepSensor.status=asleep,THEN bedroomLight.switch=off
+IF temperatureSensor.location=bedroom AND temperatureSensor.level=high AND presenceSensor.presence=present,THEN airConditioner.switch=on
+IF temperatureSensor.level=low AND presenceSensor.presence=present,THEN heater.switch=on
+IF showerSensor.status=finished,THEN bathroomWindow.switch=on AND bathroomWindow.timer=1h
+IF smartSink.status=off,THEN handDryer.switch=on
+IF co2Sensor.level=high,THEN door.switch=on AND window.switch=on AND alarm.sound=on
+IF co2Sensor.location=bedroom AND co2Sensor.level=high AND motionSensor.location=livingRoom AND presenceSensor.presence=present,THEN xiaomiSpeaker.report=co2Alert
+IF motionSensor.location=bedroom AND presenceSensor.presence=present AND securityCamera.status=empty,THEN securityDoor.sound=on
+IF heater.status=faulty AND heater.temperature=high,THEN heater.power=off AND xiaomiSpeaker.report=heaterAlert
+IF securityDoorLock.status=abnormal,THEN xiaomiSpeaker.sound=on AND xiaomiSpeaker.send=phoneAlert
+IF doorLock.status=open AND motionSensor.status=empty,THEN securityCamera.switch=on
+IF refrigeratorDoor.status=open AND refrigeratorDoor.timer=long,THEN refrigeratorSpeaker.sound=on
+IF smartSink.counter=10,THEN smartSink.clean=on
+
+V3 一个
+V2 1 IF co2Sensor.level=high,THEN door.switch=on AND window.switch=on AND alarm.sound=on
+V4 2
+
+
+
+18：
+IF locationSensor.presenceSensor.presence=present,THEN TV.switch=on
+IF locationSensor.presenceSensor.presence=present,THEN riceCooker.switch=on
+IF alarmSensor.alarm=on,THEN curtain.switch=on
+IF presenceSensor.presence=present AND illuminanceMeasurement.illuminance<5,THEN nightLight.switch=on
+IF locationSensor.presenceSensor.presence=present AND temperatureMeasurement.temperature=high,THEN airConditioner.switch=on AND airConditioner.temperature=comfortable
+IF sleepSensor.sleep=ready,THEN airConditioner.temperature=comfortable
+IF weatherSensor.weather=rainy AND relativeHumidityMeasurement.humidity=high,THEN airConditioner.switch=on AND airConditioner.mode=dehumidify
+IF showerSensor.shower=off,THEN window.switch=on AND fan.switch=on
+IF locationSensor.presenceSensor.presence=present AND timerSensor.timer=one hour,THEN co2Sensor.measure=on AND speaker.announce=co2 level
+IF co2Sensor.co2=high,THEN ventilator.switch=on
+IF presenceSensor.presence=none AND powerSensor.power=on,THEN smartPlug.switch=off AND phone.notify=alert
+IF coSensor.co=high,THEN speaker.alarm=on AND smartPlug.switch=off AND gasSwitch.switch=off AND window.switch=on
+IF doorLock.status=abnormal,THEN xiaoAi.alarm=on AND xiaoAi.upload=phone
+IF doorLock.status=open AND presenceSensor.presence=none,THEN securityCamera.switch=on
+IF fridgeDoor.status=open AND timerSensor.timer=long,THEN speaker.beep=on
+IF washbasinSensor.count=10,THEN washbasin.clean=on
+
+V8
+V4
+
+19：
+IF camera.clothing=pyjamas, THEN airConditioner.temperature=25
+IF temperatureMeasurement.temperature=20, THEN electricBlanket.temperature=roomTemperature+5
+IF relativeHumidityMeasurement.humidity=20, THEN humidifier.switch=on
+IF relativeHumidityMeasurement.humidity>80, THEN automaticSink.cleaner=on
+IF plant.CO2>CO2Threshold, THEN phone.report=plant.CO2
+IF smokeSensor.smoke>100 ppm, THEN ventilator.switch=on
+IF fireSensor.fire=kitchenFire, THEN sprinkler.switch=on
+IF camera.face=unkown, THEN camera.record=on AND propertySystem.report=camera.face
+IF doorLock.fingerprint=stranger, THEN propertyManager.report=doorLock.fingerprint
+IF handSensor.hand=wet, THEN dryer.switch=on
+IF faceSensor.face=cleaning OR toothbrushSensor.toothbrush=brushing, THEN sinkLight.switch=on
+
+20：
+IF lightSensor.lux<=100 lux AND presenceSensor.presence=present,THEN livingRoomLight.switch=on
+IF temperatureMeasurement.temperature<=15,THEN heater.switch=on
+IF doorSensor.open=false,THEN smartLock.lock=true
+IF bedSensor.pressure=false,THEN curtain.switch=open
+IF TV.switch=on,THEN light.brightness=50
+IF fitnessTracker.heartRate>=120,THEN airConditioner.switch=off
+IF inductionCooker.switch=on,THEN kitchenThermostat.temperature=25
+IF shower.switch=on,THEN bathroomThermostat.temperature=25
+IF heater.switch=on,THEN humidifier.switch=on
+IF weatherSensor.locationSensor.home=true,THEN humidifier.switch=on
+IF clock.time=night AND sleepSensor.sleep=true,THEN ventilation.switch=on
+IF co2Sensor.co2>=1000 ppm,THEN ventilation.switch=on
+IF coSensor.co>=50 ppm AND locationSensor.home=true,THEN alarm.alarm=siren 
+IF smokeDetector.smoke=detected,THEN window.switch=on AND power.switch=off AND notification.send=alert
+IF camera.face=unknown,THEN notification.send=alert
+IF passwordSensor.errorCount>=3,THEN smartLock.lock=true AND notification.send=alert
+
+V3 2
+V2 IF coSensor.co>=50 ppm AND locationSensor.home=true,THEN alarm.alarm=siren
+
+21：
+IF phone.presenceSensor.presence=present,THEN TV.switch=on
+IF phone.presenceSensor.presence=present,THEN electricBlanket.temperature=high
+IF co2Sensor.level=high,THEN ventilationFan.switch=on
+IF doorLock.touch=sensed,THEN alarm.sound=on
+
+V4
+
+22：
+IF presenceSensor.presence=present, THEN faucet.switch=on AND dryer.switch=on
+IF presenceSensor.presence=present, THEN speaker.switch=on AND speaker.playlist=favorite
+IF presenceSensor.presence=present, THEN xiaoAi.suggest=recipes
+IF presenceSensor.presence=present AND sleepDetection.sleep=true, THEN light.mode=sleep
+IF sleepDetection.sleep=true, THEN light.switch=off
+IF presenceSensor.presence=present, THEN light.mode=sleep
+IF presenceSensor.presence=present, THEN kitchenAirConditioner.temperature=set-low
+IF childSensor.child=true AND floorSensor.floor=wet, THEN floorHeater.switch=on
+IF mopSensor.mop=true, THEN floorDryer.switch=on
+IF rainSensor.rain=detected, THEN airConditioner.mode=dry
+IF presenceSensor.presence=not_present, THEN fan.switch=on
+IF peopleDensity.level>set, THEN xiaoAi.remind=open fan
+IF smokeDetector.smoke=detected, THEN window.switch=on AND airPurifier.switch=on
+IF fireSensor.fire=true AND fireSensor.location=kitchen, THEN sprinkler.switch=on
+IF camera.face=unknown, THEN xiaoAi.sendMessage=owner OR alarm.alarm=siren
+IF doorSensor.door=true AND faceRecognition.face=present, THEN xiaoAi.identify=intention
+IF TV.update=true AND sofaSensor.sofa=true, THEN TV.play=update
+IF presenceSensor.presence=present AND phoneSensor.phone=true, THEN light.mode=sleep
+
+V3
+V7
+
+23：
+IF presenceSensor.presence=present AND temperatureMeasurement.temperature>30, THEN airConditioner.switch=on
+IF time=23:00, THEN light.switch=off
+IF relativeHumidityMeasurement.humidity>set AND humiditySensor.location=bathroom, THEN fan.switch=on
+IF illuminanceMeasurement.illuminance>8 AND relativeHumidityMeasurement.humidity<set AND humiditySensor.location=bathroom, THEN curtain.switch=open
+IF illuminanceMeasurement.illuminance>8 AND presenceSensor.presence=present, THEN curtain.switch=open
+IF illuminanceMeasurement.illuminance<5 AND presenceSensor.presence=not_present, THEN curtain.switch=close
+IF presenceSensor.presence=present AND sleepDetection.sleep=true AND temperatureMeasurement.temperature<15, THEN electricBlanket.switch=on UNTIL sleepDetection.sleep=true
+IF temperatureMeasurement.temperature<15 AND presenceSensor.presence=present AND motionSensor.speed=slow, THEN heater.switch=on UNTIL temperatureMeasurement.temperature=set
+IF presenceSensor.presence=present, THEN fan.switch=on
+IF season=rainy AND relativeHumidityMeasurement.humidity>set, THEN fan.switch=on
+IF smokeSensor.smoke>set, THEN window.switch=on
+IF presenceSensor.presence=present AND carbonDioxideMeasurement.carbonDioxide>5, THEN window.switch=on
+IF location=away AND lock.lock=unlocked, THEN camera.switch=on AND xiaoAi.sendMessage=owner
+IF smokeSensor.smoke>set, THEN sprinkler.switch=on AND xiaoAi.sendMessage=owner
+IF presenceSensor.presence=not_present, THEN camera.switch=on AND xiaoAi.sendMessage=owner
+IF presenceSensor.presence=not_present AND presenceSensor.presence=present, THEN xiaoAi.sendMessage=warning
+IF smartBasin.use=true, THEN dryer.switch=on AND dryer.timer=1
+IF TV.switch=on, THEN light.switch=on; IF TV.timer>60, THEN xiaoAi.sendMessage=reminder
+IF presenceSensor.presence=present AND lightSensor.light>set, THEN curtain.switch=close
+
+
+
+
+v3
+v2
+v7

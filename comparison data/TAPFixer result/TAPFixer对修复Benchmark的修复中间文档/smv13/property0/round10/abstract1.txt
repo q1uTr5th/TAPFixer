@@ -1,0 +1,207 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     carbonMonoxideDetector.carbonMonoxide:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_last:{clear,detected};
+     carbonMonoxideDetector.carbonMonoxide_count:0..1;
+     carbonMonoxideDetector.carbonMonoxide_CONFIG:-1..8;
+     carbonMonoxideDetector.carbonMonoxide_threshold:4..8;
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config:0..0;
+     doorControl.door:{closed,open};
+     doorControl.door_last:{closed,open};
+     state.newEvent:boolean;
+     state.newEvent_last:boolean;
+     step:0..4;
+     original_flag_rule0_doorControl.door_0:boolean;
+     original_flag_rule0_doorControl.door_1:boolean;
+     original_flag_rule0_state.newEvent_0:boolean;
+     original_flag_rule0_state.newEvent_1:boolean;
+     original_flag_rule0_presenceSensor.presence_0:boolean;
+     original_flag_rule0_presenceSensor.presence_1:boolean;
+     original_flag_rule2_doorControl.door_0:boolean;
+     original_flag_rule2_doorControl.door_1:boolean;
+     original_flag_rule2_presenceSensor.presence_0:boolean;
+     original_flag_rule2_presenceSensor.presence_1:boolean;
+     original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_0:boolean;
+     original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_1:boolean;
+     original_flag_rule4_state.newEvent_0:boolean;
+     original_flag_rule4_state.newEvent_1:boolean;
+     original_flag_rule4_presenceSensor.presence_0:boolean;
+     original_flag_rule4_presenceSensor.presence_1:boolean;
+     original_flag_rule5_state.newEvent_0:boolean;
+     original_flag_rule5_state.newEvent_1:boolean;
+     original_flag_rule5_presenceSensor.presence_0:boolean;
+     original_flag_rule5_presenceSensor.presence_1:boolean;
+   INVAR
+     carbonMonoxideDetector.carbonMonoxide_not_handle_config = 0
+    INVAR
+        carbonMonoxideDetector.carbonMonoxide_threshold = 4 
+
+   INVAR
+     toint(original_flag_rule0_doorControl.door_0) + toint(original_flag_rule0_doorControl.door_1) < 2
+   INVAR
+     toint(original_flag_rule0_state.newEvent_0) + toint(original_flag_rule0_state.newEvent_1) < 2
+   INVAR
+     toint(original_flag_rule0_presenceSensor.presence_0) + toint(original_flag_rule0_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule2_doorControl.door_0) + toint(original_flag_rule2_doorControl.door_1) < 2
+   INVAR
+     toint(original_flag_rule2_presenceSensor.presence_0) + toint(original_flag_rule2_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_0) + toint(original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_1) < 2
+   INVAR
+     toint(original_flag_rule4_state.newEvent_0) + toint(original_flag_rule4_state.newEvent_1) < 2
+   INVAR
+     toint(original_flag_rule4_presenceSensor.presence_0) + toint(original_flag_rule4_presenceSensor.presence_1) < 2
+   INVAR
+     toint(original_flag_rule5_state.newEvent_0) + toint(original_flag_rule5_state.newEvent_1) < 2
+   INVAR
+     toint(original_flag_rule5_presenceSensor.presence_0) + toint(original_flag_rule5_presenceSensor.presence_1) < 2
+
+   INVAR
+     !(original_flag_rule0_state.newEvent_0 = FALSE & original_flag_rule0_state.newEvent_1 = FALSE & original_flag_rule0_presenceSensor.presence_0 = FALSE & original_flag_rule0_presenceSensor.presence_1 = FALSE & original_flag_rule0_doorControl.door_0 = FALSE & original_flag_rule0_doorControl.door_1 = TRUE )
+   ASSIGN
+    init(step) := 1;
+    next(step) :=
+        case
+            step < 4 & step > 0: step + 1;
+            step = 4: 0;
+            TRUE: step;
+    esac;
+
+
+     init(presenceSensor.presence):=present;
+     next(presenceSensor.presence):=
+       case
+         next(step) = 2: not_present;
+         next(step) = 3: present;
+         next(step) = 4: not_present;
+         TRUE: {not_present,present};
+       esac;
+
+         init(doorControl.door) := open;
+         init(state.newEvent) := FALSE;
+     init(carbonMonoxideDetector.carbonMonoxide_count):=1;
+        next(carbonMonoxideDetector.carbonMonoxide_count):=
+             case
+               next(carbonMonoxideDetector.carbonMonoxide)!=carbonMonoxideDetector.carbonMonoxide & carbonMonoxideDetector.carbonMonoxide_count =0: 1;
+               carbonMonoxideDetector.carbonMonoxide_count = 1: 0;
+               TRUE: carbonMonoxideDetector.carbonMonoxide_count;
+             esac;
+
+        init(carbonMonoxideDetector.carbonMonoxide):=clear;
+        next(carbonMonoxideDetector.carbonMonoxide):=
+            case
+
+               carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold: detected;
+               carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: clear;
+               --因为顺序执行，所以下面肯定是smoke_clear=-1
+               carbonMonoxideDetector.carbonMonoxide_count = 1: carbonMonoxideDetector.carbonMonoxide;
+               carbonMonoxideDetector.carbonMonoxide_count = 0: {clear,detected};
+               TRUE: carbonMonoxideDetector.carbonMonoxide;
+             esac;
+
+ init(carbonMonoxideDetector.carbonMonoxide_CONFIG):=-1;
+     next(carbonMonoxideDetector.carbonMonoxide_CONFIG):=
+       case
+         carbonMonoxideDetector.carbonMonoxide=detected & carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)>=0: carbonMonoxideDetector.carbonMonoxide_CONFIG + carbonMonoxideDetector.carbonMonoxide_not_handle_config;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=0 & carbonMonoxideDetector.carbonMonoxide_CONFIG<carbonMonoxideDetector.carbonMonoxide_threshold & (carbonMonoxideDetector.carbonMonoxide_CONFIG+carbonMonoxideDetector.carbonMonoxide_not_handle_config)<0: 0;
+         carbonMonoxideDetector.carbonMonoxide_CONFIG>=carbonMonoxideDetector.carbonMonoxide_threshold: -1;
+         TRUE: carbonMonoxideDetector.carbonMonoxide_CONFIG;
+       esac;
+
+      init(light.switch_last):=off;
+      init(presenceSensor.presence_last):=not_present;
+      init(carbonMonoxideDetector.carbonMonoxide_last):=clear;
+
+      next(light.switch_last):=light.switch;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(carbonMonoxideDetector.carbonMonoxide_last):=carbonMonoxideDetector.carbonMonoxide;
+      next(doorControl.door_last):=doorControl.door;
+      next(state.newEvent_last):=state.newEvent;
+
+     next(doorControl.door):=
+       case
+         next(step) = 2: closed;
+         next(step) = 3: open;
+         next(step) = 4: closed;
+         TRUE: doorControl.door;
+       esac;
+
+
+     next(state.newEvent):=
+       case
+         next(step) = 2: FALSE;
+         next(step) = 3: TRUE;
+         next(step) = 4: FALSE;
+         TRUE: state.newEvent;
+       esac;
+
+      next(original_flag_rule0_doorControl.door_0) := original_flag_rule0_doorControl.door_0; 
+
+      next(original_flag_rule0_doorControl.door_1) := original_flag_rule0_doorControl.door_1; 
+
+      next(original_flag_rule0_state.newEvent_0) := original_flag_rule0_state.newEvent_0; 
+
+      next(original_flag_rule0_state.newEvent_1) := original_flag_rule0_state.newEvent_1; 
+
+      next(original_flag_rule0_presenceSensor.presence_0) := original_flag_rule0_presenceSensor.presence_0; 
+
+      next(original_flag_rule0_presenceSensor.presence_1) := original_flag_rule0_presenceSensor.presence_1; 
+
+      next(original_flag_rule2_doorControl.door_0) := original_flag_rule2_doorControl.door_0; 
+
+      next(original_flag_rule2_doorControl.door_1) := original_flag_rule2_doorControl.door_1; 
+
+      next(original_flag_rule2_presenceSensor.presence_0) := original_flag_rule2_presenceSensor.presence_0; 
+
+      next(original_flag_rule2_presenceSensor.presence_1) := original_flag_rule2_presenceSensor.presence_1; 
+
+      next(original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_0) := original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_0; 
+
+      next(original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_1) := original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_1; 
+
+      next(original_flag_rule4_state.newEvent_0) := original_flag_rule4_state.newEvent_0; 
+
+      next(original_flag_rule4_state.newEvent_1) := original_flag_rule4_state.newEvent_1; 
+
+      next(original_flag_rule4_presenceSensor.presence_0) := original_flag_rule4_presenceSensor.presence_0; 
+
+      next(original_flag_rule4_presenceSensor.presence_1) := original_flag_rule4_presenceSensor.presence_1; 
+
+      next(original_flag_rule5_state.newEvent_0) := original_flag_rule5_state.newEvent_0; 
+
+      next(original_flag_rule5_state.newEvent_1) := original_flag_rule5_state.newEvent_1; 
+
+      next(original_flag_rule5_presenceSensor.presence_0) := original_flag_rule5_presenceSensor.presence_0; 
+
+      next(original_flag_rule5_presenceSensor.presence_1) := original_flag_rule5_presenceSensor.presence_1; 
+
+    init(light.switch):=on;
+    next(light.switch):=
+          case
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last & ((original_flag_rule0_doorControl.door_0)->(doorControl.door = closed)) & ((original_flag_rule0_doorControl.door_1)->(doorControl.door = open)) & ((original_flag_rule0_state.newEvent_0)->(state.newEvent = FALSE)) & ((original_flag_rule0_state.newEvent_1)->(state.newEvent = TRUE)) & ((original_flag_rule0_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule0_presenceSensor.presence_1)->(presenceSensor.presence = present)):on;
+             doorControl.door=open&doorControl.door!=doorControl.door_last&carbonMonoxideDetector.carbonMonoxide = clear&presenceSensor.presence = present&state.newEvent = TRUE:off;
+             state.newEvent=TRUE&state.newEvent!=state.newEvent_last & ((original_flag_rule2_doorControl.door_0)->(doorControl.door = closed)) & ((original_flag_rule2_doorControl.door_1)->(doorControl.door = open)) & ((original_flag_rule2_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule2_presenceSensor.presence_1)->(presenceSensor.presence = present)) & ((original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_0)->(carbonMonoxideDetector.carbonMonoxide = clear)) & ((original_flag_rule2_carbonMonoxideDetector.carbonMonoxide_1)->(carbonMonoxideDetector.carbonMonoxide = detected)):on;
+             carbonMonoxideDetector.carbonMonoxide=clear&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&state.newEvent=TRUE&doorControl.door=open&presenceSensor.presence=not_present:on;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&doorControl.door=open & ((original_flag_rule4_state.newEvent_0)->(state.newEvent = FALSE)) & ((original_flag_rule4_state.newEvent_1)->(state.newEvent = TRUE)) & ((original_flag_rule4_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule4_presenceSensor.presence_1)->(presenceSensor.presence = present)):on;
+             carbonMonoxideDetector.carbonMonoxide=detected&carbonMonoxideDetector.carbonMonoxide!=carbonMonoxideDetector.carbonMonoxide_last&doorControl.door=closed & ((original_flag_rule5_state.newEvent_0)->(state.newEvent = FALSE)) & ((original_flag_rule5_state.newEvent_1)->(state.newEvent = TRUE)) & ((original_flag_rule5_presenceSensor.presence_0)->(presenceSensor.presence = not_present)) & ((original_flag_rule5_presenceSensor.presence_1)->(presenceSensor.presence = present)):on;
+             TRUE:light.switch;
+          esac;

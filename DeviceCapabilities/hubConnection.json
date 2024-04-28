@@ -1,0 +1,11 @@
+{
+  "id":"hubConnection",
+  "name":"Hub Connection",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "connection",
+      "type": "boolean"
+    }
+  ]
+}

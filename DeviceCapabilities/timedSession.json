@@ -1,0 +1,34 @@
+{
+"id":"timedSession",
+"name":"Timed Session",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "sessionStatus",
+    "type": "ENUM",
+    "value": ["canceled","paused","running","stopped"]
+  }
+],
+"commands":[
+  {
+    "name": "cancel",
+    "attribute": "sessionStatus",
+    "value": "canceled"
+  },
+  {
+    "name": "pause",
+    "attribute": "sessionStatus",
+    "value": "paused"
+  },
+  {
+    "name": "start",
+    "attribute": "sessionStatus",
+    "value": "running"
+  },
+  {
+    "name": "stop",
+    "attribute": "sessionStatus",
+    "value": "stopped"
+  }
+]
+}

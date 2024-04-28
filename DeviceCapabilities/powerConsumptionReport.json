@@ -1,0 +1,12 @@
+{
+"id":"powerConsumptionReport",
+"name":"Power Consumption Report",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "powerConsumption",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

@@ -1,0 +1,25 @@
+{
+  "id":"extendedSwitch",
+  "name":"Extended Switch",
+  "status":"live",
+  "attributes":[
+    {
+      "name": "switch",
+      "type": "ENUM",
+      "value": ["off","onExtend","on"]
+    }
+  ],
+  "commands":[
+    {
+      "name": "off",
+      "attribute": "switch",
+      "value": "off"
+    },
+    {
+      "name": "on",
+      "attribute": "switch",
+      "value": "onExtend",
+      "time": "3"
+    }
+  ]
+}

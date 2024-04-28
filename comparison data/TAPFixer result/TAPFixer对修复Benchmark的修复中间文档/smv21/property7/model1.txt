@@ -1,0 +1,62 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     smartPlug.switch:{off,on};
+     smartPlug.switch_last:{off,on};
+     relativeHumidityMeasurement.humidity:0..20;
+     relativeHumidityMeasurement.humidity_last:0..20;
+     relativeHumidityMeasurement.humidity_count:0..1;
+     relativeHumidityMeasurement.humidity_CONFIG:-8..8;
+     relativeHumidityMeasurement.humidity_rise_threshold:4..8;
+     relativeHumidityMeasurement.humidity_drop_threshold:-8..-4;
+     relativeHumidityMeasurement.humidity_not_handle_config:0..0;
+   INVAR
+     relativeHumidityMeasurement.humidity_not_handle_config = 0
+   ASSIGN
+     next(relativeHumidityMeasurement.humidity):=
+         case
+           -- 如果在threshold范围内，则温度不变
+           relativeHumidityMeasurement.humidity_CONFIG<relativeHumidityMeasurement.humidity_rise_threshold & relativeHumidityMeasurement.humidity_CONFIG>relativeHumidityMeasurement.humidity_drop_threshold: relativeHumidityMeasurement.humidity;
+           relativeHumidityMeasurement.humidity_CONFIG>=relativeHumidityMeasurement.humidity_rise_threshold & relativeHumidityMeasurement.humidity + 1<=20: relativeHumidityMeasurement.humidity + 1;
+           relativeHumidityMeasurement.humidity_CONFIG<=relativeHumidityMeasurement.humidity_drop_threshold & relativeHumidityMeasurement.humidity - 1>=0: relativeHumidityMeasurement.humidity - 1;
+           TRUE: relativeHumidityMeasurement.humidity;
+         esac;
+
+ init(relativeHumidityMeasurement.humidity_CONFIG):=0;
+        next(relativeHumidityMeasurement.humidity_CONFIG):=
+          case
+            -- 超过threshold后重新计数
+            relativeHumidityMeasurement.humidity_CONFIG>=relativeHumidityMeasurement.humidity_rise_threshold : 0;
+            relativeHumidityMeasurement.humidity_CONFIG<=relativeHumidityMeasurement.humidity_drop_threshold : 0;
+            TRUE: relativeHumidityMeasurement.humidity_CONFIG;
+          esac;
+
+      next(relativeHumidityMeasurement.humidity_rise_threshold):=relativeHumidityMeasurement.humidity_rise_threshold;
+
+      next(relativeHumidityMeasurement.humidity_drop_threshold):=relativeHumidityMeasurement.humidity_drop_threshold;
+
+      init(presenceSensor.presence_last):=present;
+      init(smartPlug.switch_last):=on;
+
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(smartPlug.switch_last):=smartPlug.switch;
+      next(relativeHumidityMeasurement.humidity_last):=relativeHumidityMeasurement.humidity;
+    next(smartPlug.switch):=
+          case
+             relativeHumidityMeasurement.humidity=91&relativeHumidityMeasurement.humidity!=relativeHumidityMeasurement.humidity_last&relativeHumidityMeasurement.humidity_last=90:on;
+             TRUE:smartPlug.switch;
+          esac;

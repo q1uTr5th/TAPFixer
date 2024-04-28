@@ -1,0 +1,19 @@
+{
+"id":"colorTemperature",
+"name":"Color Temperature",
+"status":"live",
+"attributes":[
+  {
+    "name": "colorTemperature",
+    "type": "NUMBER",
+    "value": ["1","30000"]
+  }
+],
+"commands":[
+  {
+    "name": "setColorTemperature",
+    "attribute": "colorTemperature",
+    "type": "NUMBER"
+  }
+]
+}

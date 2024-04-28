@@ -1,0 +1,28 @@
+{
+"id":"audioVolume",
+"name":"Audio Volume",
+"status":"proposed",
+"attributes":[
+  {
+    "name": "volume",
+    "type": "NUMBER",
+    "value": ["0","100"]
+  }
+],
+
+"commands":[
+  {
+    "name": "setVolume",
+    "attribute": "volume",
+    "type": "NUMBER"
+  },{
+    "name": "volumeUp",
+    "attribute": "volume",
+    "type": "NUMBER"
+  },{
+    "name": "volumeDown",
+    "attribute": "volume",
+    "type": "NUMBER"
+  }
+]
+}

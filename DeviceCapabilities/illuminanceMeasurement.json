@@ -1,0 +1,12 @@
+{
+"id":"illuminanceMeasurement",
+"name":"Illuminance Measurement",
+"status":"live",
+"attributes":[
+  {
+    "name": "illuminance",
+    "type": "NUMBER",
+    "value": ["0","10"]
+  }
+]
+}

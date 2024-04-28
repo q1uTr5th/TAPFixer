@@ -1,0 +1,19 @@
+{
+"id":"switchLevel",
+"name":"Switch Level",
+"status":"live",
+"attributes":[
+  {
+    "name": "level",
+    "type": "NUMBER",
+    "value": ["0","100"]
+  }
+],
+"commands":[
+  {
+    "name": "setLevel",
+    "attribute": "level",
+    "type": "NUMBER"
+  }
+]
+}

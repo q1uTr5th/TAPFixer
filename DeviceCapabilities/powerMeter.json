@@ -1,0 +1,12 @@
+{
+"id":"powerMeter",
+"name":"Power Meter",
+"status":"live",
+"attributes":[
+  {
+    "name": "power",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

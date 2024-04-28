@@ -1,0 +1,24 @@
+{
+"id":"infraredLevel",
+"name":"Infrared Level",
+"status":"live",
+"attributes":[
+  {
+    "name": "infraredLevel",
+    "type": "NUMBER",
+    "value": ["0","100"]
+  },
+  {
+    "name": "numberOfButtons",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+],
+  "commands":[
+    {
+      "name": "setInfraredLevel",
+      "type": "NUMBER",
+      "attribute": "infraredLevel"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+"id":"tamperAlert",
+"name":"Tamper Alert",
+"status":"live",
+"attributes":[
+  {
+    "name": "tamper",
+    "type": "ENUM",
+    "value": ["clear","detected"]
+  }
+]
+}

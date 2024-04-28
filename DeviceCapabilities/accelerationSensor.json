@@ -1,0 +1,12 @@
+{
+"id":"accelerationSensor",
+"name":"Acceleration Sensor",
+"status":"live",
+"attributes":[
+  {
+    "name": "acceleration",
+    "type": "ENUM",
+    "value": ["active","inactive"]
+  }
+]
+}

@@ -1,0 +1,42 @@
+{"curlingiron.switch ": [[["presenceSensor.presence=present"], ["none"], ["none", "on"], [3, 0, "none"]], [["presenceSensor.presence=not_present"], ["none"], ["off"], [0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "none"]], [["rainSensor.rain=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["waterSensor.water=wet"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "wait_trigger"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "wait_trigger"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "wait_trigger smokeDetector.smoke=clear"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "wait_trigger"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "wait_trigger"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "wait_trigger smokeDetector.smoke=clear"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [0, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [0, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [5, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [0, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [1, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [1, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [1, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [0, 0, "wait_trigger smokeDetector.smoke=clear"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [1, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [1, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [0, 0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [0, "wait_trigger smokeDetector.smoke=detected"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}
+{"fan.switch": [[["smokeDetector.smoke=detected"], ["none"], ["on", "off"], [4, 0, "none"]], [["presenceSensor.presence=present"], ["none"], ["on", "off"], [3, 0, "none"]]]}

@@ -1,0 +1,25 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     light.switch:{off,on};
+     light.switch_last:{off,on};
+     home.mode:{away,home};
+     home.mode_last:{away,home};
+   ASSIGN
+      init(light.switch_last):=off;
+      init(home.mode_last):=away;
+
+      next(light.switch_last):=light.switch;
+      next(home.mode_last):=home.mode;

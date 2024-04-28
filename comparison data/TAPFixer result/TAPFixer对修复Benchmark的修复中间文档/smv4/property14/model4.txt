@@ -1,0 +1,35 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     ovenMode.ovenMode:{heating,on,grill,warming,off,defrosting};
+     ovenMode.ovenMode_last:{heating,on,grill,warming,off,defrosting};
+     presenceSensor.presence:{not_present,present};
+     presenceSensor.presence_last:{not_present,present};
+     boost.tap:boolean;
+     boost.tap_last:boolean;
+   ASSIGN
+      init(ovenMode.ovenMode_last):=heating;
+      init(presenceSensor.presence_last):=present;
+
+      next(ovenMode.ovenMode_last):=ovenMode.ovenMode;
+      next(presenceSensor.presence_last):=presenceSensor.presence;
+      next(boost.tap_last):=boost.tap;
+    next(ovenMode.ovenMode):=
+          case
+             boost.tap=TRUE&boost.tap!=boost.tap_last:heating;
+             presenceSensor.presence=not_present&presenceSensor.presence!=presenceSensor.presence_last:off;
+             presenceSensor.presence=present&presenceSensor.presence!=presenceSensor.presence_last:off;
+             TRUE:ovenMode.ovenMode;
+          esac;

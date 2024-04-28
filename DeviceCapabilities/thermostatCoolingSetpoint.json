@@ -1,0 +1,19 @@
+{
+"id":"thermostatCoolingSetpoint",
+"name":"Thermostat Cooling Setpoint",
+"status":"live",
+"attributes":[
+  {
+    "name": "coolingSetpoint",
+    "type": "NUMBER",
+    "value": ["0","40"]
+  }
+],
+  "commands":[
+    {
+      "name": "setCoolingSetpoint",
+      "attribute": "coolingSetpoint",
+      "type": "NUMBER"
+    }
+  ]
+}

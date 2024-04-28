@@ -1,0 +1,12 @@
+{
+"id":"battery",
+"name":"Battery",
+"status":"live",
+"attributes":[
+  {
+    "name": "battery",
+    "type": "NUMBER",
+    "value": ["0","100"]
+  }
+]
+}

@@ -1,0 +1,5 @@
+compare_rule_list = [{'curlingiron.switch ':[[['presenceSensor.presence=present'], ["none"], ["none","on"], [3, 0, "none"]], 
+[['presenceSensor.presence=not_present'], ["none"], ["off"], [0, "none"]]]}]
+
+        spec_list = [[[r'--LTLSPEC G((presenceSensor.presence = not_present & presenceSensor.presence != presenceSensor.presence_last)->X(curlingiron.switch = off))', 'state-event'],
+[r'--LTLSPEC G((presenceSensor.presence = not_present & presenceSensor.presence = presenceSensor.presence_last)->(curlingiron.switch = off))', 'state-state']]]

@@ -1,0 +1,12 @@
+{
+"id":"relativeHumidityMeasurement",
+"name":"Relative Humidity Measurement",
+"status":"live",
+"attributes":[
+  {
+    "name": "humidity",
+    "type": "NUMBER",
+    "value": ["0",""]
+  }
+]
+}

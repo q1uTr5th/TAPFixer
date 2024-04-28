@@ -1,0 +1,31 @@
+MODULE RUNIN(delay)
+VAR
+  timer:0..20;
+ASSIGN
+  init(timer):=0;
+  next(timer):=
+      case
+        delay=0:0;
+        timer=0 & delay>0: delay;
+        timer>0 & delay>0: timer - 1;
+        TRUE: timer;
+      esac;
+
+MODULE main
+   VAR
+     garageDoorControl.door:{closed,closing,open,opening,unknown};
+     garageDoorControl.door_last:{closed,closing,open,opening,unknown};
+     home.mode:{away,home};
+     home.mode_last:{away,home};
+   ASSIGN
+      init(garageDoorControl.door_last):=closed;
+      init(home.mode_last):=away;
+
+      next(garageDoorControl.door_last):=garageDoorControl.door;
+      next(home.mode_last):=home.mode;
+    next(garageDoorControl.door):=
+          case
+             home.mode=away&home.mode!=home.mode_last:open;
+             home.mode=home&home.mode!=home.mode_last:open;
+             TRUE:garageDoorControl.door;
+          esac;

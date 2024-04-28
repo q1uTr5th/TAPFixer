@@ -1,0 +1,12 @@
+{
+"id":"carbonMonoxideDetector",
+"name":"Carbon Monoxide Detector",
+"status":"live",
+"attributes":[
+  {
+    "name": "carbonMonoxide",
+    "type": "ENUM",
+    "value": ["clear","detected","tested"]
+  }
+]
+}

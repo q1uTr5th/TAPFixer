@@ -1,0 +1,44 @@
+{
+"id":"thermostatMode",
+"name":"Thermostat Mode",
+"status":"live",
+"attributes":[
+  {
+    "name": "thermostatMode",
+    "type": "ENUM",
+    "value": ["auto","eco","rush_hour","cool","emergency_heat","heat","off"]
+  }
+],
+  "commands":[
+    {
+      "name": "auto",
+      "attribute": "thermostatMode",
+      "value": "auto"
+    },
+    {
+      "name": "cool",
+      "attribute": "thermostatMode",
+      "value": "cool"
+    },
+    {
+      "name": "emergencyHeat",
+      "attribute": "thermostatMode",
+      "value": "emergency_heat"
+    },
+    {
+      "name": "heat",
+      "attribute": "thermostatMode",
+      "value": "heat"
+    },
+    {
+      "name": "off",
+      "attribute": "thermostatMode",
+      "value": "off"
+    },
+    {
+      "name": "setThermostatMode",
+      "attribute": "thermostatMode",
+      "type": "ENUM"
+    }
+  ]
+}

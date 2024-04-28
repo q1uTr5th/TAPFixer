@@ -124,11 +124,11 @@ To early terminate the oversized predicate exploration, the ROUND_LIMIT and ITER
 
 
 # The user study data
-The access URL of detection study is:
-
-scenario-based: https://wj.qq.com/s2/14226103/1cpc/
+The access URL of detection study inlucdes two parts:
 
 single-room-based: https://wj.qq.com/s2/12572840/84ff/
+
+scenario-based: https://wj.qq.com/s2/12403278/2d63/
 
 The access URL of fix study is: https://wj.qq.com/s2/14226103/1cpc/
 
